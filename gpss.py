@@ -1,5 +1,6 @@
 import argparse
 from debug import debugmsg, debugflag
+from gpss_parser import Parser
 
 def main():
     argparser = argparse.ArgumentParser()
@@ -18,6 +19,11 @@ def main():
     args = argparser.parse_args()
     debugflag["debug"] = args.debug
     debugmsg("args:", args)
+    
+    # Parse input file
+    parser = Parser()
+    parser.open(args.inputfile)
+    parser.parse()
 
 if __name__ == "__main__":
     main()
