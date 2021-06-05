@@ -1,6 +1,7 @@
 import argparse
 from debug import debugmsg, debugflag
 from gpss_parser import Parser
+from simulation import Simulation
 
 def main():
     argparser = argparse.ArgumentParser()
@@ -24,6 +25,10 @@ def main():
     parser = Parser()
     parser.open(args.inputfile)
     parser.parse()
+    
+    # Run simulation
+    simulation = Simulation()
+    simulation.run(parser)
 
 if __name__ == "__main__":
     main()
