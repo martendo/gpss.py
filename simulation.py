@@ -1,4 +1,5 @@
 from transaction import Transaction, TransactionGenerator
+from queue import Queue
 from debug import debugmsg
 
 class Simulation:
@@ -17,7 +18,7 @@ class Simulation:
         self.program = self.parser.statements
         # Create queues and facilities used in simulation
         for queue in self.parser.queues:
-            self.queues[queue] = 0
+            self.queues[queue] = Queue()
         for facility in self.parser.facilities:
             self.facilities[facility] = False
         
@@ -72,6 +73,7 @@ class Simulation:
                 self.running = False
                 debugmsg("finished")
                 return
+        
         
         # Move through time
         self.time += 1

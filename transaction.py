@@ -60,11 +60,11 @@ class Transaction:
                 return
             
             elif block[0] == "QUEUE":
-                self.simulation.queues[block[1][0]] += 1
+                self.simulation.queues[block[1][0]].enter()
                 self.currentcard += 1
             
             elif block[0] == "DEPART":
-                self.simulation.queues[block[1][0]] -= 1
+                self.simulation.queues[block[1][0]].leave()
                 self.currentcard += 1
             
             elif block[0] == "ADVANCE":
