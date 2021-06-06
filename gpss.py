@@ -7,11 +7,11 @@ from error import ParserError, SimulationError
 
 def main():
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("inputfile")
+    argparser.add_argument("file")
+    argparser.add_argument("-o", "--output", help="print simulation report to output file")
     argparser.add_argument(
-        "-d, --debug",
+        "-d", "--debug",
         action="store_true",
-        dest="debug",
         help="print debug messages",
     )
     argparser.add_argument(
@@ -26,7 +26,7 @@ def main():
     # Parse input file
     parser = Parser()
     try:
-        parser.parse(args.inputfile)
+        parser.parse(args.file)
     except ParserError as err:
         print(f"ERROR: Parser error:\n    {err}")
         return
@@ -41,9 +41,13 @@ def main():
     
     if simulation.simulate:
         # Output report
-        print("-" * 72)
-        print(createReport(simulation))
-        print("-" * 72)
+        if args.output is not None:
+            with open(args.output, "w") as file:
+                file.write(createReport(simulation) + "\n")
+        else:
+            print("-" * 72)
+            print(createReport(simulation))
+            print("-" * 72)
 
 if __name__ == "__main__":
     main()
