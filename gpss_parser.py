@@ -7,6 +7,7 @@ class Parser:
         self.statements = []
         self.queues = []
         self.facilities = []
+        self.storages = []
     
     def parse(self, inputfile):
         # Open and read GPSS program
@@ -54,6 +55,9 @@ class Parser:
             elif statement.type in (Statements.SEIZE, Statements.RELEASE):
                 self.facilities.append(statement.parameters[0])
                 debugmsg("facility:", statement.parameters[0])
+            elif statement.type == Statements.STORAGE:
+                self.storages.append((statement.label, statement.parameters[0]))
+                debugmsg("storage:", statement.label, statement.parameters[0])
 
 class Statement:
     LETTERS = ("A", "B", "C", "D", "E", "F", "G")
@@ -78,6 +82,10 @@ class Statement:
         elif self.type == Statements.ADVANCE:
             self.intifyparam(0, 0, req=self.nonnegative)
             self.intifyparam(1, 0, req=self.nonnegative)
+        elif self.type in (Statements.ENTER, Statements.LEAVE):
+            self.intifyparam(1, 1, req=self.positive)
+        elif self.type == Statements.STORAGE:
+            self.intifyparam(0, req=self.positive)
     
     def positive(self, index):
         if self.parameters[index] <= 0:

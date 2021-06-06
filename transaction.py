@@ -80,3 +80,24 @@ class Transaction:
             
             elif block.type == Statements.RELEASE:
                 self.simulation.facilities[block.parameters[0]].release()
+            
+            elif block.type == Statements.ENTER:
+                # Enter storage or enter delay chain if cannot satisfy
+                # demand
+                try:
+                    entered = (self.simulation.storages[block.parameters[0]]
+                        .enter(self, block.parameters[1]))
+                except KeyError:
+                    raise SimulationError("No Storage named "
+                        f"\"{block.parameters[0]}\"")
+                if not entered:
+                    # Not enough storage available
+                    return
+            
+            elif block.type == Statements.LEAVE:
+                try:
+                    self.simulation.storages[block.parameters[0]].leave(
+                        block.parameters[1])
+                except KeyError:
+                    raise SimulationError("No Storage named "
+                        f"\"{block.parameters[0]}\"")

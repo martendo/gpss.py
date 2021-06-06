@@ -10,4 +10,7 @@ class Statements(Enum):
     DEPART = auto()
     SEIZE = auto()
     RELEASE = auto()
+    ENTER = auto()
+    LEAVE = auto()
+    STORAGE = auto()
     ADVANCE = auto()

@@ -2,6 +2,7 @@ from statements import Statements
 from transaction import Transaction, TransactionGenerator
 from queue import Queue
 from facility import Facility
+from storage import Storage
 from debug import debugmsg
 
 class Simulation:
@@ -12,6 +13,7 @@ class Simulation:
         self.txn_generators = []
         self.queues = {}
         self.facilities = {}
+        self.storages = {}
         self.events = []
     
     def run(self, parser):
@@ -23,6 +25,8 @@ class Simulation:
             self.queues[queue] = Queue(queue)
         for facility in self.parser.facilities:
             self.facilities[facility] = Facility(facility)
+        for storage, capacity in self.parser.storages:
+            self.storages[storage] = Storage(storage, capacity)
         
         i = 0
         while i < len(self.program):
