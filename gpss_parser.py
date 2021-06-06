@@ -13,17 +13,37 @@ class Parser:
         self.inputfile = inputfile
         with open(self.inputfile, "r") as file:
             self.inputdata = file.read()
-        self.inputlines = self.inputdata.splitlines()
+        self.inputlines = map(lambda line: line.strip(),
+            self.inputdata.splitlines())
         
         # Get statements from program
         for line in self.inputlines:
-            # Blank or Comment line, ignore
-            if line.strip() == "" or line[0] == "*":
+            # Blank or comment line, ignore
+            if line == "" or line[0] == "*" or line[0] == ";":
                 continue
             
-            statement = Statement(line[7:18].strip(),
-                line[18:].strip().split(","))
-            debugmsg("statement:", statement.type, statement.parameters)
+            # Remove any inline comments
+            commentpos = line.find(";")
+            if commentpos != -1:
+                line = line[:commentpos]
+            
+            fields = line.split()
+            debugmsg("fields:", fields)
+            
+            if len(fields) == 1:
+                statement = Statement(fields[0])
+            elif len(fields) == 2:
+                if hasattr(Statements, fields[0].upper()) or "," in fields[1]:
+                    # Statement and parameters
+                    statement = Statement(fields[0], fields[1])
+                else:
+                    # Label and statement
+                    statement = Statement(fields[1], label=fields[0])
+            elif len(fields) == 3:
+                # Label, statement, and parameters
+                statement = Statement(fields[1], fields[2], label=fields[0])
+            debugmsg("statement:", statement.type, tuple(filter(bool,
+                statement.parameters)), statement.label)
             
             self.statements.append(statement)
             
@@ -38,14 +58,15 @@ class Parser:
 class Statement:
     LETTERS = ("A", "B", "C", "D", "E", "F", "G")
     
-    def __init__(self, type_, parameters):
+    def __init__(self, type_, parameters="", label=None):
         try:
             self.type = getattr(Statements, type_.upper())
         except AttributeError:
             raise ParserError(f"Unsupported statement \"{type_}\"")
-        self.parameters = parameters
+        self.parameters = parameters.split(",")
         if len(self.parameters) < len(self.LETTERS):
             self.parameters.extend([""] * (len(self.LETTERS) - len(self.parameters)))
+        self.label = label
         
         if self.type == Statements.START:
             self.intifyparam(0, req=self.positive)
