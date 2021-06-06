@@ -1,5 +1,6 @@
 from random import randint
 from debug import debugmsg
+from error import SimulationError
 
 class TransactionGenerator:
     def __init__(self, simulation, parameters, program):
@@ -84,6 +85,13 @@ class Transaction:
                 else:
                     self.advancetotime = (self.simulation.time
                         + int(block[1][0]) + randint(-spread, +spread))
+                if self.advancetotime < self.simulation.time:
+                    raise SimulationError(
+                        "Cannot ADVANCE a negative amount of time "
+                        f"({self.advancetotime - self.simulation.time})")
+                elif self.advancetotime == self.simulation.time:
+                    # ADVANCE 0 -> no-op
+                    continue
                 self.advancing = True
                 return
             
