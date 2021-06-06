@@ -62,11 +62,12 @@ class Parser:
 class Statement:
     LETTERS = ("A", "B", "C", "D", "E", "F", "G")
     
-    def __init__(self, type_, parameters="", label=None):
+    def __init__(self, name, parameters="", label=None):
+        self.name = name
         try:
-            self.type = getattr(Statements, type_.upper())
+            self.type = getattr(Statements, self.name.upper())
         except AttributeError:
-            raise ParserError(f"Unsupported statement \"{type_}\"")
+            raise ParserError(f"Unsupported statement \"{self.name}\"")
         self.parameters = parameters.split(",")
         if len(self.parameters) < len(self.LETTERS):
             self.parameters.extend([""] * (len(self.LETTERS) - len(self.parameters)))
@@ -90,13 +91,13 @@ class Statement:
     def positive(self, index):
         if self.parameters[index] <= 0:
             raise ParserError(f"Parameter {self.LETTERS[index]} of "
-                f"{self.type} must be a strictly positive integer "
+                f"{self.name} must be a strictly positive integer "
                 f"(got \"{self.parameters[index]}\")")
     
     def nonnegative(self, index):
         if self.parameters[index] < 0:
             raise ParserError(f"Parameter {self.LETTERS[index]} of "
-                f"{self.type} must be a non-negative integer "
+                f"{self.name} must be a non-negative integer "
                 f"(got \"{self.parameters[index]}\")")
     
     def intifyparam(self, index, default=None, req=None):
@@ -109,7 +110,7 @@ class Statement:
                 self.parameters[index] = int(self.parameters[index])
         except ValueError:
             raise ParserError(f"Parameter {self.LETTERS[index]} of "
-                f"{self.type} must be an integer "
+                f"{self.name} must be an integer "
                 f"(got \"{self.parameters[index]}\")")
         
         if req is not None:
