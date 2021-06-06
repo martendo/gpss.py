@@ -12,7 +12,7 @@ class Simulation:
         self.txn_generators = []
         self.queues = {}
         self.facilities = {}
-        self.time = 0
+        self.events = []
     
     def run(self, parser):
         self.parser = parser
@@ -57,28 +57,27 @@ class Simulation:
         if not self.simulate:
             return
         
-        # Set initial transaction generation times
+        self.time = 0
+        # Add initial transaction generation events
         for txn_generator in self.txn_generators:
-            txn_generator.update_nexttime()
+            txn_generator.add_next_event()
         
         # Start the simulation
         self.running = True
         while self.running:
             self.advance()
     
+    def add_event(self, event):
+        self.events.append(event)
+        self.events.sort(key=lambda event: event.time, reverse=True)
+    
     def advance(self):
-        # Generate any new transactions as necessary
-        for txn_generator in self.txn_generators:
-            txn_generator.update()
+        # Handle next event
+        event = self.events.pop()
+        self.time = event.time
+        event.func()
         
-        # Run transaction programs
-        for transaction in tuple(self.transactions):
-            transaction.update()
-            # Completed all transactions, stop running
-            if self.term_count < 1:
-                self.running = False
-                debugmsg("finished")
-                return
-        
-        # Move through time
-        self.time += 1
+        # Completed all transactions, stop running
+        if self.term_count < 1:
+            self.running = False
+            debugmsg("finished")

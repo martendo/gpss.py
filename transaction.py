@@ -1,5 +1,6 @@
 from random import randint
 from statements import Statements
+from event import Event
 from debug import debugmsg
 from error import SimulationError
 
@@ -11,42 +12,30 @@ class TransactionGenerator:
         self.parameters = parameters
         self.interval, self.spread = self.parameters[0:2]
     
-    def update_nexttime(self):
-        # Set next generation time value
-        if self.spread == 0:
-            self.nexttime = self.simulation.time + self.interval
-        else:
-            self.nexttime = (self.simulation.time + self.interval
-                + randint(-self.spread, +self.spread))
+    def add_next_event(self):
+        # Add event to event list to generate next transaction
+        time = self.simulation.time + self.interval
+        if self.spread != 0:
+            time += randint(-self.spread, +self.spread)
+        self.simulation.add_event(Event(time, self.generate))
     
-    def update(self):
-        if self.simulation.time == self.nexttime:
-            # Generate a new transaction
-            debugmsg("generate:", self.simulation.time, self.parameters)
-            transaction = Transaction(self.simulation, self.program)
-            self.simulation.transactions.add(transaction)
-            # Update next transaction generation time
-            self.update_nexttime()
+    def generate(self):
+        # Generate a new transaction
+        debugmsg("generate:", self.simulation.time, self.parameters)
+        transaction = Transaction(self.simulation, self.program)
+        self.simulation.transactions.add(transaction)
+        # Add next transaction generation event
+        self.add_next_event()
+        
+        transaction.update()
 
 class Transaction:
     def __init__(self, simulation, program):
         self.program = program
         self.simulation = simulation
         self.currentcard = 0
-        self.advancing = False
-        self.delaying = False
     
     def update(self):
-        if self.advancing:
-            if self.simulation.time < self.advancetotime:
-                return
-            # Finished advancing, continue program
-            self.advancing = False
-        
-        if self.delaying:
-            # Waiting for a facility to become available
-            return
-        
         while True:
             # Execute next block
             block = self.program[self.currentcard]
@@ -54,10 +43,7 @@ class Transaction:
             
             if block.type == Statements.TERMINATE:
                 # Update transaction termination count
-                try:
-                    self.simulation.term_count -= block.parameters[0]
-                except ValueError:
-                    pass
+                self.simulation.term_count -= block.parameters[0]
                 # Destroy this transaction
                 self.simulation.transactions.remove(self)
                 return
@@ -70,26 +56,27 @@ class Transaction:
             
             elif block.type == Statements.ADVANCE:
                 interval, spread = block.parameters[0:2]
-                # Set time to advance to
-                if spread == 0:
-                    self.advancetotime = (self.simulation.time
-                        + interval)
-                else:
-                    self.advancetotime = (self.simulation.time
-                        + interval + randint(-spread, +spread))
-                if self.advancetotime < self.simulation.time:
+                # Add event for end of delay
+                time = self.simulation.time + interval
+                if spread != 0:
+                    time += randint(-spread, +spread)
+                
+                if time < self.simulation.time:
                     raise SimulationError(
                         "Cannot ADVANCE a negative amount of time "
-                        f"({self.advancetotime - self.simulation.time})")
-                elif self.advancetotime == self.simulation.time:
+                        f"({self.time - self.simulation.time})")
+                elif time == self.simulation.time:
                     # ADVANCE 0 -> no-op
                     continue
-                self.advancing = True
+                
+                self.simulation.add_event(Event(time, self.update))
                 return
             
             elif block.type == Statements.SEIZE:
                 # Use facility or enter delay chain if busy
-                self.simulation.facilities[block.parameters[0]].seize(self)
+                if not self.simulation.facilities[block.parameters[0]].seize(self):
+                    # Facility is busy -> wait
+                    return
             
             elif block.type == Statements.RELEASE:
                 self.simulation.facilities[block.parameters[0]].release()

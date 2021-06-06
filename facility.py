@@ -12,10 +12,10 @@ class Facility:
         if self.is_in_use:
             # Facility is busy, add transaction to delay chain
             self.delaychain.append(transaction)
-            transaction.delaying = True
-            return
+            return False
         # Facility is available
         self._use()
+        return True
     
     def _use(self):
         self.is_in_use = True
@@ -30,5 +30,5 @@ class Facility:
             # No transactions in delay chain
             return
         # Allow first transaction in delay chain to seize the facility
-        self.delaychain.popleft().delaying = False
         self._use()
+        self.delaychain.popleft().update()
