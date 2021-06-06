@@ -52,6 +52,10 @@ class Simulation:
                 self.term_count = int(statement[1][0])
                 debugmsg("termination count:", self.term_count)
         
+        # If not simulating, finish
+        if not self.simulate:
+            return
+        
         # Set initial transaction generation times
         for txn_generator in self.txn_generators:
             txn_generator.update_nexttime()
