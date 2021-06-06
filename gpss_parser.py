@@ -6,13 +6,13 @@ class Parser:
         self.queues = []
         self.facilities = []
     
-    def open(self, inputfile):
+    def parse(self, inputfile):
+        # Read GPSS program
         self.inputfile = inputfile
-        with open(inputfile, "r") as file:
+        with open(self.inputfile, "r") as file:
             self.inputdata = file.read()
         self.inputlines = self.inputdata.split("\n")
-    
-    def parse(self):
+        
         for line in self.inputlines:
             # Comment line
             if line[0] == "*":

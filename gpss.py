@@ -23,8 +23,7 @@ def main():
     
     # Parse input file
     parser = Parser()
-    parser.open(args.inputfile)
-    parser.parse()
+    parser.parse(args.inputfile)
     
     # Run simulation
     simulation = Simulation()
