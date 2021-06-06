@@ -36,14 +36,14 @@ class Transaction:
         self.program = program
         self.simulation = simulation
         self.currentcard = 0
-        self.delaying = False
+        self.advancing = False
     
     def update(self):
-        if self.delaying:
-            if self.simulation.time < self.delaytotime:
+        if self.advancing:
+            if self.simulation.time < self.advancetotime:
                 return
-            # Finished delaying, continue program
-            self.delaying = False
+            # Finished advancing, continue program
+            self.advancing = False
         
         while True:
             # Execute next block
@@ -73,14 +73,14 @@ class Transaction:
                 except IndexError:
                     spread = 0
                 
-                # Set time to delay until
+                # Set time to advance to
                 if spread == 0:
-                    self.delaytotime = (self.simulation.time
+                    self.advancetotime = (self.simulation.time
                         + int(block[1][0]))
                 else:
-                    self.delaytotime = (self.simulation.time
+                    self.advancetotime = (self.simulation.time
                         + int(block[1][0]) + randint(-spread, +spread))
-                self.delaying = True
+                self.advancing = True
                 self.currentcard += 1
                 return
             
