@@ -13,7 +13,7 @@ class Parser:
         self.inputfile = inputfile
         with open(self.inputfile, "r") as file:
             self.inputdata = file.read()
-        self.inputlines = self.inputdata.split("\n")
+        self.inputlines = self.inputdata.splitlines()
         
         # Get statements from program
         for line in self.inputlines:
