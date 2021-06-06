@@ -1,13 +1,13 @@
 from collections import deque
-from entity import Entity, EntityInstance
+from transaction import Transaction, TransactionGenerator
 from debug import debugmsg
 
 class Simulation:
     def __init__(self):
         self.simulate = False
         self.running = False
-        self.entities = set()
-        self.entityinsts = set()
+        self.transactions = set()
+        self.txn_generators = []
         self.queues = {}
         self.time = 0
     
@@ -25,28 +25,30 @@ class Simulation:
                 # Run the simulation
                 self.simulate = True
             elif statement[0] == "GENERATE":
-                # Define an entity
-                debugmsg("entity:", statement)
-                entity = Entity(self, statement[1])
+                # Define a transaction
+                debugmsg("transaction:", statement)
+                program = []
                 j = i
                 while True:
-                    # Get entity's program
+                    # Get transaction's program
                     block = self.program[j]
                     j += 1
-                    entity.program.append(block)
+                    program.append(block)
                     if block[0] == "TERMINATE":
-                        # Entity's program ends at TERMINATE
+                        # Transaction's program ends at TERMINATE
                         break
-                self.entities.add(entity)
+                txn_generator = TransactionGenerator(self,
+                    statement[1], program)
+                self.txn_generators.append(txn_generator)
                 i = j
             elif statement[0] == "START":
                 # Set number of transactions to complete
-                self.transactions = int(statement[1][0])
-                debugmsg("transactions:", self.transactions)
+                self.term_count = int(statement[1][0])
+                debugmsg("termination count:", self.term_count)
         
-        # Set initial entity instance generation times
-        for entity in self.entities:
-            entity.update_nexttime()
+        # Set initial transaction generation times
+        for txn_generator in self.txn_generators:
+            txn_generator.update_nexttime()
         
         # Start the simulation
         self.running = True
@@ -54,20 +56,15 @@ class Simulation:
             self.advance()
     
     def advance(self):
-        for entity in self.entities:
-            if self.time == entity.nexttime:
-                # Generate a new entity instance
-                debugmsg("generate:", self.time, entity.parameters)
-                entityinst = EntityInstance(entity)
-                self.entityinsts.add(entityinst)
-                # Update next entity instance generation time
-                entity.update_nexttime()
+        # Generate any new transactions as necessary
+        for txn_generator in self.txn_generators:
+            txn_generator.update()
         
-        # Run entity instance programs
-        for entityinst in tuple(self.entityinsts):
-            entityinst.update()
+        # Run transaction programs
+        for transaction in tuple(self.transactions):
+            transaction.update()
             # Completed all transactions, stop running
-            if self.transactions < 1:
+            if self.term_count < 1:
                 self.running = False
                 break
         

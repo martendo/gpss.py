@@ -1,28 +1,39 @@
 from random import randint
 from debug import debugmsg
 
-class Entity:
-    def __init__(self, simulation, parameters):
+class TransactionGenerator:
+    def __init__(self, simulation, parameters, program):
         self.simulation = simulation
+        self.program = program
+        
         self.parameters = parameters
-        self.program = []
-    
-    def update_nexttime(self):
+        self.interval = int(self.parameters[0])
         # Default spread modifier to 0
         try:
-            spread = int(self.parameters[1])
+            self.spread = int(self.parameters[1])
         except IndexError:
-            spread = 0
+            self.spread = 0
+    
+    def update_nexttime(self):
         # Set next generation time value
         self.nexttime = randint(
-            self.simulation.time + (int(self.parameters[0]) - spread),
-            self.simulation.time + (int(self.parameters[0]) + spread),
+            self.simulation.time + (self.interval - self.spread),
+            self.simulation.time + (self.interval + self.spread),
         )
+    
+    def update(self):
+        if self.simulation.time == self.nexttime:
+            # Generate a new transaction
+            debugmsg("generate:", self.simulation.time, self.parameters)
+            transaction = Transaction(self.simulation, self.program)
+            self.simulation.transactions.add(transaction)
+            # Update next transaction generation time
+            self.update_nexttime()
 
-class EntityInstance:
-    def __init__(self, entity):
-        self.entity = entity
-        self.simulation = self.entity.simulation
+class Transaction:
+    def __init__(self, simulation, program):
+        self.program = program
+        self.simulation = simulation
         self.currentcard = 0
         self.queue = None
     
@@ -38,16 +49,16 @@ class EntityInstance:
         
         while True:
             # Execute next block
-            block = self.entity.program[self.currentcard]
+            block = self.program[self.currentcard]
             self.currentcard += 1
             if block[0] == "TERMINATE":
-                # Update remaining transactions count
+                # Update transaction termination count
                 try:
-                    self.simulation.transactions -= int(block[1][0])
+                    self.simulation.term_count -= int(block[1][0])
                 except ValueError:
                     pass
                 # Destroy this transaction
-                self.simulation.entityinsts.remove(self)
+                self.simulation.transactions.remove(self)
                 return
             elif block[0] == "QUEUE":
                 self.queue = block[1][0]
