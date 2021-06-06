@@ -30,10 +30,11 @@ def main():
     simulation = Simulation()
     simulation.run(parser)
     
-    # Output report
-    print("-" * 72)
-    print(createReport(simulation))
-    print("-" * 72)
+    if simulation.simulate:
+        # Output report
+        print("-" * 72)
+        print(createReport(simulation))
+        print("-" * 72)
 
 if __name__ == "__main__":
     main()
