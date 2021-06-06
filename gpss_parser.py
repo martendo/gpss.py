@@ -1,3 +1,4 @@
+from statements import Statements
 from debug import debugmsg
 from error import ParserError
 
@@ -27,10 +28,10 @@ class Parser:
             self.statements.append(statement)
             
             # Save queues' and facilities' names to later create them
-            if statement.type in ("QUEUE", "DEPART"):
+            if statement.type in (Statements.QUEUE, Statements.DEPART):
                 self.queues.append(statement.parameters[0])
                 debugmsg("queue:", statement.parameters[0])
-            elif statement.type in ("SEIZE", "RELEASE"):
+            elif statement.type in (Statements.SEIZE, Statements.RELEASE):
                 self.facilities.append(statement.parameters[0])
                 debugmsg("facility:", statement.parameters[0])
 
@@ -38,19 +39,22 @@ class Statement:
     LETTERS = ("A", "B", "C", "D", "E", "F", "G")
     
     def __init__(self, type_, parameters):
-        self.type = type_
+        try:
+            self.type = getattr(Statements, type_)
+        except AttributeError:
+            raise ParserError(f"Unsupported statement \"{type_}\"")
         self.parameters = parameters
         if len(self.parameters) < len(self.LETTERS):
             self.parameters.extend([""] * (len(self.LETTERS) - len(self.parameters)))
         
-        if self.type == "START":
+        if self.type == Statements.START:
             self.intifyparam(0, req=self.positive)
-        elif self.type == "GENERATE":
+        elif self.type == Statements.GENERATE:
             self.intifyparam(0, 0, req=self.nonnegative)
             self.intifyparam(1, 0, req=self.nonnegative)
-        elif self.type == "TERMINATE":
+        elif self.type == Statements.TERMINATE:
             self.intifyparam(0, 0, req=self.nonnegative)
-        elif self.type == "ADVANCE":
+        elif self.type == Statements.ADVANCE:
             self.intifyparam(0, 0, req=self.nonnegative)
             self.intifyparam(1, 0, req=self.nonnegative)
     

@@ -1,4 +1,5 @@
 from random import randint
+from statements import Statements
 from debug import debugmsg
 from error import SimulationError
 
@@ -51,7 +52,7 @@ class Transaction:
             block = self.program[self.currentcard]
             self.currentcard += 1
             
-            if block.type == "TERMINATE":
+            if block.type == Statements.TERMINATE:
                 # Update transaction termination count
                 try:
                     self.simulation.term_count -= block.parameters[0]
@@ -61,13 +62,13 @@ class Transaction:
                 self.simulation.transactions.remove(self)
                 return
             
-            elif block.type == "QUEUE":
+            elif block.type == Statements.QUEUE:
                 self.simulation.queues[block.parameters[0]].enter()
             
-            elif block.type == "DEPART":
+            elif block.type == Statements.DEPART:
                 self.simulation.queues[block.parameters[0]].leave()
             
-            elif block.type == "ADVANCE":
+            elif block.type == Statements.ADVANCE:
                 interval, spread = block.parameters[0:2]
                 # Set time to advance to
                 if spread == 0:
@@ -86,9 +87,9 @@ class Transaction:
                 self.advancing = True
                 return
             
-            elif block.type == "SEIZE":
+            elif block.type == Statements.SEIZE:
                 # Use facility or enter delay chain if busy
                 self.simulation.facilities[block.parameters[0]].seize(self)
             
-            elif block.type == "RELEASE":
+            elif block.type == Statements.RELEASE:
                 self.simulation.facilities[block.parameters[0]].release()

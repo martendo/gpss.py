@@ -1,3 +1,4 @@
+from statements import Statements
 from transaction import Transaction, TransactionGenerator
 from queue import Queue
 from facility import Facility
@@ -27,10 +28,10 @@ class Simulation:
         while i < len(self.program):
             statement = self.program[i]
             i += 1
-            if statement.type == "SIMULATE":
+            if statement.type == Statements.SIMULATE:
                 # Run the simulation
                 self.simulate = True
-            elif statement.type == "GENERATE":
+            elif statement.type == Statements.GENERATE:
                 # Define a transaction
                 debugmsg("transaction:", statement.parameters)
                 program = []
@@ -40,14 +41,14 @@ class Simulation:
                     block = self.program[j]
                     j += 1
                     program.append(block)
-                    if block.type == "TERMINATE":
+                    if block.type == Statements.TERMINATE:
                         # Transaction's program ends at TERMINATE
                         break
                 txn_generator = TransactionGenerator(self,
                     statement.parameters, program)
                 self.txn_generators.append(txn_generator)
                 i = j
-            elif statement.type == "START":
+            elif statement.type == Statements.START:
                 # Set number of transactions to complete
                 self.term_count = statement.parameters[0]
                 debugmsg("termination count:", self.term_count)
@@ -78,7 +79,6 @@ class Simulation:
                 self.running = False
                 debugmsg("finished")
                 return
-        
         
         # Move through time
         self.time += 1
