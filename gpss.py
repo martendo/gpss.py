@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 from debug import debugmsg, debugflag
 from gpss_parser import Parser
