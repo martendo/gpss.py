@@ -15,6 +15,16 @@ def createReport(simulation):
     NUMBER ENTRIES: {facility.entries}
     AVAILBLE: {"no" if facility.is_in_use else "yes"}"""
     
+    storages = ""
+    for storage in simulation.storages.values():
+        storages += f"""
+  {storage.name}
+    CAPACITY: {storage.capacity}
+    MAXIMUM USAGE: {storage.max}
+    ENTRIES: {storage.entries}
+    REMAINING: {storage.available}
+    AVAILABLE: {"yes" if storage.available else "no"}"""
+    
     return f"""gpss.py Simulation Report - {simulation.parser.inputfile}
 Generated on {datetime.now().strftime("%A, %B %d, %Y at %H:%M:%S %Z")}
 
@@ -22,4 +32,6 @@ END TIME: {simulation.time}
 
 FACILITIES: {len(simulation.facilities)}{facilities}
 
-QUEUES: {len(simulation.queues)}{queues}"""
+QUEUES: {len(simulation.queues)}{queues}
+
+STORAGES: {len(simulation.storages)}{storages}"""

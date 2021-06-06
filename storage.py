@@ -8,6 +8,7 @@ class Storage:
         self.capacity = capacity
         self.available = self.capacity
         self.entries = 0
+        self.max = 0
         self.delaychain = deque()
     
     def enter(self, transaction, demand):
@@ -26,6 +27,9 @@ class Storage:
     
     def _use(self, demand):
         self.available -= demand
+        used = self.capacity - self.available
+        if used > self.max:
+            self.max = used
         self.entries += demand
         debugmsg("storage entered:", self.name, demand)
     
