@@ -1,5 +1,6 @@
 from transaction import Transaction, TransactionGenerator
 from queue import Queue
+from facility import Facility
 from debug import debugmsg
 
 class Simulation:
@@ -20,7 +21,7 @@ class Simulation:
         for queue in self.parser.queues:
             self.queues[queue] = Queue()
         for facility in self.parser.facilities:
-            self.facilities[facility] = False
+            self.facilities[facility] = Facility()
         
         i = 0
         while i < len(self.program):

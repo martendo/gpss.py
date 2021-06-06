@@ -85,15 +85,15 @@ class Transaction:
                 return
             
             elif block[0] == "SEIZE":
-                if self.simulation.facilities[block[1][0]]:
+                if self.simulation.facilities[block[1][0]].is_in_use:
                     # Facility is currently in use -> wait
                     return
-                # Signal facility in use
-                self.simulation.facilities[block[1][0]] = True
+                # Use facility
+                self.simulation.facilities[block[1][0]].seize()
                 debugmsg("facility seized:", block[1][0])
                 self.currentcard += 1
             
             elif block[0] == "RELEASE":
-                self.simulation.facilities[block[1][0]] = False
+                self.simulation.facilities[block[1][0]].release()
                 debugmsg("facility released:", block[1][0])
                 self.currentcard += 1
