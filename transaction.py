@@ -8,12 +8,7 @@ class TransactionGenerator:
         self.program = program
         
         self.parameters = parameters
-        self.interval = int(self.parameters[0])
-        # Default spread modifier to 0
-        try:
-            self.spread = int(self.parameters[1])
-        except IndexError:
-            self.spread = 0
+        self.interval, self.spread = self.parameters[0:2]
     
     def update_nexttime(self):
         # Set next generation time value
@@ -56,35 +51,31 @@ class Transaction:
             block = self.program[self.currentcard]
             self.currentcard += 1
             
-            if block[0] == "TERMINATE":
+            if block.type == "TERMINATE":
                 # Update transaction termination count
                 try:
-                    self.simulation.term_count -= int(block[1][0])
+                    self.simulation.term_count -= block.parameters[0]
                 except ValueError:
                     pass
                 # Destroy this transaction
                 self.simulation.transactions.remove(self)
                 return
             
-            elif block[0] == "QUEUE":
-                self.simulation.queues[block[1][0]].enter()
+            elif block.type == "QUEUE":
+                self.simulation.queues[block.parameters[0]].enter()
             
-            elif block[0] == "DEPART":
-                self.simulation.queues[block[1][0]].leave()
+            elif block.type == "DEPART":
+                self.simulation.queues[block.parameters[0]].leave()
             
-            elif block[0] == "ADVANCE":
-                try:
-                    spread = int(block[1][1])
-                except IndexError:
-                    spread = 0
-                
+            elif block.type == "ADVANCE":
+                interval, spread = block.parameters[0:2]
                 # Set time to advance to
                 if spread == 0:
                     self.advancetotime = (self.simulation.time
-                        + int(block[1][0]))
+                        + interval)
                 else:
                     self.advancetotime = (self.simulation.time
-                        + int(block[1][0]) + randint(-spread, +spread))
+                        + interval + randint(-spread, +spread))
                 if self.advancetotime < self.simulation.time:
                     raise SimulationError(
                         "Cannot ADVANCE a negative amount of time "
@@ -95,9 +86,9 @@ class Transaction:
                 self.advancing = True
                 return
             
-            elif block[0] == "SEIZE":
+            elif block.type == "SEIZE":
                 # Use facility or enter delay chain if busy
-                self.simulation.facilities[block[1][0]].seize(self)
+                self.simulation.facilities[block.parameters[0]].seize(self)
             
-            elif block[0] == "RELEASE":
-                self.simulation.facilities[block[1][0]].release()
+            elif block.type == "RELEASE":
+                self.simulation.facilities[block.parameters[0]].release()

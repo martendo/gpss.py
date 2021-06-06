@@ -27,12 +27,12 @@ class Simulation:
         while i < len(self.program):
             statement = self.program[i]
             i += 1
-            if statement[0] == "SIMULATE":
+            if statement.type == "SIMULATE":
                 # Run the simulation
                 self.simulate = True
-            elif statement[0] == "GENERATE":
+            elif statement.type == "GENERATE":
                 # Define a transaction
-                debugmsg("transaction:", statement)
+                debugmsg("transaction:", statement.parameters)
                 program = []
                 j = i
                 while True:
@@ -40,16 +40,16 @@ class Simulation:
                     block = self.program[j]
                     j += 1
                     program.append(block)
-                    if block[0] == "TERMINATE":
+                    if block.type == "TERMINATE":
                         # Transaction's program ends at TERMINATE
                         break
                 txn_generator = TransactionGenerator(self,
-                    statement[1], program)
+                    statement.parameters, program)
                 self.txn_generators.append(txn_generator)
                 i = j
-            elif statement[0] == "START":
+            elif statement.type == "START":
                 # Set number of transactions to complete
-                self.term_count = int(statement[1][0])
+                self.term_count = statement.parameters[0]
                 debugmsg("termination count:", self.term_count)
         
         # If not simulating, finish
