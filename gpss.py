@@ -3,6 +3,7 @@ from debug import debugmsg, debugflag
 from gpss_parser import Parser
 from simulation import Simulation
 from report import createReport
+from error import SimulationError
 
 def main():
     argparser = argparse.ArgumentParser()
@@ -28,7 +29,11 @@ def main():
     
     # Run simulation
     simulation = Simulation()
-    simulation.run(parser)
+    try:
+        simulation.run(parser)
+    except SimulationError as err:
+        print(f"ERROR: Simulation error:\n    {err}")
+        return
     
     if simulation.simulate:
         # Output report
