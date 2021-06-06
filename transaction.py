@@ -17,7 +17,15 @@ class TransactionGenerator:
         time = self.simulation.time + self.interval
         if self.spread != 0:
             time += randint(-self.spread, +self.spread)
-        self.simulation.add_event(Event(time, self.generate))
+        
+        if time < self.simulation.time:
+            raise SimulationError("Cannot GENERATE a transaction in a "
+                f"negative amount of time ({time - self.simulation.time})")
+        elif time == self.simulation.time:
+            # Generate immediately, no need to add to event list
+            self.generate()
+        else:
+            self.simulation.add_event(Event(time, self.generate))
     
     def generate(self):
         # Generate a new transaction
