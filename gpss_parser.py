@@ -40,7 +40,7 @@ class Statement:
     
     def __init__(self, type_, parameters):
         try:
-            self.type = getattr(Statements, type_)
+            self.type = getattr(Statements, type_.upper())
         except AttributeError:
             raise ParserError(f"Unsupported statement \"{type_}\"")
         self.parameters = parameters
