@@ -43,6 +43,9 @@ class Parser:
             elif len(fields) == 3:
                 # Label, statement, and parameters
                 statement = Statement(fields[1], fields[2], label=fields[0])
+            else:
+                raise ParserError("Too many fields in line (expected "
+                    f"1-3, got {len(fields)}):\n        \"{line.strip()}\"")
             debugmsg("statement:", statement.type, tuple(filter(bool,
                 statement.parameters)), statement.label)
             
