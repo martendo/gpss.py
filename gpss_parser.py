@@ -16,8 +16,8 @@ class Parser:
         
         # Get statements from program
         for line in self.inputlines:
-            # Comment line, ignore
-            if line[0] == "*":
+            # Blank or Comment line, ignore
+            if line.strip() == "" or line[0] == "*":
                 continue
             
             statement = Statement(line[7:18].strip(),
