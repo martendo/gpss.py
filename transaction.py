@@ -37,6 +37,7 @@ class Transaction:
         self.simulation = simulation
         self.currentcard = 0
         self.advancing = False
+        self.delaying = False
     
     def update(self):
         if self.advancing:
@@ -45,9 +46,14 @@ class Transaction:
             # Finished advancing, continue program
             self.advancing = False
         
+        if self.delaying:
+            # Waiting for a facility to become available
+            return
+        
         while True:
             # Execute next block
             block = self.program[self.currentcard]
+            self.currentcard += 1
             
             if block[0] == "TERMINATE":
                 # Update transaction termination count
@@ -61,11 +67,9 @@ class Transaction:
             
             elif block[0] == "QUEUE":
                 self.simulation.queues[block[1][0]].enter()
-                self.currentcard += 1
             
             elif block[0] == "DEPART":
                 self.simulation.queues[block[1][0]].leave()
-                self.currentcard += 1
             
             elif block[0] == "ADVANCE":
                 try:
@@ -81,19 +85,11 @@ class Transaction:
                     self.advancetotime = (self.simulation.time
                         + int(block[1][0]) + randint(-spread, +spread))
                 self.advancing = True
-                self.currentcard += 1
                 return
             
             elif block[0] == "SEIZE":
-                if self.simulation.facilities[block[1][0]].is_in_use:
-                    # Facility is currently in use -> wait
-                    return
-                # Use facility
-                self.simulation.facilities[block[1][0]].seize()
-                debugmsg("facility seized:", block[1][0])
-                self.currentcard += 1
+                # Use facility or enter delay chain if busy
+                self.simulation.facilities[block[1][0]].seize(self)
             
             elif block[0] == "RELEASE":
                 self.simulation.facilities[block[1][0]].release()
-                debugmsg("facility released:", block[1][0])
-                self.currentcard += 1
