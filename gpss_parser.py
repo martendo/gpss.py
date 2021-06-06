@@ -4,6 +4,7 @@ class Parser:
     def __init__(self):
         self.statements = []
         self.queues = []
+        self.facilities = []
     
     def open(self, inputfile):
         self.inputfile = inputfile
@@ -27,3 +28,6 @@ class Parser:
             if statement in ("QUEUE", "DEPART"):
                 self.queues.append(parameters[0])
                 debugmsg("queue:", parameters[0])
+            elif statement in ("SEIZE", "RELEASE"):
+                self.facilities.append(parameters[0])
+                debugmsg("facility:", parameters[0])

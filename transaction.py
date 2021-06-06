@@ -48,7 +48,6 @@ class Transaction:
         while True:
             # Execute next block
             block = self.program[self.currentcard]
-            self.currentcard += 1
             
             if block[0] == "TERMINATE":
                 # Update transaction termination count
@@ -62,9 +61,11 @@ class Transaction:
             
             elif block[0] == "QUEUE":
                 self.simulation.queues[block[1][0]] += 1
+                self.currentcard += 1
             
             elif block[0] == "DEPART":
                 self.simulation.queues[block[1][0]] -= 1
+                self.currentcard += 1
             
             elif block[0] == "ADVANCE":
                 try:
@@ -80,4 +81,19 @@ class Transaction:
                     self.delaytotime = (self.simulation.time
                         + int(block[1][0]) + randint(-spread, +spread))
                 self.delaying = True
+                self.currentcard += 1
                 return
+            
+            elif block[0] == "SEIZE":
+                if self.simulation.facilities[block[1][0]]:
+                    # Facility is currently in use -> wait
+                    return
+                # Signal facility in use
+                self.simulation.facilities[block[1][0]] = True
+                debugmsg("facility seized:", block[1][0])
+                self.currentcard += 1
+            
+            elif block[0] == "RELEASE":
+                self.simulation.facilities[block[1][0]] = False
+                debugmsg("facility released:", block[1][0])
+                self.currentcard += 1

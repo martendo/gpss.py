@@ -8,13 +8,16 @@ class Simulation:
         self.transactions = set()
         self.txn_generators = []
         self.queues = {}
+        self.facilities = {}
         self.time = 0
     
     def run(self, parser):
         self.program = parser.statements
-        # Create queues used in simulation
+        # Create queues and facilities used in simulation
         for queue in parser.queues:
             self.queues[queue] = 0
+        for facility in parser.facilities:
+            self.facilities[facility] = False
         
         i = 0
         while i < len(self.program):
