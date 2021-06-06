@@ -1,5 +1,6 @@
 class Facility:
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.is_in_use = False
         self.entries = 0
     

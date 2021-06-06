@@ -19,9 +19,9 @@ class Simulation:
         self.program = self.parser.statements
         # Create queues and facilities used in simulation
         for queue in self.parser.queues:
-            self.queues[queue] = Queue()
+            self.queues[queue] = Queue(queue)
         for facility in self.parser.facilities:
-            self.facilities[facility] = Facility()
+            self.facilities[facility] = Facility(facility)
         
         i = 0
         while i < len(self.program):
