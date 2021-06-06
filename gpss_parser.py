@@ -7,14 +7,15 @@ class Parser:
         self.facilities = []
     
     def parse(self, inputfile):
-        # Read GPSS program
+        # Open and read GPSS program
         self.inputfile = inputfile
         with open(self.inputfile, "r") as file:
             self.inputdata = file.read()
         self.inputlines = self.inputdata.split("\n")
         
+        # Get statements from program
         for line in self.inputlines:
-            # Comment line
+            # Comment line, ignore
             if line[0] == "*":
                 continue
             
@@ -24,7 +25,7 @@ class Parser:
             
             self.statements.append((statement, parameters))
             
-            # Save queues' names to later create them
+            # Save queues' and facilities' names to later create them
             if statement in ("QUEUE", "DEPART"):
                 self.queues.append(parameters[0])
                 debugmsg("queue:", parameters[0])
