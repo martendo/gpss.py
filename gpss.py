@@ -30,6 +30,9 @@ def main():
     except ParserError as err:
         print(f"ERROR: Parser error:\n    {err}")
         return
+    except FileNotFoundError as err:
+        print(f"ERROR: File not found:\n    {err}")
+        return
     
     # Run simulation
     simulation = Simulation()
