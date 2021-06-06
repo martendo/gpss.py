@@ -2,6 +2,7 @@ import argparse
 from debug import debugmsg, debugflag
 from gpss_parser import Parser
 from simulation import Simulation
+from report import createReport
 
 def main():
     argparser = argparse.ArgumentParser()
@@ -28,6 +29,11 @@ def main():
     # Run simulation
     simulation = Simulation()
     simulation.run(parser)
+    
+    # Output report
+    print("-" * 72)
+    print(createReport(simulation))
+    print("-" * 72)
 
 if __name__ == "__main__":
     main()

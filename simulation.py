@@ -12,11 +12,13 @@ class Simulation:
         self.time = 0
     
     def run(self, parser):
-        self.program = parser.statements
+        self.parser = parser
+        
+        self.program = self.parser.statements
         # Create queues and facilities used in simulation
-        for queue in parser.queues:
+        for queue in self.parser.queues:
             self.queues[queue] = 0
-        for facility in parser.facilities:
+        for facility in self.parser.facilities:
             self.facilities[facility] = False
         
         i = 0
@@ -68,7 +70,8 @@ class Simulation:
             # Completed all transactions, stop running
             if self.term_count < 1:
                 self.running = False
-                break
+                debugmsg("finished")
+                return
         
         # Move through time
         self.time += 1
