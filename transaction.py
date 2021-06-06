@@ -35,22 +35,13 @@ class Transaction:
         self.program = program
         self.simulation = simulation
         self.currentcard = 0
-        self.queue = None
     
     def update(self):
-        if self.queue is not None:
-            # Waiting in a queue
-            if self.simulation.queues[self.queue].index(self) == 0:
-                # At the front of the queue, stop waiting
-                self.queue = None
-            else:
-                # Keep waiting -> do nothing
-                return
-        
         while True:
             # Execute next block
             block = self.program[self.currentcard]
             self.currentcard += 1
+            
             if block[0] == "TERMINATE":
                 # Update transaction termination count
                 try:
@@ -60,11 +51,9 @@ class Transaction:
                 # Destroy this transaction
                 self.simulation.transactions.remove(self)
                 return
+            
             elif block[0] == "QUEUE":
-                self.queue = block[1][0]
-                queue = self.simulation.queues[self.queue]
-                queuelen = len(queue)
-                queue.append(self)
-                if queuelen > 0:
-                    # Need to wait in the queue
-                    return
+                self.simulation.queues[block[1][0]] += 1
+            
+            elif block[0] == "DEPART":
+                self.simulation.queues[block[1][0]] -= 1

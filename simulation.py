@@ -1,4 +1,3 @@
-from collections import deque
 from transaction import Transaction, TransactionGenerator
 from debug import debugmsg
 
@@ -15,7 +14,7 @@ class Simulation:
         self.program = parser.statements
         # Create queues used in simulation
         for queue in parser.queues:
-            self.queues[queue] = deque()
+            self.queues[queue] = 0
         
         i = 0
         while i < len(self.program):
