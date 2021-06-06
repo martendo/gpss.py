@@ -16,10 +16,11 @@ class TransactionGenerator:
     
     def update_nexttime(self):
         # Set next generation time value
-        self.nexttime = randint(
-            self.simulation.time + (self.interval - self.spread),
-            self.simulation.time + (self.interval + self.spread),
-        )
+        if self.spread == 0:
+            self.nexttime = self.simulation.time + self.interval
+        else:
+            self.nexttime = (self.simulation.time + self.interval
+                + randint(-self.spread, +self.spread))
     
     def update(self):
         if self.simulation.time == self.nexttime:
