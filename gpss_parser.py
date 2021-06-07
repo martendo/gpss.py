@@ -6,6 +6,7 @@ class Parser:
     def __init__(self):
         self.statements = []
         self.storages = []
+        self.current_label = None
     
     def parse(self, inputfile):
         # Open and read GPSS program
@@ -17,6 +18,8 @@ class Parser:
         
         # Get statements from program
         for linenum, line in enumerate(self.inputlines, 1):
+            self.linenum = linenum
+            
             # Blank or comment line, ignore
             if line == "" or line[0] == "*" or line[0] == ";":
                 continue
@@ -30,18 +33,23 @@ class Parser:
             debugmsg("fields:", fields)
             
             if len(fields) == 1:
-                statement = Statement(linenum, fields[0])
+                if fields[0][-1] == ":":
+                    # Label
+                    self.current_label = fields[0][:-1]
+                else:
+                    # Statement
+                    statement = Statement(self, fields[0])
             elif len(fields) == 2:
                 if hasattr(Statements, fields[0].upper()) or "," in fields[1]:
                     # Statement and operands
-                    statement = Statement(linenum, fields[0], fields[1])
+                    statement = Statement(self, fields[0], fields[1])
                 else:
                     # Label and statement
-                    statement = Statement(linenum, fields[1],
+                    statement = Statement(self, fields[1],
                         label=fields[0])
             elif len(fields) == 3:
                 # Label, statement, and operands
-                statement = Statement(linenum, fields[1], fields[2],
+                statement = Statement(self, fields[1], fields[2],
                     label=fields[0])
             else:
                 raise ParserError(linenum, "Too many fields in line "
@@ -60,19 +68,33 @@ class Parser:
 class Statement:
     LETTERS = ("A", "B", "C", "D", "E", "F", "G")
     
-    def __init__(self, linenum, name, operands="", label=None):
-        self.linenum = linenum
+    def __init__(self, parser, name, operands="", label=None):
+        self.parser = parser
+        self.linenum = self.parser.linenum
+        
+        # Find Statement type
         self.name = name
         try:
             self.type = getattr(Statements, self.name.upper())
         except AttributeError:
             raise ParserError(self.linenum,
                 f"Unsupported Statement \"{self.name}\"")
+        
+        # Get Operands
         self.operands = operands.split(",")
         if len(self.operands) < len(self.LETTERS):
             self.operands.extend([""] * (len(self.LETTERS) - len(self.operands)))
-        self.label = label
         
+        # Get label
+        if label is not None:
+            self.label = label
+        else:
+            self.label = self.parser.current_label
+            # Label goes to this Statement -> don't give it to another
+            if self.label is not None:
+                self.parser.current_label = None
+        
+        # Parse necessary Operands
         if self.type == Statements.START:
             self.intify_operand(0, req=self.positive)
         elif self.type == Statements.GENERATE:
