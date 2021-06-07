@@ -7,6 +7,8 @@ def createReport(simulation):
   {queue.name}
     MAXIMUM CONTENT: {queue.max}
     TOTAL ENTRIES: {queue.entries}
+    ZERO ENTRIES: {queue.zero_entries}
+    PERCENT ZEROS: {(queue.zero_entries / queue.entries * 100):.2f}%
     CURRENT CONTENT: {queue.content}"""
     
     facilities = ""

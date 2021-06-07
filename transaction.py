@@ -69,10 +69,10 @@ class Transaction:
                     self.simulation.queues[queue.name] = queue
                 
                 if block.type == Statements.QUEUE:
-                    queue.enter(block.operands[1])
+                    queue.enter(self, block.operands[1])
                 else:
                     try:
-                        queue.depart(block.operands[1])
+                        queue.depart(self, block.operands[1])
                     except EntityError as err:
                         raise SimulationError(block.linenum, err.message)
             
