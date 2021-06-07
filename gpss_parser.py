@@ -83,6 +83,8 @@ class Statement:
         elif self.type == Statements.ADVANCE:
             self.intifyparam(0, 0, req=self.nonnegative)
             self.intifyparam(1, 0, req=self.nonnegative)
+        elif self.type in (Statements.QUEUE, Statements.DEPART):
+            self.intifyparam(1, 1, req=self.positive)
         elif self.type in (Statements.ENTER, Statements.LEAVE):
             self.intifyparam(1, 1, req=self.positive)
         elif self.type == Statements.STORAGE:
