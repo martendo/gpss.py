@@ -7,13 +7,13 @@ from debug import debugmsg
 from error import SimulationError, EntityError
 
 class TransactionGenerator:
-    def __init__(self, simulation, linenum, program, parameters):
+    def __init__(self, simulation, linenum, program, operands):
         self.simulation = simulation
         self.linenum = linenum
         self.program = program
         
-        self.parameters = parameters
-        self.interval, self.spread = self.parameters[0:2]
+        self.operands = operands
+        self.interval, self.spread = self.operands[0:2]
     
     def add_next_event(self):
         # Add event to event list to generate next Transaction
@@ -33,7 +33,7 @@ class TransactionGenerator:
     
     def generate(self):
         # Generate a new Transaction
-        debugmsg("generate:", self.simulation.time, self.parameters)
+        debugmsg("generate:", self.simulation.time, self.operands)
         transaction = Transaction(self.simulation, self.program)
         self.simulation.transactions.add(transaction)
         # Add next Transaction generation event
@@ -55,29 +55,29 @@ class Transaction:
             
             if block.type == Statements.TERMINATE:
                 # Update Transaction termination count
-                self.simulation.term_count -= block.parameters[0]
+                self.simulation.term_count -= block.operands[0]
                 # Destroy this Transaction
                 self.simulation.transactions.remove(self)
                 return
             
             elif block.type in (Statements.QUEUE, Statements.DEPART):
                 try:
-                    queue = self.simulation.queues[block.parameters[0]]
+                    queue = self.simulation.queues[block.operands[0]]
                 except KeyError:
                     # Queue doesn't exist yet -> create it
-                    queue = Queue(block.parameters[0])
+                    queue = Queue(block.operands[0])
                     self.simulation.queues[queue.name] = queue
                 
                 if block.type == Statements.QUEUE:
-                    queue.enter(block.parameters[1])
+                    queue.enter(block.operands[1])
                 else:
                     try:
-                        queue.depart(block.parameters[1])
+                        queue.depart(block.operands[1])
                     except EntityError as err:
                         raise SimulationError(block.linenum, err.message)
             
             elif block.type == Statements.ADVANCE:
-                interval, spread = block.parameters[0:2]
+                interval, spread = block.operands[0:2]
                 # Add event for end of delay
                 time = self.simulation.time + interval
                 if spread != 0:
@@ -96,10 +96,10 @@ class Transaction:
             
             elif block.type in (Statements.SEIZE, Statements.RELEASE):
                 try:
-                    facility = self.simulation.facilities[block.parameters[0]]
+                    facility = self.simulation.facilities[block.operands[0]]
                 except KeyError:
                     # Facility doesn't exist yet -> create it
-                    facility = Facility(block.parameters[0])
+                    facility = Facility(block.operands[0])
                     self.simulation.facilities[facility.name] = facility
                 
                 if block.type == Statements.SEIZE:
@@ -117,11 +117,11 @@ class Transaction:
                 # Enter Storage or enter Delay Chain if cannot satisfy
                 # demand
                 try:
-                    entered = (self.simulation.storages[block.parameters[0]]
-                        .enter(self, block.parameters[1]))
+                    entered = (self.simulation.storages[block.operands[0]]
+                        .enter(self, block.operands[1]))
                 except KeyError:
                     raise SimulationError(block.linenum, "No Storage "
-                        f"named \"{block.parameters[0]}\"")
+                        f"named \"{block.operands[0]}\"")
                 except EntityError as err:
                     raise SimulationError(block.linenum, err.message)
                 if not entered:
@@ -130,10 +130,10 @@ class Transaction:
             
             elif block.type == Statements.LEAVE:
                 try:
-                    self.simulation.storages[block.parameters[0]].leave(
-                        block.parameters[1])
+                    self.simulation.storages[block.operands[0]].leave(
+                        block.operands[1])
                 except KeyError:
                     raise SimulationError(block.linenum, "No Storage "
-                        f"named \"{block.parameters[0]}\"")
+                        f"named \"{block.operands[0]}\"")
                 except EntityError as err:
                     raise SimulationError(block.linenum, err.message)

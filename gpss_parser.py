@@ -33,34 +33,34 @@ class Parser:
                 statement = Statement(linenum, fields[0])
             elif len(fields) == 2:
                 if hasattr(Statements, fields[0].upper()) or "," in fields[1]:
-                    # Statement and parameters
+                    # Statement and operands
                     statement = Statement(linenum, fields[0], fields[1])
                 else:
                     # Label and statement
                     statement = Statement(linenum, fields[1],
                         label=fields[0])
             elif len(fields) == 3:
-                # Label, statement, and parameters
+                # Label, statement, and operands
                 statement = Statement(linenum, fields[1], fields[2],
                     label=fields[0])
             else:
                 raise ParserError(linenum, "Too many fields in line "
                     f"(expected 1-3, got {len(fields)}):\n"
                     f"        \"{line.strip()}\"")
-            debugmsg("statement:", statement.type, tuple(filter(bool,
-                statement.parameters)), statement.label)
+            debugmsg("statement:", statement.type, statement.operands,
+                statement.label)
             
             self.statements.append(statement)
             
             # Save Storage definitions to later create them
             if statement.type == Statements.STORAGE:
-                self.storages.append((statement.label, statement.parameters[0]))
-                debugmsg("storage:", statement.label, statement.parameters[0])
+                self.storages.append((statement.label, statement.operands[0]))
+                debugmsg("storage:", statement.label, statement.operands[0])
 
 class Statement:
     LETTERS = ("A", "B", "C", "D", "E", "F", "G")
     
-    def __init__(self, linenum, name, parameters="", label=None):
+    def __init__(self, linenum, name, operands="", label=None):
         self.linenum = linenum
         self.name = name
         try:
@@ -68,55 +68,54 @@ class Statement:
         except AttributeError:
             raise ParserError(self.linenum,
                 f"Unsupported Statement \"{self.name}\"")
-        self.parameters = parameters.split(",")
-        if len(self.parameters) < len(self.LETTERS):
-            self.parameters.extend([""] * (len(self.LETTERS) - len(self.parameters)))
+        self.operands = operands.split(",")
+        if len(self.operands) < len(self.LETTERS):
+            self.operands.extend([""] * (len(self.LETTERS) - len(self.operands)))
         self.label = label
         
         if self.type == Statements.START:
-            self.intifyparam(0, req=self.positive)
+            self.intify_operand(0, req=self.positive)
         elif self.type == Statements.GENERATE:
-            self.intifyparam(0, 0, req=self.nonnegative)
-            self.intifyparam(1, 0, req=self.nonnegative)
+            self.intify_operand(0, 0, req=self.nonnegative)
+            self.intify_operand(1, 0, req=self.nonnegative)
         elif self.type == Statements.TERMINATE:
-            self.intifyparam(0, 0, req=self.nonnegative)
+            self.intify_operand(0, 0, req=self.nonnegative)
         elif self.type == Statements.ADVANCE:
-            self.intifyparam(0, 0, req=self.nonnegative)
-            self.intifyparam(1, 0, req=self.nonnegative)
+            self.intify_operand(0, 0, req=self.nonnegative)
+            self.intify_operand(1, 0, req=self.nonnegative)
         elif self.type in (Statements.QUEUE, Statements.DEPART):
-            self.intifyparam(1, 1, req=self.positive)
+            self.intify_operand(1, 1, req=self.positive)
         elif self.type in (Statements.ENTER, Statements.LEAVE):
-            self.intifyparam(1, 1, req=self.positive)
+            self.intify_operand(1, 1, req=self.positive)
         elif self.type == Statements.STORAGE:
-            self.intifyparam(0, req=self.positive)
+            self.intify_operand(0, req=self.positive)
     
     def positive(self, index):
-        if self.parameters[index] <= 0:
+        if self.operands[index] <= 0:
             raise ParserError(self.linenum,
-                f"Parameter {self.LETTERS[index]} of "
-                f"{self.name} must be a strictly positive integer "
-                f"(got \"{self.parameters[index]}\")")
+                f"Operand {self.LETTERS[index]} of {self.name} "
+                "must be a strictly positive integer "
+                f"(got \"{self.operands[index]}\")")
     
     def nonnegative(self, index):
-        if self.parameters[index] < 0:
+        if self.operands[index] < 0:
             raise ParserError(self.linenum,
-                f"Parameter {self.LETTERS[index]} of "
-                f"{self.name} must be a non-negative integer "
-                f"(got \"{self.parameters[index]}\")")
+                f"Operand {self.LETTERS[index]} of {self.name} "
+                "must be a non-negative integer "
+                f"(got \"{self.operands[index]}\")")
     
-    def intifyparam(self, index, default=None, req=None):
+    def intify_operand(self, index, default=None, req=None):
         try:
             if default is not None:
-                self.parameters[index] = (
-                    default if self.parameters[index] == ""
-                    else int(self.parameters[index]))
+                self.operands[index] = (
+                    default if self.operands[index] == ""
+                    else int(self.operands[index]))
             else:
-                self.parameters[index] = int(self.parameters[index])
+                self.operands[index] = int(self.operands[index])
         except ValueError:
             raise ParserError(self.linenum,
-                f"Parameter {self.LETTERS[index]} of "
-                f"{self.name} must be an integer "
-                f"(got \"{self.parameters[index]}\")")
+                f"Operand {self.LETTERS[index]} of {self.name} "
+                f"must be an integer (got \"{self.operands[index]}\")")
         
         if req is not None:
             req(index)
