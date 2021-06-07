@@ -1,7 +1,5 @@
 from statements import Statements
 from transaction import Transaction, TransactionGenerator
-from queue import Queue
-from facility import Facility
 from storage import Storage
 from debug import debugmsg
 
@@ -20,11 +18,7 @@ class Simulation:
         self.parser = parser
         
         self.program = self.parser.statements
-        # Create queues and facilities used in simulation
-        for queue in self.parser.queues:
-            self.queues[queue] = Queue(queue)
-        for facility in self.parser.facilities:
-            self.facilities[facility] = Facility(facility)
+        # Create storages used in simulation
         for storage, capacity in self.parser.storages:
             self.storages[storage] = Storage(storage, capacity)
         

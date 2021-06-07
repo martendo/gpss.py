@@ -1,6 +1,8 @@
 from random import randint
 from statements import Statements
 from event import Event
+from queue import Queue
+from facility import Facility
 from debug import debugmsg
 from error import SimulationError, EntityError
 
@@ -58,11 +60,18 @@ class Transaction:
                 self.simulation.transactions.remove(self)
                 return
             
-            elif block.type == Statements.QUEUE:
-                self.simulation.queues[block.parameters[0]].enter()
-            
-            elif block.type == Statements.DEPART:
-                self.simulation.queues[block.parameters[0]].leave()
+            elif block.type in (Statements.QUEUE, Statements.DEPART):
+                try:
+                    queue = self.simulation.queues[block.parameters[0]]
+                except KeyError:
+                    # Queue doesn't exist yet -> create it
+                    queue = Queue(block.parameters[0])
+                    self.simulation.queues[queue.name] = queue
+                
+                if block.type == Statements.QUEUE:
+                    queue.enter()
+                else:
+                    queue.depart()
             
             elif block.type == Statements.ADVANCE:
                 interval, spread = block.parameters[0:2]
@@ -82,14 +91,21 @@ class Transaction:
                 self.simulation.add_event(Event(time, self.update))
                 return
             
-            elif block.type == Statements.SEIZE:
-                # Use facility or enter delay chain if busy
-                if not self.simulation.facilities[block.parameters[0]].seize(self):
-                    # Facility is busy -> wait
-                    return
-            
-            elif block.type == Statements.RELEASE:
-                self.simulation.facilities[block.parameters[0]].release()
+            elif block.type in (Statements.SEIZE, Statements.RELEASE):
+                try:
+                    facility = self.simulation.facilities[block.parameters[0]]
+                except KeyError:
+                    # Facility doesn't exist yet -> create it
+                    facility = Facility(block.parameters[0])
+                    self.simulation.facilities[facility.name] = facility
+                
+                if block.type == Statements.SEIZE:
+                    # Use facility or enter delay chain if busy
+                    if not facility.seize(self):
+                        # Facility is busy -> wait
+                        return
+                else:
+                    facility.release()
             
             elif block.type == Statements.ENTER:
                 # Enter storage or enter delay chain if cannot satisfy

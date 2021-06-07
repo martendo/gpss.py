@@ -5,8 +5,6 @@ from error import ParserError
 class Parser:
     def __init__(self):
         self.statements = []
-        self.queues = []
-        self.facilities = []
         self.storages = []
     
     def parse(self, inputfile):
@@ -54,14 +52,8 @@ class Parser:
             
             self.statements.append(statement)
             
-            # Save queues' and facilities' names to later create them
-            if statement.type in (Statements.QUEUE, Statements.DEPART):
-                self.queues.append(statement.parameters[0])
-                debugmsg("queue:", statement.parameters[0])
-            elif statement.type in (Statements.SEIZE, Statements.RELEASE):
-                self.facilities.append(statement.parameters[0])
-                debugmsg("facility:", statement.parameters[0])
-            elif statement.type == Statements.STORAGE:
+            # Save storage definitions to later create them
+            if statement.type == Statements.STORAGE:
                 self.storages.append((statement.label, statement.parameters[0]))
                 debugmsg("storage:", statement.label, statement.parameters[0])
 
