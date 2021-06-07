@@ -5,8 +5,8 @@ def createReport(simulation):
     for queue in simulation.queues.values():
         queues += f"""
   {queue.name}
-    MAXIMUM CONTENTS: {queue.max}
-    CURRENT CONTENTS: {queue.contents}"""
+    MAXIMUM CONTENT: {queue.max}
+    CURRENT CONTENT: {queue.content}"""
     
     facilities = ""
     for facility in simulation.facilities.values():
