@@ -6,6 +6,7 @@ def createReport(simulation):
         queues += f"""
   {queue.name}
     MAXIMUM CONTENT: {queue.max}
+    TOTAL ENTRIES: {queue.entries}
     CURRENT CONTENT: {queue.content}"""
     
     facilities = ""
