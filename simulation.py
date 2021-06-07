@@ -18,7 +18,7 @@ class Simulation:
         self.parser = parser
         
         self.program = self.parser.statements
-        # Create storages used in simulation
+        # Create Storages used in simulation
         for storage, capacity in self.parser.storages:
             self.storages[storage] = Storage(storage, capacity)
         
@@ -30,12 +30,12 @@ class Simulation:
                 # Run the simulation
                 self.simulate = True
             elif statement.type == Statements.GENERATE:
-                # Define a transaction
+                # Define a Transaction
                 debugmsg("transaction:", statement.parameters)
                 program = []
                 j = i
                 while True:
-                    # Get transaction's program
+                    # Get Transaction's program
                     block = self.program[j]
                     j += 1
                     program.append(block)
@@ -47,7 +47,7 @@ class Simulation:
                 self.txn_generators.append(txn_generator)
                 i = j
             elif statement.type == Statements.START:
-                # Set number of transactions to complete
+                # Set number of Transactions to complete
                 self.term_count = statement.parameters[0]
                 debugmsg("termination count:", self.term_count)
         
@@ -56,7 +56,7 @@ class Simulation:
             return
         
         self.time = 0
-        # Add initial transaction generation events
+        # Add initial Transaction generation events
         for txn_generator in self.txn_generators:
             txn_generator.add_next_event()
         
@@ -75,7 +75,7 @@ class Simulation:
         self.time = event.time
         event.func()
         
-        # Completed all transactions, stop running
+        # Completed all Transactions, stop running
         if self.term_count < 1:
             self.running = False
             debugmsg("finished")

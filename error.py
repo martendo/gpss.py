@@ -11,7 +11,7 @@ class ParserError(Error):
 class SimulationError(Error):
     pass
 
-# Errors that occur during simulation of an entity, where the line
+# Errors that occur during simulation of an Entity, where the line
 # number is unknown
 class EntityError(SimulationError):
     def __init__(self, message):

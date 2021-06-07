@@ -16,14 +16,14 @@ class TransactionGenerator:
         self.interval, self.spread = self.parameters[0:2]
     
     def add_next_event(self):
-        # Add event to event list to generate next transaction
+        # Add event to event list to generate next Transaction
         time = self.simulation.time + self.interval
         if self.spread != 0:
             time += randint(-self.spread, +self.spread)
         
         if time < self.simulation.time:
             raise SimulationError(self.linenum,
-                "Cannot GENERATE a transaction in a negative amount "
+                "Cannot GENERATE a Transaction in a negative amount "
                 f"of time ({time - self.simulation.time})")
         elif time == self.simulation.time:
             # Generate immediately, no need to add to event list
@@ -32,11 +32,11 @@ class TransactionGenerator:
             self.simulation.add_event(Event(time, self.generate))
     
     def generate(self):
-        # Generate a new transaction
+        # Generate a new Transaction
         debugmsg("generate:", self.simulation.time, self.parameters)
         transaction = Transaction(self.simulation, self.program)
         self.simulation.transactions.add(transaction)
-        # Add next transaction generation event
+        # Add next Transaction generation event
         self.add_next_event()
         
         transaction.update()
@@ -54,9 +54,9 @@ class Transaction:
             self.currentcard += 1
             
             if block.type == Statements.TERMINATE:
-                # Update transaction termination count
+                # Update Transaction termination count
                 self.simulation.term_count -= block.parameters[0]
-                # Destroy this transaction
+                # Destroy this Transaction
                 self.simulation.transactions.remove(self)
                 return
             
@@ -103,7 +103,7 @@ class Transaction:
                     self.simulation.facilities[facility.name] = facility
                 
                 if block.type == Statements.SEIZE:
-                    # Use facility or enter delay chain if busy
+                    # Use Facility or enter Delay Chain if busy
                     if not facility.seize(self):
                         # Facility is busy -> wait
                         return
@@ -114,7 +114,7 @@ class Transaction:
                         raise SimulationError(block.linenum, err.message)
             
             elif block.type == Statements.ENTER:
-                # Enter storage or enter delay chain if cannot satisfy
+                # Enter Storage or enter Delay Chain if cannot satisfy
                 # demand
                 try:
                     entered = (self.simulation.storages[block.parameters[0]]
@@ -125,7 +125,7 @@ class Transaction:
                 except EntityError as err:
                     raise SimulationError(block.linenum, err.message)
                 if not entered:
-                    # Not enough storage available
+                    # Not enough Storage available
                     return
             
             elif block.type == Statements.LEAVE:

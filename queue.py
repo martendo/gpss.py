@@ -15,4 +15,4 @@ class Queue:
         self.contents -= 1
         if self.contents < 0:
             raise EntityError("DEPART resulted in negative contents in "
-                f"Queue {self.name} ({self.contents})")
+                f"Queue \"{self.name}\" ({self.contents})")

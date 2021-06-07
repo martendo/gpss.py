@@ -12,7 +12,7 @@ class Facility:
     
     def seize(self, transaction):
         if self.is_in_use:
-            # Facility is busy, add transaction to delay chain
+            # Facility is busy, add Transaction to Delay Chain
             self.delaychain.append(transaction)
             return False
         # Facility is available
@@ -28,15 +28,15 @@ class Facility:
     def release(self, transaction):
         if transaction is not self.owner:
             raise EntityError("Transaction tried to RELEASE Facility "
-                f"{self.name} which it does not own")
+                f"\"{self.name}\" which it does not own")
         self.is_in_use = False
         self.owner = None
         debugmsg("facility released:", self.name)
         
         if not len(self.delaychain):
-            # No transactions in delay chain
+            # No Transactions in Delay Chain
             return
-        # Allow first transaction in delay chain to seize the facility
+        # Allow first Transaction in Delay Chain to seize the Facility
         transaction = self.delaychain.popleft()
         self._own(transaction)
         transaction.update()

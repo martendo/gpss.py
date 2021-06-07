@@ -13,11 +13,11 @@ class Storage:
     
     def enter(self, transaction, demand):
         if demand > self.capacity:
-            raise EntityError(f"Storage {self.name} does not have "
+            raise EntityError(f"Storage \"{self.name}\" does not have "
                 f"the capacity to satisfy the demand of {demand} "
                 f"(capacity {self.capacity})")
         elif demand > self.available:
-            # Storage cannot satisfy demand, add transaction to delay
+            # Storage cannot satisfy demand, add Transaction to delay
             # chain
             self.delaychain.append((transaction, demand))
             return False
@@ -37,15 +37,15 @@ class Storage:
         self.available += units
         if self.available > self.capacity:
             raise EntityError(f"LEAVE resulted in more available "
-                f"units than capacity in Storage {self.name} "
+                f"units than capacity in Storage \"{self.name}\" "
                 f"(capacity {self.capacity}, available {self.available})")
         debugmsg("storage left:", self.name, units)
         
         if not len(self.delaychain):
-            # No transactions in delay chain
+            # No Transactions in Delay Chain
             return
-        # Allow first transaction with demand that can be satisfied in
-        # delay chain to enter the storage
+        # Allow first Transaction with demand that can be satisfied in
+        # Delay Chain to enter the Storage
         for i, (transaction, demand) in enumerate(self.delaychain):
             if demand <= self.available:
                 break

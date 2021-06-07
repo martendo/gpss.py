@@ -52,7 +52,7 @@ class Parser:
             
             self.statements.append(statement)
             
-            # Save storage definitions to later create them
+            # Save Storage definitions to later create them
             if statement.type == Statements.STORAGE:
                 self.storages.append((statement.label, statement.parameters[0]))
                 debugmsg("storage:", statement.label, statement.parameters[0])
@@ -67,7 +67,7 @@ class Statement:
             self.type = getattr(Statements, self.name.upper())
         except AttributeError:
             raise ParserError(self.linenum,
-                f"Unsupported statement \"{self.name}\"")
+                f"Unsupported Statement \"{self.name}\"")
         self.parameters = parameters.split(",")
         if len(self.parameters) < len(self.LETTERS):
             self.parameters.extend([""] * (len(self.LETTERS) - len(self.parameters)))
