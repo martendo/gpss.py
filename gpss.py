@@ -52,6 +52,8 @@ def main():
     if args.output is not None:
         with open(args.output, "w") as file:
             file.write(createReport(simulation) + "\n")
+        print("Simulation completed and report written to "
+            + args.output)
     else:
         print("-" * 72)
         print(createReport(simulation))
