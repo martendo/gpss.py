@@ -12,7 +12,7 @@ def createReport(simulation):
     for facility in simulation.facilities.values():
         facilities += f"""
   {facility.name}
-    NUMBER ENTRIES: {facility.entries}
+    ENTRIES: {facility.entries}
     AVAILBLE: {"no" if facility.is_in_use else "yes"}"""
     
     storages = ""
