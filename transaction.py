@@ -71,7 +71,10 @@ class Transaction:
                 if block.type == Statements.QUEUE:
                     queue.enter()
                 else:
-                    queue.depart()
+                    try:
+                        queue.depart()
+                    except EntityError as err:
+                        raise SimulationError(block.linenum, err.message)
             
             elif block.type == Statements.ADVANCE:
                 interval, spread = block.parameters[0:2]
@@ -105,7 +108,10 @@ class Transaction:
                         # Facility is busy -> wait
                         return
                 else:
-                    facility.release()
+                    try:
+                        facility.release(self)
+                    except EntityError as err:
+                        raise SimulationError(block.linenum, err.message)
             
             elif block.type == Statements.ENTER:
                 # Enter storage or enter delay chain if cannot satisfy

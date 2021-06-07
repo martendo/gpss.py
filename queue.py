@@ -1,3 +1,5 @@
+from error import EntityError
+
 class Queue:
     def __init__(self, name):
         self.name = name
@@ -9,5 +11,8 @@ class Queue:
         if self.contents > self.max:
             self.max = self.contents
     
-    def leave(self):
+    def depart(self):
         self.contents -= 1
+        if self.contents < 0:
+            raise EntityError("DEPART resulted in negative contents in "
+                f"Queue {self.name} ({self.contents})")
