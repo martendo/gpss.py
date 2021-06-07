@@ -49,7 +49,7 @@ class Simulation:
                         # Transaction's program ends at TERMINATE
                         break
                 txn_generator = TransactionGenerator(self,
-                    statement.parameters, program)
+                    statement.linenum, program, statement.parameters)
                 self.txn_generators.append(txn_generator)
                 i = j
             elif statement.type == Statements.START:

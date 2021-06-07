@@ -2,11 +2,12 @@ from random import randint
 from statements import Statements
 from event import Event
 from debug import debugmsg
-from error import SimulationError
+from error import SimulationError, EntityError
 
 class TransactionGenerator:
-    def __init__(self, simulation, parameters, program):
+    def __init__(self, simulation, linenum, program, parameters):
         self.simulation = simulation
+        self.linenum = linenum
         self.program = program
         
         self.parameters = parameters
@@ -19,8 +20,9 @@ class TransactionGenerator:
             time += randint(-self.spread, +self.spread)
         
         if time < self.simulation.time:
-            raise SimulationError("Cannot GENERATE a transaction in a "
-                f"negative amount of time ({time - self.simulation.time})")
+            raise SimulationError(self.linenum,
+                "Cannot GENERATE a transaction in a negative amount "
+                f"of time ({time - self.simulation.time})")
         elif time == self.simulation.time:
             # Generate immediately, no need to add to event list
             self.generate()
@@ -70,7 +72,7 @@ class Transaction:
                     time += randint(-spread, +spread)
                 
                 if time < self.simulation.time:
-                    raise SimulationError(
+                    raise SimulationError(block.linenum,
                         "Cannot ADVANCE a negative amount of time "
                         f"({self.time - self.simulation.time})")
                 elif time == self.simulation.time:
@@ -96,8 +98,10 @@ class Transaction:
                     entered = (self.simulation.storages[block.parameters[0]]
                         .enter(self, block.parameters[1]))
                 except KeyError:
-                    raise SimulationError("No Storage named "
-                        f"\"{block.parameters[0]}\"")
+                    raise SimulationError(block.linenum, "No Storage "
+                        f"named \"{block.parameters[0]}\"")
+                except EntityError as err:
+                    raise SimulationError(block.linenum, err.message)
                 if not entered:
                     # Not enough storage available
                     return
@@ -107,5 +111,7 @@ class Transaction:
                     self.simulation.storages[block.parameters[0]].leave(
                         block.parameters[1])
                 except KeyError:
-                    raise SimulationError("No Storage named "
-                        f"\"{block.parameters[0]}\"")
+                    raise SimulationError(block.linenum, "No Storage "
+                        f"named \"{block.parameters[0]}\"")
+                except EntityError as err:
+                    raise SimulationError(block.linenum, err.message)

@@ -30,10 +30,11 @@ def main():
     try:
         parser.parse(args.file)
     except ParserError as err:
-        print(f"ERROR: Parser error:\n    {err}")
+        print(f"ERROR: Parser error: {args.file}({err.linenum}):\n"
+            f"    {err.message}")
         return
     except FileNotFoundError as err:
-        print(f"ERROR: File not found:\n    {err}")
+        print(f"ERROR: File not found: {args.file}:\n    {err}")
         return
     
     # Run simulation
@@ -41,7 +42,8 @@ def main():
     try:
         simulation.run(parser)
     except SimulationError as err:
-        print(f"ERROR: Simulation error:\n    {err}")
+        print(f"ERROR: Simulation error: {args.file}({err.linenum}):\n"
+            f"    {err.message}")
         return
     
     if simulation.simulate:
