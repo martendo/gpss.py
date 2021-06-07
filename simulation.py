@@ -5,7 +5,6 @@ from debug import debugmsg
 
 class Simulation:
     def __init__(self):
-        self.simulate = False
         self.running = False
         self.transactions = set()
         self.txn_generators = []
@@ -16,6 +15,9 @@ class Simulation:
     
     def run(self, parser):
         self.parser = parser
+        if not self.parser.found_simulate:
+            # No SIMULATE Block -> don't run the simulation
+            return False
         
         self.program = self.parser.statements
         # Create Storages used in simulation
@@ -26,10 +28,7 @@ class Simulation:
         while i < len(self.program):
             statement = self.program[i]
             i += 1
-            if statement.type == Statements.SIMULATE:
-                # Run the simulation
-                self.simulate = True
-            elif statement.type == Statements.GENERATE:
+            if statement.type == Statements.GENERATE:
                 # Define a Transaction
                 debugmsg("transaction:", statement.operands)
                 program = []
@@ -51,10 +50,6 @@ class Simulation:
                 self.term_count = statement.operands[0]
                 debugmsg("termination count:", self.term_count)
         
-        # If not simulating, finish
-        if not self.simulate:
-            return
-        
         self.time = 0
         # Add initial Transaction generation events
         for txn_generator in self.txn_generators:
@@ -64,6 +59,8 @@ class Simulation:
         self.running = True
         while self.running:
             self.advance()
+        
+        return True
     
     def add_event(self, event):
         self.events.append(event)

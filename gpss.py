@@ -40,21 +40,22 @@ def main():
     # Run simulation
     simulation = Simulation()
     try:
-        simulation.run(parser)
+        if not simulation.run(parser):
+            # Simulation did not run (no SIMULATE Block) -> exit
+            return
     except SimulationError as err:
         print(f"ERROR: Simulation error: {args.file}({err.linenum}):\n"
             f"    {err.message}")
         return
     
-    if simulation.simulate:
-        # Output report
-        if args.output is not None:
-            with open(args.output, "w") as file:
-                file.write(createReport(simulation) + "\n")
-        else:
-            print("-" * 72)
-            print(createReport(simulation))
-            print("-" * 72)
+    # Output report
+    if args.output is not None:
+        with open(args.output, "w") as file:
+            file.write(createReport(simulation) + "\n")
+    else:
+        print("-" * 72)
+        print(createReport(simulation))
+        print("-" * 72)
 
 if __name__ == "__main__":
     main()

@@ -7,6 +7,7 @@ class Parser:
         self.statements = []
         self.storages = []
         self.current_label = None
+        self.found_simulate = False
     
     def parse(self, inputfile):
         # Open and read GPSS program
@@ -64,6 +65,8 @@ class Parser:
             if statement.type == Statements.STORAGE:
                 self.storages.append((statement.label, statement.operands[0]))
                 debugmsg("storage:", statement.label, statement.operands[0])
+            elif statement.type == Statements.SIMULATE:
+                self.found_simulate = True
 
 class Statement:
     LETTERS = ("A", "B", "C", "D", "E", "F", "G")
