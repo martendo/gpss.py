@@ -10,10 +10,3 @@ class ParserError(Error):
 # Errors that occur during simulation
 class SimulationError(Error):
     pass
-
-# Errors that occur during simulation of an Entity, where the line
-# number is unknown
-class EntityError(SimulationError):
-    def __init__(self, message):
-        self.linenum = "unknown"
-        self.message = message

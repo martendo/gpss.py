@@ -1,4 +1,4 @@
-from error import EntityError
+from error import SimulationError
 
 class Queue:
     def __init__(self, simulation, name):
@@ -27,8 +27,9 @@ class Queue:
     def depart(self, transaction, content):
         self.content -= content
         if self.content < 0:
-            raise EntityError("DEPART resulted in negative content in "
-                f"Queue \"{self.name}\" ({self.content})")
+            raise SimulationError(transaction.current_linenum,
+                "DEPART resulted in negative content in Queue "
+                f"\"{self.name}\" ({self.content})")
         if self.transactions[transaction] == self.simulation.time:
             self.zero_entries += content
         self.change()

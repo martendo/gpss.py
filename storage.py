@@ -1,6 +1,6 @@
 from collections import deque
 from debug import debugmsg
-from error import EntityError
+from error import SimulationError
 
 class Storage:
     def __init__(self, name, capacity):
@@ -13,8 +13,9 @@ class Storage:
     
     def enter(self, transaction, demand):
         if demand > self.capacity:
-            raise EntityError(f"Storage \"{self.name}\" does not have "
-                f"the capacity to satisfy the demand of {demand} "
+            raise SimulationError(transaction.current_linenum,
+                f"Storage \"{self.name}\" does not have the "
+                f"capacity to satisfy the demand of {demand} "
                 f"(capacity {self.capacity})")
         elif demand > self.available:
             # Storage cannot satisfy demand, add Transaction to delay
@@ -33,11 +34,12 @@ class Storage:
         self.entries += demand
         debugmsg("storage entered:", self.name, demand)
     
-    def leave(self, units):
+    def leave(self, transaction, units):
         self.available += units
         if self.available > self.capacity:
-            raise EntityError(f"LEAVE resulted in more available "
-                f"units than capacity in Storage \"{self.name}\" "
+            raise SimulationError(transaction.current_linenum,
+                f"LEAVE resulted in more available units "
+                f"than capacity in Storage \"{self.name}\" "
                 f"(capacity {self.capacity}, available {self.available})")
         debugmsg("storage left:", self.name, units)
         

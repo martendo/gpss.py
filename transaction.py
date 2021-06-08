@@ -4,7 +4,7 @@ from event import Event
 from queue import Queue
 from facility import Facility
 from debug import debugmsg
-from error import SimulationError, EntityError
+from error import SimulationError
 
 class TransactionGenerator:
     def __init__(self, simulation, block_num, operands):
@@ -65,6 +65,8 @@ class Transaction:
             block = self.simulation.program[self.current_block]
             self.current_block += 1
             
+            self.current_linenum = block.linenum
+            
             if block.type == Statements.TERMINATE:
                 # Update Transaction termination count
                 self.simulation.term_count -= block.operands[0]
@@ -83,10 +85,7 @@ class Transaction:
                 if block.type == Statements.QUEUE:
                     queue.enter(self, block.operands[1])
                 else:
-                    try:
-                        queue.depart(self, block.operands[1])
-                    except EntityError as err:
-                        raise SimulationError(block.linenum, err.message)
+                    queue.depart(self, block.operands[1])
             
             elif block.type == Statements.ADVANCE:
                 interval, spread = block.operands[0:2]
@@ -120,10 +119,7 @@ class Transaction:
                         # Facility is busy -> wait
                         return
                 else:
-                    try:
-                        facility.release(self)
-                    except EntityError as err:
-                        raise SimulationError(block.linenum, err.message)
+                    facility.release(self)
             
             elif block.type == Statements.ENTER:
                 # Enter Storage or enter Delay Chain if cannot satisfy
@@ -134,8 +130,6 @@ class Transaction:
                 except KeyError:
                     raise SimulationError(block.linenum, "No Storage "
                         f"named \"{block.operands[0]}\"")
-                except EntityError as err:
-                    raise SimulationError(block.linenum, err.message)
                 if not entered:
                     # Not enough Storage available
                     return
@@ -143,9 +137,7 @@ class Transaction:
             elif block.type == Statements.LEAVE:
                 try:
                     self.simulation.storages[block.operands[0]].leave(
-                        block.operands[1])
+                        self, block.operands[1])
                 except KeyError:
                     raise SimulationError(block.linenum, "No Storage "
                         f"named \"{block.operands[0]}\"")
-                except EntityError as err:
-                    raise SimulationError(block.linenum, err.message)
