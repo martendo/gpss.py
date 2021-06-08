@@ -16,7 +16,7 @@ class Queue:
     def change(self):
         self.changes.append((self.content, self.simulation.time))
     
-    def enter(self, transaction, content):
+    def join(self, transaction, content):
         self.content += content
         if self.content > self.max:
             self.max = self.content

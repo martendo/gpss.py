@@ -83,7 +83,7 @@ class Transaction:
                     self.simulation.queues[queue.name] = queue
                 
                 if block.type == Statements.QUEUE:
-                    queue.enter(self, block.operands[1])
+                    queue.join(self, block.operands[1])
                 else:
                     queue.depart(self, block.operands[1])
             
