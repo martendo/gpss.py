@@ -107,6 +107,7 @@ class Statement:
             self.intify_operand(1, 0, req=self.nonnegative)
             self.intify_operand(2, None, req=self.nonnegative)
             self.intify_operand(3, None, req=self.positive)
+            self.intify_operand(4, 0, req=self.nonnegative)
         elif self.type == Statements.TERMINATE:
             self.intify_operand(0, 0, req=self.nonnegative)
         elif self.type == Statements.ADVANCE:

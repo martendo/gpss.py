@@ -44,7 +44,8 @@ class TransactionGenerator:
     def generate(self):
         # Generate a new Transaction
         debugmsg("generate:", self.simulation.time, self.operands)
-        transaction = Transaction(self.simulation, self.start_block)
+        transaction = Transaction(self.simulation, self.start_block,
+            self.operands[4])
         self.simulation.transactions.add(transaction)
         self.generated += 1
         # Add next Transaction generation event
@@ -53,9 +54,10 @@ class TransactionGenerator:
         transaction.update()
 
 class Transaction:
-    def __init__(self, simulation, start_block):
+    def __init__(self, simulation, start_block, priority):
         self.simulation = simulation
         self.current_block = start_block
+        self.priority = priority
     
     def update(self):
         while True:
