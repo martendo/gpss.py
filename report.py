@@ -11,12 +11,10 @@ def createReport(simulation):
     queues = ""
     for queue in simulation.queues.values():
         # Calculate average content
-        time_spanned = 0
+        time_spanned = simulation.time - queue.changes[0][1]
         contentdur = 0
         for (content, time), (nextcontent, nexttime) in pairwise(queue.changes):
-            duration = (nexttime or simulation.time) - time
-            time_spanned += duration
-            contentdur += content * duration
+            contentdur += content * ((nexttime or simulation.time) - time)
         average_content = contentdur / time_spanned
         
         queues += f"""
