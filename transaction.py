@@ -11,20 +11,25 @@ class TransactionGenerator:
         self.simulation = simulation
         self.linenum = linenum
         self.program = program
-        
         self.operands = operands
-        self.interval, self.spread, self.offset = self.operands[0:3]
+        self.generated = 0
     
     def prime(self):
-        # Add initial Transaction generation events
-        self.add_next_event(self.offset)
+        # Add initial Transaction generation event using the Offset
+        # Interval
+        self.add_next_event(self.operands[2])
     
     def add_next_event(self, time=None):
+        # If reached generation Limit Count, stop
+        if (self.operands[3] is not None
+                and self.generated >= self.operands[3]):
+            return
+        
         # Add event to event list to generate next Transaction
         if time is None:
-            time = self.simulation.time + self.interval
-            if self.spread != 0:
-                time += randint(-self.spread, +self.spread)
+            time = self.simulation.time + self.operands[0]
+            if self.operands[1] != 0:
+                time += randint(-self.operands[1], +self.operands[1])
         
         if time < self.simulation.time:
             raise SimulationError(self.linenum,
@@ -41,6 +46,7 @@ class TransactionGenerator:
         debugmsg("generate:", self.simulation.time, self.operands)
         transaction = Transaction(self.simulation, self.program)
         self.simulation.transactions.add(transaction)
+        self.generated += 1
         # Add next Transaction generation event
         self.add_next_event()
         

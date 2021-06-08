@@ -68,11 +68,14 @@ class Simulation:
     
     def advance(self):
         # Handle next event
-        event = self.events.pop()
+        try:
+            event = self.events.pop()
+        except IndexError:
+            self.running = False
+            return
         self.time = event.time
         event.func()
         
         # Completed all Transactions, stop running
         if self.term_count < 1:
             self.running = False
-            debugmsg("finished")
