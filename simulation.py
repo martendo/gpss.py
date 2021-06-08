@@ -51,9 +51,9 @@ class Simulation:
                 debugmsg("termination count:", self.term_count)
         
         self.time = 0
-        # Add initial Transaction generation events
+        # Prime Transaction generators
         for txn_generator in self.txn_generators:
-            txn_generator.add_next_event()
+            txn_generator.prime()
         
         # Start the simulation
         self.running = True
