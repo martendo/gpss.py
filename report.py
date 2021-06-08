@@ -1,8 +1,24 @@
 from datetime import datetime
+from itertools import tee
+
+def pairwise(iterable):
+    "s -> (s0,s1), (s1,s2), (s2, s3), ..."
+    a, b = tee(iterable)
+    next(b, None)
+    return zip(a, b)
 
 def createReport(simulation):
     queues = ""
     for queue in simulation.queues.values():
+        # Calculate average content
+        time_spanned = 0
+        contentdur = 0
+        for (content, time), (nextcontent, nexttime) in pairwise(queue.changes):
+            duration = (nexttime or simulation.time) - time
+            time_spanned += duration
+            contentdur += content * duration
+        average_content = contentdur / time_spanned
+        
         queues += f"""
 
   "{queue.name}":
@@ -10,6 +26,7 @@ def createReport(simulation):
     Total entries: {queue.entries}
     Zero entries: {queue.zero_entries}
     Percent zeros: {(queue.zero_entries / queue.entries * 100):.2f}%
+    Average content: {average_content:.2f}
     Current content: {queue.content}"""
     
     facilities = ""

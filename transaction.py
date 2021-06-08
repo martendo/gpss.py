@@ -65,7 +65,7 @@ class Transaction:
                     queue = self.simulation.queues[block.operands[0]]
                 except KeyError:
                     # Queue doesn't exist yet -> create it
-                    queue = Queue(block.operands[0])
+                    queue = Queue(self.simulation, block.operands[0])
                     self.simulation.queues[queue.name] = queue
                 
                 if block.type == Statements.QUEUE:
