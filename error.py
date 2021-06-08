@@ -10,3 +10,6 @@ class ParserError(Error):
 # Errors that occur during simulation
 class SimulationError(Error):
     pass
+
+def warn(filename, linenum, message):
+    print(f"WARNING: {filename}({linenum}):\n    {message}")

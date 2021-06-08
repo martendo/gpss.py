@@ -1,4 +1,4 @@
-from error import SimulationError
+from error import SimulationError, warn
 
 class Queue:
     def __init__(self, simulation, name):
@@ -30,6 +30,11 @@ class Queue:
             raise SimulationError(transaction.current_linenum,
                 "DEPART resulted in negative content in Queue "
                 f"\"{self.name}\" ({self.content})")
-        if self.transactions[transaction] == self.simulation.time:
-            self.zero_entries += content
+        try:
+            if self.transactions[transaction] == self.simulation.time:
+                self.zero_entries += content
+        except KeyError:
+            warn(self.simulation.parser.inputfile,
+                transaction.current_linenum, "Transaction DEPARTed "
+                f"Queue \"{self.name}\" without first joining it")
         self.change()
