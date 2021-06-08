@@ -7,10 +7,10 @@ from debug import debugmsg
 from error import SimulationError, EntityError
 
 class TransactionGenerator:
-    def __init__(self, simulation, linenum, program, operands):
+    def __init__(self, simulation, block_num, operands):
         self.simulation = simulation
-        self.linenum = linenum
-        self.program = program
+        self.block = self.simulation.program[block_num]
+        self.start_block = block_num + 1
         self.operands = operands
         self.generated = 0
     
@@ -32,7 +32,7 @@ class TransactionGenerator:
                 time += randint(-self.operands[1], +self.operands[1])
         
         if time < self.simulation.time:
-            raise SimulationError(self.linenum,
+            raise SimulationError(self.block.linenum,
                 "Cannot GENERATE a Transaction in a negative amount "
                 f"of time ({time - self.simulation.time})")
         elif time == self.simulation.time:
@@ -44,7 +44,7 @@ class TransactionGenerator:
     def generate(self):
         # Generate a new Transaction
         debugmsg("generate:", self.simulation.time, self.operands)
-        transaction = Transaction(self.simulation, self.program)
+        transaction = Transaction(self.simulation, self.start_block)
         self.simulation.transactions.add(transaction)
         self.generated += 1
         # Add next Transaction generation event
@@ -53,16 +53,15 @@ class TransactionGenerator:
         transaction.update()
 
 class Transaction:
-    def __init__(self, simulation, program):
-        self.program = program
+    def __init__(self, simulation, start_block):
         self.simulation = simulation
-        self.currentcard = 0
+        self.current_block = start_block
     
     def update(self):
         while True:
             # Execute next block
-            block = self.program[self.currentcard]
-            self.currentcard += 1
+            block = self.simulation.program[self.current_block]
+            self.current_block += 1
             
             if block.type == Statements.TERMINATE:
                 # Update Transaction termination count

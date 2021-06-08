@@ -24,27 +24,13 @@ class Simulation:
         for storage, capacity in self.parser.storages:
             self.storages[storage] = Storage(storage, capacity)
         
-        i = 0
-        while i < len(self.program):
-            statement = self.program[i]
-            i += 1
+        for num, statement in enumerate(self.program):
             if statement.type == Statements.GENERATE:
                 # Define a Transaction
                 debugmsg("transaction:", statement.operands)
-                program = []
-                j = i
-                while True:
-                    # Get Transaction's program
-                    block = self.program[j]
-                    j += 1
-                    program.append(block)
-                    if block.type == Statements.TERMINATE:
-                        # Transaction's program ends at TERMINATE
-                        break
-                txn_generator = TransactionGenerator(self,
-                    statement.linenum, program, statement.operands)
+                txn_generator = TransactionGenerator(self, num,
+                    statement.operands)
                 self.txn_generators.append(txn_generator)
-                i = j
             elif statement.type == Statements.START:
                 # Set number of Transactions to complete
                 self.term_count = statement.operands[0]
