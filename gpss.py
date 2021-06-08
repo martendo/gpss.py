@@ -10,7 +10,10 @@ from error import ParserError, SimulationError
 def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument("file")
-    argparser.add_argument("-o", "--output", help="print simulation report to output file")
+    argparser.add_argument(
+        "-o", "--output",
+        help="print simulation report to output file"
+    )
     argparser.add_argument(
         "-d", "--debug",
         action="store_true",
