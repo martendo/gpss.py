@@ -2,6 +2,8 @@ from statements import Statements
 from debug import debugmsg
 from error import ParserError
 
+undefined = object()
+
 class Parser:
     def __init__(self):
         self.statements = []
@@ -116,22 +118,26 @@ class Statement:
             self.intify_operand(0, req=self.positive)
     
     def positive(self, index):
-        if self.operands[index] <= 0:
+        if self.operands[index] is None:
+            return
+        elif self.operands[index] <= 0:
             raise ParserError(self.linenum,
                 f"Operand {self.LETTERS[index]} of {self.name} "
                 "must be a strictly positive integer "
                 f"(got \"{self.operands[index]}\")")
     
     def nonnegative(self, index):
-        if self.operands[index] < 0:
+        if self.operands[index] is None:
+            return
+        elif self.operands[index] < 0:
             raise ParserError(self.linenum,
                 f"Operand {self.LETTERS[index]} of {self.name} "
                 "must be a non-negative integer "
                 f"(got \"{self.operands[index]}\")")
     
-    def intify_operand(self, index, default=None, req=None):
+    def intify_operand(self, index, default=undefined, req=None):
         try:
-            if default is not None:
+            if default is not undefined:
                 self.operands[index] = (
                     default if self.operands[index] == ""
                     else int(self.operands[index]))
