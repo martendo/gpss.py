@@ -1,6 +1,6 @@
 from collections import deque
-from debug import debugmsg
-from error import simulation_error
+from .debug import debugmsg
+from .error import simulation_error
 
 class Storage:
     def __init__(self, name, capacity):

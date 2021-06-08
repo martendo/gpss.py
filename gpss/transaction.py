@@ -1,10 +1,10 @@
 from random import randint
-from statements import Statements
-from event import Event
-from queue import Queue
-from facility import Facility
-from debug import debugmsg
-from error import simulation_error
+from .statements import Statements
+from .event import Event
+from .queue import Queue
+from .facility import Facility
+from .debug import debugmsg
+from .error import simulation_error
 
 class TransactionGenerator:
     def __init__(self, simulation, block_num, operands):

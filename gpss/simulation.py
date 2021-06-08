@@ -1,8 +1,8 @@
-from statements import Statements
-from transaction import Transaction, TransactionGenerator
-from storage import Storage
-from debug import debugmsg
-from error import simulation_error
+from .statements import Statements
+from .transaction import Transaction, TransactionGenerator
+from .storage import Storage
+from .debug import debugmsg
+from .error import simulation_error
 
 class Simulation:
     def __init__(self):

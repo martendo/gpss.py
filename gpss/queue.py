@@ -1,4 +1,4 @@
-from error import simulation_error, warn
+from .error import simulation_error, warn
 
 class Queue:
     def __init__(self, simulation, name):

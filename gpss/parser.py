@@ -1,6 +1,6 @@
-from statements import Statements
-from debug import debugmsg
-from error import parser_error
+from .statements import Statements
+from .debug import debugmsg
+from .error import parser_error
 
 undefined = object()
 

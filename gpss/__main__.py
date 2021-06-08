@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
-
 import argparse
-from debug import debugmsg, debugflag
-from gpss_parser import Parser
-from simulation import Simulation
-from report import createReport
-from error import SimulationError
+from .debug import debugmsg, debugflag
+from .parser import Parser
+from .simulation import Simulation
+from .report import createReport
+from .error import SimulationError
 
 def main():
     argparser = argparse.ArgumentParser()
