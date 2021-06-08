@@ -2,6 +2,7 @@ from statements import Statements
 from transaction import Transaction, TransactionGenerator
 from storage import Storage
 from debug import debugmsg
+from error import SimulationError
 
 class Simulation:
     def __init__(self):
@@ -15,7 +16,11 @@ class Simulation:
     
     def run(self, parser):
         self.parser = parser
-        if not self.parser.found_simulate:
+        if self.parser.error_count > 0:
+            # Couldn't parse the entire program successfully
+            raise SimulationError(None,
+                "Can't run a GPSS program with parser errors")
+        elif not self.parser.found_simulate:
             # No SIMULATE Block -> don't run the simulation
             return False
         
