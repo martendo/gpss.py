@@ -114,7 +114,10 @@ class Statement:
             self.intify_operand(0, 0, req=self.nonnegative)
             self.intify_operand(1, 0, req=self.nonnegative)
         elif self.type in (Statements.QUEUE, Statements.DEPART):
+            self.nonempty(0)
             self.intify_operand(1, 1, req=self.positive)
+        elif self.type in (Statements.SEIZE, Statements.RELEASE):
+            self.nonempty(0)
         elif self.type in (Statements.ENTER, Statements.LEAVE):
             self.intify_operand(1, 1, req=self.positive)
         elif self.type == Statements.STORAGE:
@@ -137,6 +140,11 @@ class Statement:
                 f"{self.LETTERS[index]} Operand of {self.name} "
                 "must be a non-negative integer "
                 f"(got \"{self.operands[index]}\")")
+    
+    def nonempty(self, index):
+        if self.operands[index] == "":
+            raise ParserError(self.linenum, f"{self.LETTERS[index]} Operand "
+                f"of {self.name} must not be empty")
     
     def intify_operand(self, index, default=undefined, req=None):
         try:
