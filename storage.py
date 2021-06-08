@@ -1,6 +1,6 @@
 from collections import deque
 from debug import debugmsg
-from error import SimulationError
+from error import simulation_error
 
 class Storage:
     def __init__(self, name, capacity):
@@ -13,7 +13,8 @@ class Storage:
     
     def enter(self, transaction, demand):
         if demand > self.capacity:
-            raise SimulationError(transaction.current_linenum,
+            simulation_error(self.simulation.parser.inputfile,
+                transaction.current_linenum,
                 f"Storage \"{self.name}\" does not have the "
                 f"capacity to satisfy the demand of {demand} "
                 f"(capacity {self.capacity})")
@@ -37,7 +38,8 @@ class Storage:
     def leave(self, transaction, units):
         self.available += units
         if self.available > self.capacity:
-            raise SimulationError(transaction.current_linenum,
+            simulation_error(self.simulation.parser.inputfile,
+                transaction.current_linenum,
                 f"LEAVE resulted in more available units "
                 f"than capacity in Storage \"{self.name}\" "
                 f"(capacity {self.capacity}, available {self.available})")

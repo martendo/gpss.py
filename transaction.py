@@ -4,7 +4,7 @@ from event import Event
 from queue import Queue
 from facility import Facility
 from debug import debugmsg
-from error import SimulationError
+from error import simulation_error
 
 class TransactionGenerator:
     def __init__(self, simulation, block_num, operands):
@@ -32,7 +32,8 @@ class TransactionGenerator:
                 time += randint(-self.operands[1], +self.operands[1])
         
         if time < self.simulation.time:
-            raise SimulationError(self.block.linenum,
+            simulation_error(self.simulation.parser.inputfile,
+                self.block.linenum,
                 "Cannot GENERATE a Transaction in a negative amount "
                 f"of time ({time - self.simulation.time})")
         elif time == self.simulation.time:
@@ -95,7 +96,8 @@ class Transaction:
                     time += randint(-spread, +spread)
                 
                 if time < self.simulation.time:
-                    raise SimulationError(block.linenum,
+                    simulation_error(self.simulation.parser.inputfile,
+                        block.linenum,
                         "Cannot ADVANCE a negative amount of time "
                         f"({self.time - self.simulation.time})")
                 elif time == self.simulation.time:
@@ -128,8 +130,9 @@ class Transaction:
                     entered = (self.simulation.storages[block.operands[0]]
                         .enter(self, block.operands[1]))
                 except KeyError:
-                    raise SimulationError(block.linenum, "No Storage "
-                        f"named \"{block.operands[0]}\"")
+                    simulation_error(self.simulation.parser.inputfile,
+                        block.linenum,
+                        f"No Storage named \"{block.operands[0]}\"")
                 if not entered:
                     # Not enough Storage available
                     return
@@ -139,5 +142,6 @@ class Transaction:
                     self.simulation.storages[block.operands[0]].leave(
                         self, block.operands[1])
                 except KeyError:
-                    raise SimulationError(block.linenum, "No Storage "
-                        f"named \"{block.operands[0]}\"")
+                    simulation_error(self.simulation.parser.inputfile,
+                        block.linenum,
+                        f"No Storage named \"{block.operands[0]}\"")

@@ -1,4 +1,4 @@
-from error import SimulationError, warn
+from error import simulation_error, warn
 
 class Queue:
     def __init__(self, simulation, name):
@@ -27,7 +27,8 @@ class Queue:
     def depart(self, transaction, content):
         self.content -= content
         if self.content < 0:
-            raise SimulationError(transaction.current_linenum,
+            simulation_error(self.simulation.parser.inputfile,
+                transaction.current_linenum,
                 "DEPART resulted in negative content in Queue "
                 f"\"{self.name}\" ({self.content})")
         try:

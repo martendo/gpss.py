@@ -1,6 +1,6 @@
 from collections import deque
 from debug import debugmsg
-from error import SimulationError
+from error import simulation_error
 
 class Facility:
     def __init__(self, name):
@@ -27,7 +27,8 @@ class Facility:
     
     def release(self, transaction):
         if transaction is not self.owner:
-            raise SimulationError(transaction.current_linenum,
+            simulation_error(self.simulation.parser.inputfile,
+                transaction.current_linenum,
                 "Transaction tried to RELEASE Facility "
                 f"\"{self.name}\" which it does not own")
         self.is_in_use = False

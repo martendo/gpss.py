@@ -47,9 +47,7 @@ def main():
         if not simulation.run(parser):
             # Simulation did not run (no SIMULATE Block) -> exit
             return
-    except SimulationError as err:
-        print(f"ERROR: Simulation error: {args.file}({err.linenum}):\n"
-            f"    {err.message}")
+    except SimulationError:
         return
     
     # Output report
