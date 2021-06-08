@@ -1,11 +1,13 @@
 from statements import Statements
 from debug import debugmsg
-from error import ParserError
+from error import parser_error
 
 undefined = object()
 
 class Parser:
     def __init__(self):
+        self.error_count = 0
+        
         self.statements = []
         self.storages = []
         self.current_label = None
@@ -55,9 +57,18 @@ class Parser:
                 statement = Statement(self, fields[1], fields[2],
                     label=fields[0])
             else:
-                raise ParserError(linenum, "Too many fields in line "
-                    f"(expected 1-3, got {len(fields)}):\n"
-                    f"        \"{line.strip()}\"")
+                parser_error(self.inputfile, linenum,
+                    "Too many fields in line "
+                    f"(expected 1-3, got {len(fields)}): "
+                    f"\"{line.strip()}\"")
+                self.error_count += 1
+                continue
+            
+            if statement.error:
+                # There was an error when creating this Statement
+                # object, and it is completely unusable (e.g.
+                # non-existent statement)
+                continue
             debugmsg("statement:", statement.type, statement.operands,
                 statement.label)
             
@@ -76,14 +87,18 @@ class Statement:
     def __init__(self, parser, name, operands="", label=None):
         self.parser = parser
         self.linenum = self.parser.linenum
+        self.error = False
         
         # Find Statement type
         self.name = name
         try:
             self.type = getattr(Statements, self.name.upper())
         except AttributeError:
-            raise ParserError(self.linenum,
+            parser_error(self.parser.inputfile, self.linenum,
                 f"Unsupported Statement \"{self.name}\"")
+            self.parser.error_count += 1
+            self.error = True
+            return
         
         # Get Operands
         self.operands = operands.split(",")
@@ -124,27 +139,29 @@ class Statement:
             self.intify_operand(0, req=self.positive)
     
     def positive(self, index):
-        if self.operands[index] is None:
-            return
-        elif self.operands[index] <= 0:
-            raise ParserError(self.linenum,
+        if (self.operands[index] is not None
+                and self.operands[index] <= 0):
+            parser_error(self.parser.inputfile, self.linenum,
                 f"{self.LETTERS[index]} Operand of {self.name} "
                 "must be a strictly positive integer "
                 f"(got \"{self.operands[index]}\")")
+            self.parser.error_count += 1
     
     def nonnegative(self, index):
-        if self.operands[index] is None:
-            return
-        elif self.operands[index] < 0:
-            raise ParserError(self.linenum,
+        if (self.operands[index] is not None
+                and self.operands[index] < 0):
+            parser_error(self.parser.inputfile, self.linenum,
                 f"{self.LETTERS[index]} Operand of {self.name} "
                 "must be a non-negative integer "
                 f"(got \"{self.operands[index]}\")")
+            self.parser.error_count += 1
     
     def nonempty(self, index):
         if self.operands[index] == "":
-            raise ParserError(self.linenum, f"{self.LETTERS[index]} Operand "
-                f"of {self.name} must not be empty")
+            parser_error(self.parser.inputfile, self.linenum,
+                f"{self.LETTERS[index]} Operand of {self.name} "
+                f"must not be empty")
+            self.parser.error_count += 1
     
     def intify_operand(self, index, default=undefined, req=None):
         try:
@@ -155,9 +172,11 @@ class Statement:
             else:
                 self.operands[index] = int(self.operands[index])
         except ValueError:
-            raise ParserError(self.linenum,
+            parser_error(self.parser.inputfile, self.linenum,
                 f"{self.LETTERS[index]} Operand of {self.name} "
                 f"must be an integer (got \"{self.operands[index]}\")")
+            self.parser.error_count += 1
+            return
         
         if req is not None:
             req(index)

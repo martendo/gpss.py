@@ -5,7 +5,7 @@ from debug import debugmsg, debugflag
 from gpss_parser import Parser
 from simulation import Simulation
 from report import createReport
-from error import ParserError, SimulationError
+from error import SimulationError
 
 def main():
     argparser = argparse.ArgumentParser()
@@ -32,13 +32,13 @@ def main():
     parser = Parser()
     try:
         parser.parse(args.file)
-    except ParserError as err:
-        print(f"ERROR: Parser error: {args.file}({err.linenum}):\n"
-            f"    {err.message}")
-        return
     except FileNotFoundError as err:
         print(f"ERROR: File not found: {args.file}:\n"
             f"    {err.strerror}: {err.filename}")
+        return
+    if parser.error_count > 0:
+        print(f"Parsing failed with {parser.error_count} "
+            f"error{'s' if parser.error_count != 1 else ''}")
         return
     
     # Run simulation
