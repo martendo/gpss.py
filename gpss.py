@@ -34,7 +34,8 @@ def main():
             f"    {err.message}")
         return
     except FileNotFoundError as err:
-        print(f"ERROR: File not found: {args.file}:\n    {err}")
+        print(f"ERROR: File not found: {args.file}:\n"
+            f"    {err.strerror}: {err.filename}")
         return
     
     # Run simulation
