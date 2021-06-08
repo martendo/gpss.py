@@ -125,7 +125,7 @@ class Statement:
             return
         elif self.operands[index] <= 0:
             raise ParserError(self.linenum,
-                f"Operand {self.LETTERS[index]} of {self.name} "
+                f"{self.LETTERS[index]} Operand of {self.name} "
                 "must be a strictly positive integer "
                 f"(got \"{self.operands[index]}\")")
     
@@ -134,7 +134,7 @@ class Statement:
             return
         elif self.operands[index] < 0:
             raise ParserError(self.linenum,
-                f"Operand {self.LETTERS[index]} of {self.name} "
+                f"{self.LETTERS[index]} Operand of {self.name} "
                 "must be a non-negative integer "
                 f"(got \"{self.operands[index]}\")")
     
@@ -148,7 +148,7 @@ class Statement:
                 self.operands[index] = int(self.operands[index])
         except ValueError:
             raise ParserError(self.linenum,
-                f"Operand {self.LETTERS[index]} of {self.name} "
+                f"{self.LETTERS[index]} Operand of {self.name} "
                 f"must be an integer (got \"{self.operands[index]}\")")
         
         if req is not None:
