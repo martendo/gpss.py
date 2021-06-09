@@ -6,10 +6,14 @@ from .report import createReport
 from .error import SimulationError
 
 def main():
-    argparser = argparse.ArgumentParser()
-    argparser.add_argument("file")
+    argparser = argparse.ArgumentParser(
+        prog="gpss.py",
+        usage="python -m gpss [-d] [-o outfile] infile",
+    )
+    argparser.add_argument("infile")
     argparser.add_argument(
         "-o", "--output",
+        metavar="outfile",
         help="print simulation report to output file"
     )
     argparser.add_argument(
