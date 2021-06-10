@@ -20,9 +20,6 @@ class Simulation:
             # Couldn't parse the entire program successfully
             simulation_error(self.parser.inputfile, None,
                 "Can't run a GPSS program with parser errors")
-        elif not self.parser.found_simulate:
-            # No SIMULATE Block -> don't run the simulation
-            return False
         
         self.program = self.parser.statements
         # Create Storages used in simulation

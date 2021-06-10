@@ -8,13 +8,19 @@ from .error import SimulationError
 def main():
     argparser = argparse.ArgumentParser(
         prog="gpss.py",
-        usage="python -m gpss [-d] [-o outfile] infile",
+        usage="python -m gpss [-S] [-d] [-o outfile] infile",
     )
     argparser.add_argument("infile")
     argparser.add_argument(
         "-o", "--output",
         metavar="outfile",
         help="print simulation report to output file"
+    )
+    argparser.add_argument(
+        "-S", "--no-sim",
+        dest="simulate",
+        action="store_false",
+        help="don't run the simulation but check for syntax errors",
     )
     argparser.add_argument(
         "-d", "--debug",
@@ -41,6 +47,9 @@ def main():
     if parser.error_count > 0:
         print(f"Parsing failed with {parser.error_count} "
             f"error{'s' if parser.error_count != 1 else ''}")
+        return
+    
+    if not args.simulate:
         return
     
     # Run simulation
