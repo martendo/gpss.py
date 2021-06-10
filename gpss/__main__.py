@@ -33,9 +33,9 @@ def main():
     # Parse input file
     parser = Parser()
     try:
-        parser.parse(args.file)
+        parser.parse(args.infile)
     except FileNotFoundError as err:
-        print(f"ERROR: File not found: {args.file}:\n"
+        print(f"ERROR: File not found: {args.infile}:\n"
             f"    {err.strerror}: {err.filename}")
         return
     if parser.error_count > 0:
