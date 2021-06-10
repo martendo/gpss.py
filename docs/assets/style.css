@@ -1,0 +1,87 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-size: 1.25em;
+  line-height: 1.5;
+  background-color: #ffffff;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: auto;
+}
+
+h1 {
+  font-weight: 700;
+  text-decoration: underline;
+  font-size: 2.5em;
+  margin-top: 0;
+}
+h2, h3, h4, h5, h6 {
+  font-weight: 500;
+}
+
+section {
+  margin: 0;
+  padding: 2em 15%;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+nav {
+  padding: 30px;
+  background-color: #f8f8f8;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+}
+nav li {
+  display: inline;
+}
+
+nav a {
+  text-decoration: none;
+  color: inherit;
+  margin: 0 3px;
+  padding: 10px 15px;
+  background-color: #e8e8e8;
+}
+nav a:hover {
+  background-color: #d8d8d8;
+}
+nav a:active {
+  background-color: #c0c0c0;
+}
+
+code {
+  font-family: "Fira Mono", monospace;
+  font-size: 0.8em;
+}
+code.highlighter-rouge {
+  background-color: #f8f8f8;
+  border-radius: 0.2em;
+  padding: 0.05em 0.3em;
+}
+.highlight {
+  background-color: #f8f8f8;
+  line-height: 1.3;
+}
+div.highlight {
+  padding: 20px;
+  border-radius: 0.2em;
+}
+pre.highlight {
+  margin: 0;
+  padding: 0;
+}

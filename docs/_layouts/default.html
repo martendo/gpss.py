@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+    
+    <meta name="title" content="{{ page.title }}">
+    <meta name="author" content="{{ site.author }}">
+    <meta name="description" content="{{ site.description }}">
+    <link rel="canonical" href="{{ site.url }}">
+    
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="{{ site.description }}">
+    <meta property="og:type" content="website">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Roboto:wght@300;500;700&display=swap">
+    <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/highlight.css' | relative_url }}">
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><b><a href="{{ '/' | relative_url }}">{{ site.title }}</a></b></li>
+        <li><a href="{{ site.github_repo }}">GitHub</a></li>
+      </ul>
+    </nav>
+    <section>
+      {{ content }}
+    </section>
+  </body>
+</html>
