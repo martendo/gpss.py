@@ -25,14 +25,18 @@ class Parser:
         for linenum, line in enumerate(self.inputlines, 1):
             self.linenum = linenum
             
-            # Blank or comment line, ignore
-            if line == "" or line[0] == "*" or line[0] == ";":
-                continue
-            
             # Remove any inline comments
             commentpos = line.find(";")
             if commentpos != -1:
                 line = line[:commentpos]
+            else:
+                commentpos = line.find("*")
+                if commentpos != -1:
+                    line = line[:commentpos]
+            
+            # Empty, ignore
+            if not len(line.strip()):
+                continue
             
             fields = line.split()
             debugmsg("fields:", fields)
