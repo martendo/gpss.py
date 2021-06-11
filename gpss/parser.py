@@ -102,17 +102,17 @@ class Parser:
                     + str(self.labels[label].linenum))
         
         # Parse necessary Operands
-        if type_ == StatementType.START:
+        if type_ is StatementType.START:
             self.parse_operand(statement, 0, req=self.positive)
-        elif type_ == StatementType.GENERATE:
+        elif type_ is StatementType.GENERATE:
             self.parse_operand(statement, 0, 0, req=self.nonnegative)
             self.parse_operand(statement, 1, 0, req=self.nonnegative)
             self.parse_operand(statement, 2, None, req=self.nonnegative)
             self.parse_operand(statement, 3, None, req=self.positive)
             self.parse_operand(statement, 4, 0, req=self.nonnegative)
-        elif type_ == StatementType.TERMINATE:
+        elif type_ is StatementType.TERMINATE:
             self.parse_operand(statement, 0, 0, req=self.nonnegative)
-        elif type_ == StatementType.ADVANCE:
+        elif type_ is StatementType.ADVANCE:
             self.parse_operand(statement, 0, 0, req=self.nonnegative)
             self.parse_operand(statement, 1, 0, req=self.nonnegative)
         elif type_ in (StatementType.QUEUE, StatementType.DEPART):
@@ -122,13 +122,13 @@ class Parser:
             self.nonempty(statement, 0)
         elif type_ in (StatementType.ENTER, StatementType.LEAVE):
             self.parse_operand(statement, 1, 1, req=self.positive)
-        elif type_ == StatementType.STORAGE:
+        elif type_ is StatementType.STORAGE:
             self.parse_operand(statement, 0, req=self.positive)
         
         debugmsg("statement:", statement.type, statement.operands)
         
         # Save Storage definitions to later create them
-        if type_ == StatementType.STORAGE:
+        if type_ is StatementType.STORAGE:
             self.storages.append((label, statement.operands[0]))
             debugmsg("storage:", label, statement.operands[0])
         

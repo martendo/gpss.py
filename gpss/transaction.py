@@ -68,7 +68,7 @@ class Transaction:
             
             self.current_linenum = block.linenum
             
-            if block.type == StatementType.TERMINATE:
+            if block.type is StatementType.TERMINATE:
                 # Update Transaction termination count
                 self.simulation.term_count -= block.operands[0]
                 # Destroy this Transaction
@@ -83,12 +83,12 @@ class Transaction:
                     queue = Queue(self.simulation, block.operands[0])
                     self.simulation.queues[queue.name] = queue
                 
-                if block.type == StatementType.QUEUE:
+                if block.type is StatementType.QUEUE:
                     queue.join(self, block.operands[1])
                 else:
                     queue.depart(self, block.operands[1])
             
-            elif block.type == StatementType.ADVANCE:
+            elif block.type is StatementType.ADVANCE:
                 interval, spread = block.operands[0:2]
                 # Add event for end of delay
                 time = self.simulation.time + interval
@@ -115,7 +115,7 @@ class Transaction:
                     facility = Facility(block.operands[0])
                     self.simulation.facilities[facility.name] = facility
                 
-                if block.type == StatementType.SEIZE:
+                if block.type is StatementType.SEIZE:
                     # Use Facility or enter Delay Chain if busy
                     if not facility.seize(self):
                         # Facility is busy -> wait
@@ -123,7 +123,7 @@ class Transaction:
                 else:
                     facility.release(self)
             
-            elif block.type == StatementType.ENTER:
+            elif block.type is StatementType.ENTER:
                 # Enter Storage or enter Delay Chain if cannot satisfy
                 # demand
                 try:
@@ -137,7 +137,7 @@ class Transaction:
                     # Not enough Storage available
                     return
             
-            elif block.type == StatementType.LEAVE:
+            elif block.type is StatementType.LEAVE:
                 try:
                     self.simulation.storages[block.operands[0]].leave(
                         self, block.operands[1])
@@ -146,5 +146,5 @@ class Transaction:
                         block.linenum,
                         f"No Storage named \"{block.operands[0]}\"")
             
-            elif block.type == StatementType.TRANSFER:
+            elif block.type is StatementType.TRANSFER:
                 self.current_block = self.simulation.labels[block.operands[1]].number

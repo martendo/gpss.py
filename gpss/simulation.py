@@ -29,13 +29,13 @@ class Simulation:
         self.labels = self.parser.labels
         
         for num, statement in enumerate(self.program):
-            if statement.type == StatementType.GENERATE:
+            if statement.type is StatementType.GENERATE:
                 # Define a Transaction
                 debugmsg("transaction:", statement.operands)
                 txn_generator = TransactionGenerator(self, num,
                     statement.operands)
                 self.txn_generators.append(txn_generator)
-            elif statement.type == StatementType.START:
+            elif statement.type is StatementType.START:
                 # First START Command, set as current statement
                 if self.current_statement is None:
                     self.current_statement = num
@@ -51,7 +51,7 @@ class Simulation:
             statement = self.program[self.current_statement]
             self.current_statement += 1
             
-            if statement.type == StatementType.START:
+            if statement.type is StatementType.START:
                 # Set number of Transactions to complete
                 self.term_count = statement.operands[0]
                 debugmsg("termination count:", self.term_count)
@@ -66,7 +66,7 @@ class Simulation:
                 while self.running:
                     self.advance()
             
-            elif statement.type == StatementType.END:
+            elif statement.type is StatementType.END:
                 return True
         
         # Ran past end
