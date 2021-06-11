@@ -1,0 +1,22 @@
+; Barber shop
+; A one-line, one-server queuing system
+; Adapted from Case Study 2A of Thomas J. Schriber's "A GPSS Primer"
+
+; Time unit: 1 minute
+
+; Customer
+        GENERATE    18,6        ; Customers arrive
+        QUEUE       Line        ; Enter the line
+        SEIZE       Barber      ; Capture the barber
+        DEPART      Line        ; Leave the line
+        ADVANCE     16,4        ; Use the barber
+        RELEASE     Barber      ; Free the barber
+        TERMINATE               ; Leave the shop
+
+; Timer
+        GENERATE    480         ; Timer arrives at time 480 (8 hours)
+        TERMINATE   1           ; Shut off the run
+
+; Control
+        START       1           ; Start the run
+        END                     ; Exit the program
