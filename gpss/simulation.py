@@ -7,6 +7,7 @@ from .error import simulation_error
 class Simulation:
     def __init__(self):
         self.running = False
+        self.current_statement = None
         self.transactions = set()
         self.txn_generators = []
         self.queues = {}
@@ -34,21 +35,42 @@ class Simulation:
                     statement.operands)
                 self.txn_generators.append(txn_generator)
             elif statement.type == Statements.START:
+                # First START Command, set as current statement
+                if self.current_statement is None:
+                    self.current_statement = num
+        
+        # No START Command
+        if self.current_statement is None:
+            simulation_error(self.parser.inputfile, None,
+                "Program contains no START Command")
+        
+        self.time = 0
+        
+        while self.current_statement < len(self.program):
+            statement = self.program[self.current_statement]
+            self.current_statement += 1
+            
+            if statement.type == Statements.START:
                 # Set number of Transactions to complete
                 self.term_count = statement.operands[0]
                 debugmsg("termination count:", self.term_count)
+                
+                # Start the simulation
+                
+                # Prime Transaction generators
+                for txn_generator in self.txn_generators:
+                    txn_generator.prime()
+                
+                self.running = True
+                while self.running:
+                    self.advance()
+            
+            elif statement.type == Statements.END:
+                return True
         
-        self.time = 0
-        # Prime Transaction generators
-        for txn_generator in self.txn_generators:
-            txn_generator.prime()
-        
-        # Start the simulation
-        self.running = True
-        while self.running:
-            self.advance()
-        
-        return True
+        # Ran past end
+        simulation_error(self.parser.inputfile, None,
+            "Ran past the end of the program (missing END Command?)")
     
     def add_event(self, event):
         self.events.append(event)

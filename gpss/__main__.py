@@ -55,9 +55,7 @@ def main():
     # Run simulation
     simulation = Simulation()
     try:
-        if not simulation.run(parser):
-            # Simulation did not run (no SIMULATE Block) -> exit
-            return
+        simulation.run(parser)
     except SimulationError:
         return
     
