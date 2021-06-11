@@ -1,16 +1,18 @@
 from enum import Enum, auto
 
 class Statements(Enum):
+    # Commands
+    END = auto()
     SIMULATE = auto()
     START = auto()
-    END = auto()
-    GENERATE = auto()
-    TERMINATE = auto()
-    QUEUE = auto()
-    DEPART = auto()
-    SEIZE = auto()
-    RELEASE = auto()
-    ENTER = auto()
-    LEAVE = auto()
     STORAGE = auto()
+    # Blocks
     ADVANCE = auto()
+    DEPART = auto()
+    ENTER = auto()
+    GENERATE = auto()
+    LEAVE = auto()
+    QUEUE = auto()
+    RELEASE = auto()
+    SEIZE = auto()
+    TERMINATE = auto()
