@@ -33,7 +33,7 @@ def createReport(simulation):
 
   "{facility.name}":
     Entries: {facility.entries}
-    Availble: {"no" if facility.is_in_use else "yes"}"""
+    Available: {"no" if facility.is_in_use else "yes"}"""
     
     storages = ""
     for storage in simulation.storages.values():
