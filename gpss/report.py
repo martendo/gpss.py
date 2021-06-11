@@ -46,7 +46,7 @@ def createReport(simulation):
     Remaining: {storage.available}
     Available: {"yes" if storage.available else "no"}"""
     
-    return f"""gpss.py Simulation Report - {simulation.parser.inputfile}
+    return f"""gpss.py Simulation Report - {simulation.parser.infile}
 Generated on {datetime.now().strftime("%A, %B %d, %Y at %H:%M:%S %Z")
     .strip()}
 

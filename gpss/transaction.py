@@ -1,5 +1,5 @@
 from random import randint
-from .statement_type import StatementType
+from .statement import Statement, StatementType
 from .event import Event
 from .queue import Queue
 from .facility import Facility
@@ -32,7 +32,7 @@ class TransactionGenerator:
                 time += randint(-self.operands[1], +self.operands[1])
         
         if time < self.simulation.time:
-            simulation_error(self.simulation.parser.inputfile,
+            simulation_error(self.simulation.parser.infile,
                 self.block.linenum,
                 "Cannot GENERATE a Transaction in a negative amount "
                 f"of time ({time - self.simulation.time})")
@@ -96,7 +96,7 @@ class Transaction:
                     time += randint(-spread, +spread)
                 
                 if time < self.simulation.time:
-                    simulation_error(self.simulation.parser.inputfile,
+                    simulation_error(self.simulation.parser.infile,
                         block.linenum,
                         "Cannot ADVANCE a negative amount of time "
                         f"({self.time - self.simulation.time})")
@@ -130,7 +130,7 @@ class Transaction:
                     entered = (self.simulation.storages[block.operands[0]]
                         .enter(self, block.operands[1]))
                 except KeyError:
-                    simulation_error(self.simulation.parser.inputfile,
+                    simulation_error(self.simulation.parser.infile,
                         block.linenum,
                         f"No Storage named \"{block.operands[0]}\"")
                 if not entered:
@@ -142,9 +142,9 @@ class Transaction:
                     self.simulation.storages[block.operands[0]].leave(
                         self, block.operands[1])
                 except KeyError:
-                    simulation_error(self.simulation.parser.inputfile,
+                    simulation_error(self.simulation.parser.infile,
                         block.linenum,
                         f"No Storage named \"{block.operands[0]}\"")
             
             elif block.type == StatementType.TRANSFER:
-                self.current_block = self.simulation.labels[block.operands[1]].num
+                self.current_block = self.simulation.labels[block.operands[1]].number

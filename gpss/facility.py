@@ -27,7 +27,7 @@ class Facility:
     
     def release(self, transaction):
         if transaction is not self.owner:
-            simulation_error(self.simulation.parser.inputfile,
+            simulation_error(self.simulation.parser.infile,
                 transaction.current_linenum,
                 "Transaction tried to RELEASE Facility "
                 f"\"{self.name}\" which it does not own")

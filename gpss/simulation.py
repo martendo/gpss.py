@@ -1,4 +1,4 @@
-from .statement_type import StatementType
+from .statement import Statement, StatementType
 from .transaction import Transaction, TransactionGenerator
 from .storage import Storage
 from .debug import debugmsg
@@ -19,7 +19,7 @@ class Simulation:
         self.parser = parser
         if self.parser.error_count > 0:
             # Couldn't parse the entire program successfully
-            simulation_error(self.parser.inputfile, None,
+            simulation_error(self.parser.infile, None,
                 "Can't run a GPSS program with parser errors")
         
         self.program = self.parser.statements
@@ -42,7 +42,7 @@ class Simulation:
         
         # No START Command
         if self.current_statement is None:
-            simulation_error(self.parser.inputfile, None,
+            simulation_error(self.parser.infile, None,
                 "Program contains no START Command")
         
         self.time = 0
@@ -70,7 +70,7 @@ class Simulation:
                 return True
         
         # Ran past end
-        simulation_error(self.parser.inputfile, None,
+        simulation_error(self.parser.infile, None,
             "Ran past the end of the program (missing END Command?)")
     
     def add_event(self, event):

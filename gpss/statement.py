@@ -1,4 +1,8 @@
+from collections import namedtuple
 from enum import Enum, auto
+
+Statement = namedtuple("Statement",
+    ["type", "name", "operands", "linenum", "number"])
 
 class StatementType(Enum):
     # Commands

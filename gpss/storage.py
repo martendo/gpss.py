@@ -13,7 +13,7 @@ class Storage:
     
     def enter(self, transaction, demand):
         if demand > self.capacity:
-            simulation_error(self.simulation.parser.inputfile,
+            simulation_error(self.simulation.parser.infile,
                 transaction.current_linenum,
                 f"Storage \"{self.name}\" does not have the "
                 f"capacity to satisfy the demand of {demand} "
@@ -38,7 +38,7 @@ class Storage:
     def leave(self, transaction, units):
         self.available += units
         if self.available > self.capacity:
-            simulation_error(self.simulation.parser.inputfile,
+            simulation_error(self.simulation.parser.infile,
                 transaction.current_linenum,
                 f"LEAVE resulted in more available units "
                 f"than capacity in Storage \"{self.name}\" "

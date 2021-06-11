@@ -9,9 +9,10 @@ class SimulationError(Error):
     pass
 
 # Print a parser error
-def parser_error(filename, linenum, message):
-    print(f"ERROR: Parser error: {filename}({linenum}):\n"
+def parser_error(parser, message):
+    print(f"ERROR: Parser error: {parser.infile}({parser.linenum}):\n"
         f"    {message}")
+    parser.error_count += 1
 
 # Print and raise a simulation error
 def simulation_error(filename, linenum, message):
