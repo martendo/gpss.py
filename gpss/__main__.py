@@ -14,7 +14,7 @@ def main():
     argparser.add_argument(
         "-o", "--output",
         metavar="outfile",
-        help="print simulation report to output file"
+        help="print simulation report to output file",
     )
     argparser.add_argument(
         "-S", "--no-sim",
@@ -60,15 +60,14 @@ def main():
         return
     
     # Output report
+    report = createReport(simulation)
+    print("-" * 72)
+    print(report)
+    print("-" * 72)
     if args.output is not None:
         with open(args.output, "w") as file:
-            file.write(createReport(simulation) + "\n")
-        print("Simulation completed and report written to "
-            + args.output)
-    else:
-        print("-" * 72)
-        print(createReport(simulation))
-        print("-" * 72)
+            file.write(report + "\n")
+        print(f"Simulation report written to {args.output}")
 
 if __name__ == "__main__":
     main()

@@ -20,8 +20,7 @@ Arguments:
 - `infile`  
 Your GPSS program. Required.
 - `-o outfile`/`--output outfile`  
-File to output the simulation report to. Optional. If not specified,
-the simulation report is printed to the console.
+File to write the simulation report to. Optional.
 - `-S`/`--no-sim` (switch)  
 Don't run the simulation, but still pass it through the parser and check
 for syntax errors
