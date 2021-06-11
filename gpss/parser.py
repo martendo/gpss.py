@@ -1,6 +1,6 @@
 from .statements import Statements
 from .debug import debugmsg
-from .error import parser_error
+from .error import parser_error, warn
 
 undefined = object()
 
@@ -122,11 +122,9 @@ class Statement:
             if self.label not in self.parser.labels:
                 self.parser.labels[self.label] = self
             else:
-                parser_error(self.parser.inputfile, self.linenum,
+                warn(self.parser.inputfile, self.linenum,
                     f"Label \"{self.label}\" already defined at line "
                     + str(self.parser.labels[self.label].linenum))
-                self.parser.error_count += 1
-                return
         
         # Parse necessary Operands
         if self.type == Statements.START:
