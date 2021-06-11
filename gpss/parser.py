@@ -11,6 +11,7 @@ class Parser:
         self.statements = []
         self.storages = []
         self.current_label = None
+        self.labels = {}
     
     def parse(self, inputfile):
         # Open and read GPSS program
@@ -114,6 +115,17 @@ class Statement:
             # Label goes to this Statement -> don't give it to another
             if self.label is not None:
                 self.parser.current_label = None
+        
+        # Store a reference to this Statement
+        if self.label is not None:
+            if self.label not in self.parser.labels:
+                self.parser.labels[self.label] = self
+            else:
+                parser_error(self.parser.inputfile, self.linenum,
+                    f"Label \"{self.label}\" already defined at line "
+                    + str(self.parser.labels[self.label].linenum))
+                self.parser.error_count += 1
+                return
         
         # Parse necessary Operands
         if self.type == Statements.START:
