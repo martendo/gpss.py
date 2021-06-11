@@ -6,7 +6,7 @@ layout: default
 
 # Examples
 All examples on this page can be found in
-[gpss.py's GitHub repository][examples source].
+[gpss.py's GitHub repository][examples source]{:target="_blank"}.
 
 ## Barber Shop
 This example was adapted from Case Study 2A of
