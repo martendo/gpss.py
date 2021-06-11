@@ -1,4 +1,4 @@
-from .statements import Statements
+from .statement_type import StatementType
 from .debug import debugmsg
 from .error import parser_error, warn
 
@@ -49,7 +49,7 @@ class Parser:
                     # Statement
                     statement = Statement(self, fields[0])
             elif len(fields) == 2:
-                if hasattr(Statements, fields[0].upper()) or "," in fields[1]:
+                if hasattr(StatementType, fields[0].upper()) or "," in fields[1]:
                     # Statement and operands
                     statement = Statement(self, fields[0], fields[1])
                 else:
@@ -80,7 +80,7 @@ class Parser:
             statement.num = len(self.statements) - 1
             
             # Save Storage definitions to later create them
-            if statement.type == Statements.STORAGE:
+            if statement.type == StatementType.STORAGE:
                 self.storages.append((statement.label, statement.operands[0]))
                 debugmsg("storage:", statement.label, statement.operands[0])
 
@@ -95,7 +95,7 @@ class Statement:
         # Find Statement type
         self.name = name
         try:
-            self.type = getattr(Statements, self.name.upper())
+            self.type = getattr(StatementType, self.name.upper())
         except AttributeError:
             parser_error(self.parser.inputfile, self.linenum,
                 f"Unsupported Statement \"{self.name}\"")
@@ -127,27 +127,27 @@ class Statement:
                     + str(self.parser.labels[self.label].linenum))
         
         # Parse necessary Operands
-        if self.type == Statements.START:
+        if self.type == StatementType.START:
             self.intify_operand(0, req=self.positive)
-        elif self.type == Statements.GENERATE:
+        elif self.type == StatementType.GENERATE:
             self.intify_operand(0, 0, req=self.nonnegative)
             self.intify_operand(1, 0, req=self.nonnegative)
             self.intify_operand(2, None, req=self.nonnegative)
             self.intify_operand(3, None, req=self.positive)
             self.intify_operand(4, 0, req=self.nonnegative)
-        elif self.type == Statements.TERMINATE:
+        elif self.type == StatementType.TERMINATE:
             self.intify_operand(0, 0, req=self.nonnegative)
-        elif self.type == Statements.ADVANCE:
+        elif self.type == StatementType.ADVANCE:
             self.intify_operand(0, 0, req=self.nonnegative)
             self.intify_operand(1, 0, req=self.nonnegative)
-        elif self.type in (Statements.QUEUE, Statements.DEPART):
+        elif self.type in (StatementType.QUEUE, StatementType.DEPART):
             self.nonempty(0)
             self.intify_operand(1, 1, req=self.positive)
-        elif self.type in (Statements.SEIZE, Statements.RELEASE):
+        elif self.type in (StatementType.SEIZE, StatementType.RELEASE):
             self.nonempty(0)
-        elif self.type in (Statements.ENTER, Statements.LEAVE):
+        elif self.type in (StatementType.ENTER, StatementType.LEAVE):
             self.intify_operand(1, 1, req=self.positive)
-        elif self.type == Statements.STORAGE:
+        elif self.type == StatementType.STORAGE:
             self.intify_operand(0, req=self.positive)
     
     def positive(self, index):

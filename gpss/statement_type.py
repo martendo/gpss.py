@@ -1,11 +1,12 @@
 from enum import Enum, auto
 
-class Statements(Enum):
+class StatementType(Enum):
     # Commands
     END = auto()
     SIMULATE = auto()
     START = auto()
     STORAGE = auto()
+    
     # Blocks
     ADVANCE = auto()
     DEPART = auto()
