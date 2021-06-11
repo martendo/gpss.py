@@ -84,6 +84,7 @@ code.highlighter-rouge {
 div.highlight {
   padding: 20px;
   border-radius: 0.2em;
+  overflow-x: auto;
 }
 pre.highlight {
   margin: 0;
