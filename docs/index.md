@@ -9,6 +9,7 @@ A silly, dumb, no-good Python program to read and run GPSS programs
 
 ## Documentation
 - [Syntax]({{ "/syntax" | relative_url }})
+- [Examples]({{ "/examples" | relative_url }})
 
 ## Usage
 ~~~
