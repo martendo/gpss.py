@@ -26,6 +26,7 @@ class Simulation:
         # Create Storages used in simulation
         for storage, capacity in self.parser.storages:
             self.storages[storage] = Storage(storage, capacity)
+        self.labels = self.parser.labels
         
         for num, statement in enumerate(self.program):
             if statement.type == Statements.GENERATE:

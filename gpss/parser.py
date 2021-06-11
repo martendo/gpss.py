@@ -77,6 +77,7 @@ class Parser:
                 statement.label)
             
             self.statements.append(statement)
+            statement.num = len(self.statements) - 1
             
             # Save Storage definitions to later create them
             if statement.type == Statements.STORAGE:

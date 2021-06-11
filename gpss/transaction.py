@@ -145,3 +145,6 @@ class Transaction:
                     simulation_error(self.simulation.parser.inputfile,
                         block.linenum,
                         f"No Storage named \"{block.operands[0]}\"")
+            
+            elif block.type == Statements.TRANSFER:
+                self.current_block = self.simulation.labels[block.operands[1]].num

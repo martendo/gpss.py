@@ -16,3 +16,4 @@ class Statements(Enum):
     RELEASE = auto()
     SEIZE = auto()
     TERMINATE = auto()
+    TRANSFER = auto()
