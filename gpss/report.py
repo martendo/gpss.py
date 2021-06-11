@@ -14,7 +14,9 @@ def createReport(simulation):
         time_spanned = simulation.time - queue.changes[0][1]
         contentdur = 0
         for (content, time), (nextcontent, nexttime) in pairwise(queue.changes):
-            contentdur += content * ((nexttime or simulation.time) - time)
+            if nexttime is None:
+                nexttime = simulation.time
+            contentdur += content * (nexttime - time)
         average_content = contentdur / time_spanned
         
         queues += f"""
