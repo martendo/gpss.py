@@ -11,7 +11,6 @@ class Parser:
         self.error_count = 0
         
         self.statements = []
-        self.storages = []
         self.current_label = None
         self.labels = {}
     
@@ -89,8 +88,8 @@ class Parser:
             self.current_label = None
         
         # Create Statement object
-        statement = Statement(type_, name, operands, self.linenum,
-            len(self.statements))
+        statement = Statement(type_, name, operands, label,
+            self.linenum, len(self.statements))
         
         # Store a reference to this Statement
         if label is not None:
@@ -127,14 +126,7 @@ class Parser:
         
         debugmsg("statement:", statement.type, statement.operands)
         
-        # Save Storage definitions to later create them
-        if type_ is StatementType.STORAGE:
-            self.storages.append((label, statement.operands[0]))
-            debugmsg("storage:", label, statement.operands[0])
-        
         self.statements.append(statement)
-        
-        return True
     
     def parse_operand(self, statement, index, default=undefined,
             req=None):
