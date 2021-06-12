@@ -77,9 +77,12 @@ ExtremelyCoolLabel:
 
 ### Notes
 - Blank lines are allowed and ignored
-- A `SIMULATE` Block does not have to be present in the program to run
-the simulation. To only check for syntax errors, run gpss.py with the
-`--no-sim` or `-S` flag.
+- Amount of whitespace between fields doesn't matter, as long as there's
+some
+  - OK: `GENERATE 1`
+  - Not OK: `GENERATE1`
+- There are no restrictions on entity names other than that they must be
+non-empty (or not all whitespace), since that would likely be a mistake
 
 ## Differences from original GPSS
 gpss.py programs look very similar what an original GPSS program would
@@ -88,3 +91,6 @@ look like, but there are a few differences:
 separated by whitespace
 - Comments must start with a semicolon (`;`) or an asterisk (`*`), but
 can appear anywhere
+- A `SIMULATE` Block does not have to be present in the program to run
+the simulation. To only check for syntax errors, run gpss.py with the
+`--no-sim` or `-S` flag.
