@@ -47,6 +47,9 @@ class Simulation:
             elif statement.type is StatementType.END:
                 return True
             
+            elif statement.type is StatementType.CLEAR:
+                self.initialize(first=False)
+            
             # Replace an existing Block
             elif statement.type in BLOCKS:
                 if statement.label is None:

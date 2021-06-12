@@ -12,6 +12,7 @@ class Statement:
 
 class StatementType(Enum):
     # Commands
+    CLEAR = auto()
     END = auto()
     SIMULATE = auto()
     START = auto()
@@ -30,6 +31,7 @@ class StatementType(Enum):
     TRANSFER = auto()
 
 COMMANDS = frozenset({
+    StatementType.CLEAR,
     StatementType.END,
     StatementType.SIMULATE,
     StatementType.START,
