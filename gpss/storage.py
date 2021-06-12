@@ -59,6 +59,9 @@ class Storage:
         for i, (transaction, demand) in enumerate(self.delaychain):
             if demand <= self.available:
                 break
+        else:
+            # No Transaction's demand can be satisfied
+            return
         del self.delaychain[i]
         self._use(demand)
         transaction.update()
