@@ -4,7 +4,7 @@ from enum import Enum, auto
 class Statement:
     def __init__(self, type_, name, operands, label, linenum, number):
         self.type = type_
-        self.name = name,
+        self.name = name
         self.operands = operands
         self.label = label
         self.linenum = linenum
