@@ -10,6 +10,7 @@ All examples on this page can be found in
 
 ## Contents
 - [Barber Shop](#barber-shop)
+- [Tool Crib](#tool-crib)
 - [Widget Assembly Line](#widget-assembly-line)
 
 ## Barber Shop
@@ -67,6 +68,75 @@ Queues: 1
     Percent zeros: 44.44%
     Average content: 0.11
     Current content: 1
+
+Storages: 0
+~~~
+
+## Tool Crib
+This example was adapted from Case Study 2C of
+[Thomas J. Schriber's "A GPSS Primer"][gpss primer]{:target="_blank"}
+(page <span class="roman-numeral">II</span>-84).
+
+### Program
+~~~
+; Tool crib
+; A one-line, one-server queuing system with 2 customer types and
+; priority distinctions
+; Adapted from Case Study 2C of Thomas J. Schriber's "A GPSS Primer"
+
+; Time unit: 1 second
+
+; Category 1 Mechanic
+        GENERATE    420,360,,,1     ; Category 1 Mechanics arrive
+        QUEUE       Line            ; Enter "Category 1 Segment" of line
+        SEIZE       Clerk           ; Capture the clerk
+        DEPART      Line            ; Leave the line
+        ADVANCE     300,90          ; Use the clerk
+        RELEASE     Clerk           ; Free the clerk
+        TERMINATE                   ; Leave the tool crib area
+
+; Category 2 Mechanic
+        GENERATE    360,240,,,2     ; Category 2 Mechanics arrive
+        QUEUE       Line            ; Enter "Category 2 Segment" of line
+        SEIZE       Clerk           ; Capture the clerk
+        DEPART      Line            ; Leave the line
+        ADVANCE     100,30          ; Use the clerk
+        RELEASE     Clerk           ; Free the clerk
+        TERMINATE                   ; Leave the tool crib area
+
+; Timer
+        GENERATE    28800           ; Timer arrives after 8 hours
+        TERMINATE   1               ; Shut off the run
+
+; Control
+        START       1               ; Start the run
+        END                         ; Exit the program
+~~~
+
+### Sample Output
+~~~
+gpss.py Simulation Report - examples/tool-crib.gps
+Generated on Saturday, June 12, 2021 at 15:02:36
+
+============================= SIMULATION 1 =============================
+
+End time: 28800
+
+Facilities: 1
+
+  "Clerk":
+    Entries: 138
+    Available: no
+
+Queues: 1
+
+  "Line":
+    Maximum content: 4
+    Total entries: 140
+    Zero entries: 33
+    Percent zeros: 23.57%
+    Average content: 0.86
+    Current content: 2
 
 Storages: 0
 ~~~

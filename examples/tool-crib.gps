@@ -1,0 +1,32 @@
+; Tool crib
+; A one-line, one-server queuing system with 2 customer types and
+; priority distinctions
+; Adapted from Case Study 2C of Thomas J. Schriber's "A GPSS Primer"
+
+; Time unit: 1 second
+
+; Category 1 Mechanic
+        GENERATE    420,360,,,1     ; Category 1 Mechanics arrive
+        QUEUE       Line            ; Enter "Category 1 Segment" of line
+        SEIZE       Clerk           ; Capture the clerk
+        DEPART      Line            ; Leave the line
+        ADVANCE     300,90          ; Use the clerk
+        RELEASE     Clerk           ; Free the clerk
+        TERMINATE                   ; Leave the tool crib area
+
+; Category 2 Mechanic
+        GENERATE    360,240,,,2     ; Category 2 Mechanics arrive
+        QUEUE       Line            ; Enter "Category 2 Segment" of line
+        SEIZE       Clerk           ; Capture the clerk
+        DEPART      Line            ; Leave the line
+        ADVANCE     100,30          ; Use the clerk
+        RELEASE     Clerk           ; Free the clerk
+        TERMINATE                   ; Leave the tool crib area
+
+; Timer
+        GENERATE    28800           ; Timer arrives after 8 hours
+        TERMINATE   1               ; Shut off the run
+
+; Control
+        START       1               ; Start the run
+        END                         ; Exit the program
