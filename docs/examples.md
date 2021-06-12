@@ -67,5 +67,89 @@ Queues: 1
 Storages: 0
 ~~~
 
+## Widget Assembly Line
+This example was adapted from Case Study 2D of
+[Thomas J. Schriber's "A GPSS Primer"][gpss primer]{:target="_blank"}
+(page <span class="roman-numeral">II</span>-99).
+
+### Program
+~~~
+; Widget assembly line
+; A one-line, one-server queuing system with feedback
+; Adapted from Case Study 2D of Thomas J. Schriber's "A GPSS Primer"
+
+; Time unit: 1 minute
+
+; Widget
+Key     GENERATE    ,,,4    ; Provide 4 assemblers
+Back    ADVANCE     30,5    ; Assemble next widget
+        SEIZE       Oven    ; Capture the oven
+        ADVANCE     8,2     ; Use the oven
+        RELEASE     Oven    ; Free the oven
+        TRANSFER    ,Back   ; Go do the next assembly
+
+; Timer
+        GENERATE    2400    ; Timer arrives after 5 days
+        TERMINATE   1       ; Shut off the run
+
+; Control and Block redefinitions
+        START       1       ; Start the 1st run
+Key     GENERATE    ,,,5    ; Reconfigure for 2nd run
+        CLEAR               ; Clear for 2nd run
+        START       1       ; Start the 2nd run
+Key     GENERATE    ,,,6    ; Reconfigure for 3rd run
+        CLEAR               ; Clear for 3rd run
+        START       1       ; Start the 3rd run
+        END                 ; Exit the program
+~~~
+
+### Sample Output
+~~~
+gpss.py Simulation Report - examples/widgets.gps
+Generated on Friday, June 11, 2021 at 22:04:17
+
+============================= SIMULATION 1 =============================
+
+End time: 2400
+
+Facilities: 1
+
+  "Oven":
+    Entries: 236
+    Available: no
+
+Queues: 0
+
+Storages: 0
+
+============================= SIMULATION 2 =============================
+
+End time: 2400
+
+Facilities: 1
+
+  "Oven":
+    Entries: 284
+    Available: no
+
+Queues: 0
+
+Storages: 0
+
+============================= SIMULATION 3 =============================
+
+End time: 2400
+
+Facilities: 1
+
+  "Oven":
+    Entries: 298
+    Available: no
+
+Queues: 0
+
+Storages: 0
+~~~
+
 [gpss primer]: https://hdl.handle.net/2027.42/7464
 [examples source]: {{ site.github_repo }}/tree/master/examples
