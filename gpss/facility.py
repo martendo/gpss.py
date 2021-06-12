@@ -1,4 +1,4 @@
-from collections import deque
+from .delay_chain import DelayChain
 from .debug import debugmsg
 from .error import simulation_error
 
@@ -8,7 +8,7 @@ class Facility:
         self.is_in_use = False
         self.owner = None
         self.entries = 0
-        self.delaychain = deque()
+        self.delaychain = DelayChain()
     
     def __repr__(self):
         return f"Facility({self.is_in_use})"

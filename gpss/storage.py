@@ -1,4 +1,4 @@
-from collections import deque
+from .delay_chain import DelayChain
 from .debug import debugmsg
 from .error import simulation_error
 
@@ -9,7 +9,8 @@ class Storage:
         self.available = self.capacity
         self.entries = 0
         self.max = 0
-        self.delaychain = deque()
+        self.delaychain = DelayChain()
+        self.demandmap = {}
     
     @property
     def content(self):
@@ -28,7 +29,8 @@ class Storage:
         elif demand > self.available:
             # Storage cannot satisfy demand, add Transaction to delay
             # chain
-            self.delaychain.append((transaction, demand))
+            self.delaychain.append(transaction)
+            self.demandmap[transaction] = demand
             return False
         # Storage has sufficient availability
         self._use(demand)
@@ -56,12 +58,14 @@ class Storage:
             return
         # Allow first Transaction with demand that can be satisfied in
         # Delay Chain to enter the Storage
-        for i, (transaction, demand) in enumerate(self.delaychain):
+        for i, transaction in enumerate(self.delaychain):
+            demand = self.demandmap[transaction]
             if demand <= self.available:
                 break
         else:
             # No Transaction's demand can be satisfied
             return
         del self.delaychain[i]
+        del self.demandmap[transaction]
         self._use(demand)
         transaction.update()
