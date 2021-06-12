@@ -10,7 +10,8 @@ All examples on this page can be found in
 
 ## Barber Shop
 This example was adapted from Case Study 2A of
-[Thomas J. Schriber's "A GPSS Primer"][gpss primer]{:target="_blank"}.
+[Thomas J. Schriber's "A GPSS Primer"][gpss primer]{:target="_blank"}
+(page <span class="roman-numeral">II</span>-36).
 
 ### Program
 ~~~

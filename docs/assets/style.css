@@ -68,6 +68,11 @@ nav a:active {
   background-color: #c0c0c0;
 }
 
+.roman-numeral {
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+}
+
 code {
   font-family: "Fira Mono", monospace;
   font-size: 0.9em;
