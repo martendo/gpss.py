@@ -44,6 +44,7 @@ def createReport(simulation):
     Capacity: {storage.capacity}
     Maximum usage: {storage.max}
     Entries: {storage.entries}
+    Content: {storage.content}
     Remaining: {storage.available}
     Available: {"yes" if storage.available else "no"}"""
     
