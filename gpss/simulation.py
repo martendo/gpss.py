@@ -1,6 +1,7 @@
 from .statement import Statement, StatementType, BLOCKS
 from .transaction import Transaction, TransactionGenerator
 from .storage import Storage
+from .report import createReport
 from .debug import debugmsg
 from .error import simulation_error
 
@@ -8,6 +9,7 @@ class Simulation:
     def __init__(self):
         self.running = False
         self.current_statement = None
+        self.reports = []
     
     def run(self, parser):
         self.parser = parser
@@ -43,6 +45,8 @@ class Simulation:
                 self.running = True
                 while self.running:
                     self.advance()
+                
+                self.reports.append(createReport(self))
             
             elif statement.type is StatementType.END:
                 return True

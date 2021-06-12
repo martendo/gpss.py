@@ -60,13 +60,13 @@ def main():
         return
     
     # Output report
-    report = createReport(simulation)
+    output = ("\n" + "-" * 72 + "\n").join(simulation.reports)
     print("-" * 72)
-    print(report)
+    print(output)
     print("-" * 72)
     if args.output is not None:
         with open(args.output, "w") as file:
-            file.write(report + "\n")
+            file.write(output + "\n")
         print(f"Simulation report written to {args.output}")
 
 if __name__ == "__main__":
