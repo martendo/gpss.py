@@ -10,6 +10,7 @@ class Simulation:
         self.running = False
         self.current_statement = None
         self.reports = []
+        self.completed = 0
     
     def run(self, parser):
         self.parser = parser
@@ -46,6 +47,7 @@ class Simulation:
                 while self.running:
                     self.advance()
                 
+                self.completed += 1
                 self.reports.append(createReport(self))
             
             elif statement.type is StatementType.END:

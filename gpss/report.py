@@ -1,4 +1,3 @@
-from datetime import datetime
 from itertools import tee
 
 def pairwise(iterable):
@@ -48,9 +47,8 @@ def createReport(simulation):
     Remaining: {storage.available}
     Available: {"yes" if storage.available else "no"}"""
     
-    return f"""gpss.py Simulation Report - {simulation.parser.infile}
-Generated on {datetime.now().strftime("%A, %B %d, %Y at %H:%M:%S %Z")
-    .strip()}
+    return f"""
+{f" SIMULATION {simulation.completed} ":=^72}
 
 End time: {simulation.time}
 
@@ -58,4 +56,5 @@ Facilities: {len(simulation.facilities)}{facilities}
 
 Queues: {len(simulation.queues)}{queues}
 
-Storages: {len(simulation.storages)}{storages}"""
+Storages: {len(simulation.storages)}{storages}
+"""

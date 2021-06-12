@@ -1,4 +1,5 @@
 import argparse
+from datetime import datetime
 from .debug import debugmsg, debugflag
 from .parser import Parser
 from .simulation import Simulation
@@ -60,13 +61,17 @@ def main():
         return
     
     # Output report
-    output = ("\n" + "-" * 72 + "\n").join(simulation.reports)
+    output = f"""gpss.py Simulation Report - {args.infile}
+Generated on {datetime.now().strftime("%A, %B %d, %Y at %H:%M:%S %Z")
+    .strip()}
+"""
+    output += "".join(simulation.reports)
     print("-" * 72)
-    print(output)
-    print("-" * 72)
+    print(output, end="")
     if args.output is not None:
         with open(args.output, "w") as file:
-            file.write(output + "\n")
+            file.write(output)
+        print("\n" + ("-" * 72))
         print(f"Simulation report written to {args.output}")
 
 if __name__ == "__main__":
