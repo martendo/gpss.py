@@ -14,6 +14,9 @@ class Parser:
         self.current_label = None
         self.labels = {}
     
+    def __repr__(self):
+        return f"Parser({self.error_count})"
+    
     def parse(self, infile):
         # Open and read GPSS program
         self.infile = infile

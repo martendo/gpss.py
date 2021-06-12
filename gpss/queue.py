@@ -13,6 +13,9 @@ class Queue:
         
         self.changes = []
     
+    def __repr__(self):
+        return f"Queue({self.content})"
+    
     def change(self):
         self.changes.append((self.content, self.simulation.time))
     

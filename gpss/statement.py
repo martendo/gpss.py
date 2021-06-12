@@ -9,6 +9,10 @@ class Statement:
         self.label = label
         self.linenum = linenum
         self.number = number
+    
+    def __repr__(self):
+        return (f"Statement({self.type.name}, "
+            f"({','.join(map(str, self.operands))}))")
 
 class StatementType(Enum):
     # Commands

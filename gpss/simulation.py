@@ -12,6 +12,9 @@ class Simulation:
         self.reports = []
         self.completed = 0
     
+    def __repr__(self):
+        return f"Simulation({self.running})"
+    
     def run(self, parser):
         self.parser = parser
         if self.parser.error_count > 0:

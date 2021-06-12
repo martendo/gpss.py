@@ -10,6 +10,9 @@ class Facility:
         self.entries = 0
         self.delaychain = deque()
     
+    def __repr__(self):
+        return f"Facility({self.is_in_use})"
+    
     def seize(self, transaction):
         if self.is_in_use:
             # Facility is busy, add Transaction to Delay Chain

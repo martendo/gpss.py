@@ -11,6 +11,13 @@ class Storage:
         self.max = 0
         self.delaychain = deque()
     
+    @property
+    def content(self):
+        return self.capacity - self.available
+    
+    def __repr__(self):
+        return f"Storage({self.capacity}, {self.content}, {self.available})"
+    
     def enter(self, transaction, demand):
         if demand > self.capacity:
             simulation_error(self.simulation.parser.infile,
@@ -29,9 +36,8 @@ class Storage:
     
     def _use(self, demand):
         self.available -= demand
-        used = self.capacity - self.available
-        if used > self.max:
-            self.max = used
+        if self.content > self.max:
+            self.max = self.content
         self.entries += demand
         debugmsg("storage entered:", self.name, demand)
     
