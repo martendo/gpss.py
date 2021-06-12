@@ -42,25 +42,27 @@ This example was adapted from Case Study 2A of
 ### Sample Output
 ~~~
 gpss.py Simulation Report - examples/barber.gps
-Generated on Thursday, June 10, 2021 at 21:12:13
+Generated on Friday, June 11, 2021 at 22:01:02
+
+============================= SIMULATION 1 =============================
 
 End time: 480
 
 Facilities: 1
 
   "Barber":
-    Entries: 28
+    Entries: 26
     Available: no
 
 Queues: 1
 
   "Line":
     Maximum content: 1
-    Total entries: 28
-    Zero entries: 10
-    Percent zeros: 35.71%
-    Average content: 0.14
-    Current content: 0
+    Total entries: 27
+    Zero entries: 12
+    Percent zeros: 44.44%
+    Average content: 0.11
+    Current content: 1
 
 Storages: 0
 ~~~
