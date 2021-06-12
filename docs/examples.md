@@ -8,6 +8,10 @@ layout: default
 All examples on this page can be found in
 [gpss.py's GitHub repository][examples source]{:target="_blank"}.
 
+## Contents
+- [Barber Shop](#barber-shop)
+- [Widget Assembly Line](#widget-assembly-line)
+
 ## Barber Shop
 This example was adapted from Case Study 2A of
 [Thomas J. Schriber's "A GPSS Primer"][gpss primer]{:target="_blank"}
