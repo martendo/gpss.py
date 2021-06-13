@@ -75,10 +75,7 @@ class Transaction:
             self.current_linenum = block.linenum
             
             if block.type is StatementType.TERMINATE:
-                # Update Transaction termination count
-                self.simulation.term_count -= block.operands[0]
-                # Destroy this Transaction
-                self.simulation.transactions.remove(self)
+                self.simulation.terminate(self, block.operands[0])
                 return
             
             elif block.type in (StatementType.QUEUE, StatementType.DEPART):

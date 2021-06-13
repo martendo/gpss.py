@@ -10,7 +10,7 @@ class Simulation:
         self.running = False
         self.current_statement = None
         self.reports = []
-        self.completed = 0
+        self.current_number = 0
     
     def __repr__(self):
         return f"Simulation({self.running})"
@@ -38,15 +38,17 @@ class Simulation:
             
             # Start the simulation
             if statement.type is StatementType.START:
-                # Set number of Transactions to complete
+                # Set Termination Counter and Snap Interval Counter
                 self.term_count = statement.operands[0]
-                debugmsg("termination count:", self.term_count)
+                self.init_snap_count = statement.operands[2]
+                self.snap_count = self.init_snap_count
+                debugmsg("start:", self.term_count, self.snap_count)
                 
+                self.current_number += 1
                 self.running = True
                 while self.running:
                     self.advance()
                 
-                self.completed += 1
                 if statement.operands[1] != "NP":
                     self.reports.append(createReport(self))
             
@@ -149,7 +151,21 @@ class Simulation:
         self.rel_time += event.time - self.time
         self.time = event.time
         event.func()
+    
+    def terminate(self, transaction, count):
+        # Destroy the Transaction
+        self.transactions.remove(transaction)
         
+        # Update Termination Counter
+        self.term_count -= count
         # Completed all Transactions, stop running
         if self.term_count < 1:
             self.running = False
+            return
+        
+        # Update Snap Interval Counter
+        if self.snap_count is not None:
+            self.snap_count -= count
+            if self.snap_count < 1:
+                self.reports.append(createReport(self))
+                self.snap_count = self.init_snap_count

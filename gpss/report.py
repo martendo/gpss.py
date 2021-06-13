@@ -40,7 +40,7 @@ def createReport(simulation):
     Available: {"yes" if storage.available else "no"}"""
     
     return f"""
-{f" SIMULATION {simulation.completed} ":=^72}
+{f" SIMULATION {simulation.current_number} ":=^72}
 
 Relative Clock: {simulation.rel_time}
 Absolute Clock: {simulation.time}

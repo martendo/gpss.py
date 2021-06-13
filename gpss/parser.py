@@ -107,6 +107,7 @@ class Parser:
         if type_ is StatementType.START:
             self.parse_operand(statement, 0, req=self.positive)
             self.operand_in(statement, 1, ["", "NP"])
+            self.parse_operand(statement, 2, None, req=self.positive)
         elif type_ is StatementType.GENERATE:
             self.parse_operand(statement, 0, 0, req=self.nonnegative)
             self.parse_operand(statement, 1, 0, req=self.nonnegative)
