@@ -5,7 +5,7 @@ def createReport(simulation):
 
   "{queue.name}":
     Maximum content: {queue.max_content}
-    Average content: {(queue.utilization / simulation.time):.3f}
+    Average content: {(queue.utilization / simulation.rel_time):.3f}
     Total entries: {queue.entries}
     Zero entries: {queue.zero_entries}
     Percent zeros: {(queue.zero_entries / queue.entries * 100):.2f}%
@@ -17,7 +17,8 @@ def createReport(simulation):
         facilities += f"""
 
   "{facility.name}":
-    Avg. utilization: {(facility.utilization / simulation.time * 100):.2f}%
+    Avg. utilization: {(
+        facility.utilization / simulation.rel_time * 100):.2f}%
     Entries: {facility.entries}
     Avg. time/Trans.: {(facility.utilization / facility.entries):.3f}
     Available: {"no" if facility.is_in_use else "yes"}"""
@@ -28,9 +29,9 @@ def createReport(simulation):
 
   "{storage.name}":
     Capacity: {storage.capacity}
-    Average content: {(storage.utilization / simulation.time):.3f}
+    Average content: {(storage.utilization / simulation.rel_time):.3f}
     Avg. utilization: {(storage.utilization / (
-        simulation.time * storage.capacity) * 100):.2f}%
+        simulation.rel_time * storage.capacity) * 100):.2f}%
     Entries: {storage.entries}
     Avg. time/Trans.: {(storage.utilization / storage.entries):.3f}
     Maximum content: {storage.max_content}
@@ -41,7 +42,8 @@ def createReport(simulation):
     return f"""
 {f" SIMULATION {simulation.completed} ":=^72}
 
-End time: {simulation.time}
+Relative Clock: {simulation.rel_time}
+Absolute Clock: {simulation.time}
 
 Facilities: {len(simulation.facilities)}{facilities}
 

@@ -84,7 +84,7 @@ class Simulation:
             "Ran past the end of the program (missing END Command?)")
     
     def initialize(self, first):
-        # Clear leftover Entities
+        # Clear leftover entities
         self.transactions = set()
         self.txn_generators = []
         self.queues = {}
@@ -92,7 +92,8 @@ class Simulation:
         self.storages = {}
         self.events = []
         
-        # Reset Clock
+        # Reset Relative and Absolute Clocks
+        self.rel_time = 0
         self.time = 0
         
         for statement in self.program:
@@ -131,6 +132,7 @@ class Simulation:
         except IndexError:
             self.running = False
             return
+        self.rel_time += event.time - self.time
         self.time = event.time
         event.func()
         
