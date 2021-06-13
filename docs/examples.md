@@ -14,16 +14,12 @@ All examples on this page can be found in
 - [Widget Assembly Line](#widget-assembly-line)
 
 ## Barber Shop
-This example was adapted from Case Study 2A of
+A one-line, one-server queuing system. Adapted from Case Study 2A of
 [Thomas J. Schriber's "A GPSS Primer"][gpss primer]{:target="_blank"}
 (page <span class="roman-numeral">II</span>-36).
 
 ### Program
 ~~~
-; Barber shop
-; A one-line, one-server queuing system
-; Adapted from Case Study 2A of Thomas J. Schriber's "A GPSS Primer"
-
 ; Time unit: 1 minute
 
 ; Customer
@@ -73,17 +69,13 @@ Storages: 0
 ~~~
 
 ## Tool Crib
-This example was adapted from Case Study 2C of
+A one-line, one-server queuing system with 2 customer types and priority
+distinctions. Adapted from Case Study 2C of
 [Thomas J. Schriber's "A GPSS Primer"][gpss primer]{:target="_blank"}
 (page <span class="roman-numeral">II</span>-84).
 
 ### Program
 ~~~
-; Tool crib
-; A one-line, one-server queuing system with 2 customer types and
-; priority distinctions
-; Adapted from Case Study 2C of Thomas J. Schriber's "A GPSS Primer"
-
 ; Time unit: 1 second
 
 ; Category 1 Mechanic
@@ -142,16 +134,13 @@ Storages: 0
 ~~~
 
 ## Widget Assembly Line
-This example was adapted from Case Study 2D of
+A one-line, one-server queuing system with feedback. Adapted from Case
+Study 2D of
 [Thomas J. Schriber's "A GPSS Primer"][gpss primer]{:target="_blank"}
 (page <span class="roman-numeral">II</span>-99).
 
 ### Program
 ~~~
-; Widget assembly line
-; A one-line, one-server queuing system with feedback
-; Adapted from Case Study 2D of Thomas J. Schriber's "A GPSS Primer"
-
 ; Time unit: 1 minute
 
 ; Widget
