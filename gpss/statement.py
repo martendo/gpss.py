@@ -34,15 +34,7 @@ class StatementType(Enum):
     TERMINATE = auto()
     TRANSFER = auto()
 
-COMMANDS = frozenset({
-    StatementType.CLEAR,
-    StatementType.END,
-    StatementType.SIMULATE,
-    StatementType.START,
-    StatementType.STORAGE,
-})
-
-BLOCKS = frozenset({
+REDEFINABLE_STATEMENTS = frozenset({
     StatementType.ADVANCE,
     StatementType.DEPART,
     StatementType.ENTER,
@@ -51,6 +43,7 @@ BLOCKS = frozenset({
     StatementType.QUEUE,
     StatementType.RELEASE,
     StatementType.SEIZE,
+    StatementType.STORAGE,
     StatementType.TERMINATE,
     StatementType.TRANSFER,
 })

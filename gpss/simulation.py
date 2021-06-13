@@ -1,4 +1,4 @@
-from .statement import Statement, StatementType, BLOCKS
+from .statement import Statement, StatementType, REDEFINABLE_STATEMENTS
 from .transaction import Transaction, TransactionGenerator
 from .storage import Storage
 from .report import createReport
@@ -60,7 +60,7 @@ class Simulation:
                 self.initialize(first=False)
             
             # Replace an existing Block
-            elif statement.type in BLOCKS:
+            elif statement.type in REDEFINABLE_STATEMENTS:
                 if statement.label is None:
                     simulation_error(self.parser.infile,
                         statement.linenum,
