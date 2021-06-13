@@ -9,6 +9,7 @@ def createReport(simulation):
     Total entries: {queue.entries}
     Zero entries: {queue.zero_entries}
     Percent zeros: {(queue.zero_entries / queue.entries * 100):.2f}%
+    Avg. time/Trans.: {(queue.utilization / queue.entries):.3f}
     Current content: {queue.content}"""
     
     facilities = ""
