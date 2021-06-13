@@ -42,10 +42,6 @@ class Simulation:
                 self.term_count = statement.operands[0]
                 debugmsg("termination count:", self.term_count)
                 
-                # Prime Transaction generators
-                for txn_generator in self.txn_generators:
-                    txn_generator.prime()
-                
                 self.running = True
                 while self.running:
                     self.advance()
@@ -119,6 +115,10 @@ class Simulation:
                 if first and self.current_statement is None:
                     self.current_statement = statement.number
                 break
+        
+        # Prime Transaction generators
+        for txn_generator in self.txn_generators:
+            txn_generator.prime()
     
     def add_event(self, event):
         self.events.append(event)
