@@ -2,6 +2,7 @@
 ; A one-line, one-server queuing system with 2 customer types and
 ; priority distinctions
 ; Adapted from Case Study 2C of Thomas J. Schriber's "A GPSS Primer"
+; (page II-84)
 
 ; Time unit: 1 second
 
