@@ -7,7 +7,7 @@ class Queue:
         
         self.content = 0
         self.entries = 0
-        self.max = 0
+        self.max_content = 0
         self.zero_entries = 0
         self.transactions = {}
         
@@ -21,8 +21,8 @@ class Queue:
     
     def join(self, transaction, content):
         self.content += content
-        if self.content > self.max:
-            self.max = self.content
+        if self.content > self.max_content:
+            self.max_content = self.content
         self.entries += content
         self.transactions[transaction] = self.simulation.time
         self.change()

@@ -8,7 +8,7 @@ class Storage:
         self.capacity = capacity
         self.available = self.capacity
         self.entries = 0
-        self.max = 0
+        self.max_content = 0
         self.delaychain = DelayChain()
         self.demandmap = {}
     
@@ -38,8 +38,8 @@ class Storage:
     
     def _use(self, demand):
         self.available -= demand
-        if self.content > self.max:
-            self.max = self.content
+        if self.content > self.max_content:
+            self.max_content = self.content
         self.entries += demand
         debugmsg("storage entered:", self.name, demand)
     

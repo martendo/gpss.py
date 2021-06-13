@@ -21,11 +21,11 @@ def createReport(simulation):
         queues += f"""
 
   "{queue.name}":
-    Maximum content: {queue.max}
+    Maximum content: {queue.max_content}
+    Average content: {average_content:.3f}
     Total entries: {queue.entries}
     Zero entries: {queue.zero_entries}
     Percent zeros: {(queue.zero_entries / queue.entries * 100):.2f}%
-    Average content: {average_content:.2f}
     Current content: {queue.content}"""
     
     facilities = ""
@@ -42,9 +42,9 @@ def createReport(simulation):
 
   "{storage.name}":
     Capacity: {storage.capacity}
-    Maximum usage: {storage.max}
     Entries: {storage.entries}
-    Content: {storage.content}
+    Maximum content: {storage.max_content}
+    Current content: {storage.content}
     Remaining: {storage.available}
     Available: {"yes" if storage.available else "no"}"""
     
