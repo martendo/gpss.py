@@ -106,6 +106,7 @@ class Parser:
         # Parse necessary Operands
         if type_ is StatementType.START:
             self.parse_operand(statement, 0, req=self.positive)
+            self.operand_in(statement, 1, ["", "NP"])
         elif type_ is StatementType.GENERATE:
             self.parse_operand(statement, 0, 0, req=self.nonnegative)
             self.parse_operand(statement, 1, 0, req=self.nonnegative)
@@ -170,3 +171,11 @@ class Parser:
         if statement.operands[index] == "":
             parser_error(self, OPERAND_LETTERS[index] + " Operand of "
                 f"{statement.name} must not be empty")
+    
+    # Error if Operand is not in a set of allowed values
+    def operand_in(self, statement, index, allowed):
+        statement.operands[index] = statement.operands[index].upper()
+        if statement.operands[index] not in allowed:
+            parser_error(self, OPERAND_LETTERS[index] + " Operand of "
+                f"{statement.name} must be one of "
+                + str(allowed).replace("''", "empty").replace("'", "\""))

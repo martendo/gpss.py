@@ -47,7 +47,8 @@ class Simulation:
                     self.advance()
                 
                 self.completed += 1
-                self.reports.append(createReport(self))
+                if statement.operands[1] != "NP":
+                    self.reports.append(createReport(self))
             
             elif statement.type is StatementType.END:
                 return True
