@@ -25,7 +25,7 @@ class Parser:
         self.inputlines = map(lambda line: line.strip(),
             self.inputdata.splitlines())
         
-        # Get statements from program
+        # Get Statements from program
         for linenum, line in enumerate(self.inputlines, 1):
             self.linenum = linenum
             
@@ -54,13 +54,13 @@ class Parser:
                     self.parse_statement(fields[0])
             elif len(fields) == 2:
                 if hasattr(StatementType, fields[0].upper()) or "," in fields[1]:
-                    # Statement and operands
+                    # Statement and Operands
                     self.parse_statement(fields[0], fields[1])
                 else:
-                    # Label and statement
+                    # Label and Statement
                     self.parse_statement(fields[1], label=fields[0])
             elif len(fields) == 3:
-                # Label, statement, and operands
+                # Label, Statement, and Operands
                 self.parse_statement(fields[1], fields[2],
                     label=fields[0])
             else:
@@ -149,7 +149,7 @@ class Parser:
         if req is not None:
             req(statement, index)
     
-    # Error if operand is not strictly positive
+    # Error if Operand is not strictly positive
     def positive(self, statement, index):
         if (statement.operands[index] is not None
                 and statement.operands[index] <= 0):
@@ -157,7 +157,7 @@ class Parser:
                 f"{statement.name} must be a strictly positive integer "
                 f"(got \"{statement.operands[index]}\")")
     
-    # Error if operand is negative
+    # Error if Operand is negative
     def nonnegative(self, statement, index):
         if (statement.operands[index] is not None
                 and statement.operands[index] < 0):
@@ -165,7 +165,7 @@ class Parser:
                 f"{statement.name} must be a non-negative integer "
                 f"(got \"{statement.operands[index]}\")")
     
-    # Error if operand is empty string
+    # Error if Operand is empty string
     def nonempty(self, statement, index):
         if statement.operands[index] == "":
             parser_error(self, OPERAND_LETTERS[index] + " Operand of "
