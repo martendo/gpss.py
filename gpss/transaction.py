@@ -118,7 +118,7 @@ class Transaction:
                     facility = self.simulation.facilities[block.operands[0]]
                 except KeyError:
                     # Facility doesn't exist yet -> create it
-                    facility = Facility(block.operands[0])
+                    facility = Facility(self.simulation, block.operands[0])
                     self.simulation.facilities[facility.name] = facility
                 
                 if block.type is StatementType.SEIZE:

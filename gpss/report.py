@@ -33,7 +33,9 @@ def createReport(simulation):
         facilities += f"""
 
   "{facility.name}":
+    Avg. utilization: {(facility.utilization / simulation.time * 100):.2f}%
     Entries: {facility.entries}
+    Avg. time/Trans.: {(facility.utilization / facility.entries):.3f}
     Available: {"no" if facility.is_in_use else "yes"}"""
     
     storages = ""

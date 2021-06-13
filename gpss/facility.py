@@ -3,11 +3,14 @@ from .debug import debugmsg
 from .error import simulation_error
 
 class Facility:
-    def __init__(self, name):
+    def __init__(self, simulation, name):
+        self.simulation = simulation
         self.name = name
+        
         self.is_in_use = False
         self.owner = None
         self.entries = 0
+        self.utilization = 0
         self.delaychain = DelayChain()
     
     def __repr__(self):
@@ -26,6 +29,7 @@ class Facility:
         self.is_in_use = True
         self.owner = transaction
         self.entries += 1
+        self.last_seize = self.simulation.time
         debugmsg("facility seized:", self.name)
     
     def release(self, transaction):
@@ -36,6 +40,7 @@ class Facility:
                 f"\"{self.name}\" which it does not own")
         self.is_in_use = False
         self.owner = None
+        self.utilization += self.simulation.time - self.last_seize
         debugmsg("facility released:", self.name)
         
         if not len(self.delaychain):
