@@ -110,7 +110,7 @@ class Simulation:
             # Define a Storage's capacity
             elif statement.type is StatementType.STORAGE:
                 self.storages[statement.label] = Storage(
-                    statement.label, statement.operands[0])
+                    self, statement.label, statement.operands[0])
                 debugmsg("storage:", statement.label,
                     statement.operands[0])
             

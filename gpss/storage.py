@@ -3,14 +3,19 @@ from .debug import debugmsg
 from .error import simulation_error
 
 class Storage:
-    def __init__(self, name, capacity):
+    def __init__(self, simulation, name, capacity):
+        self.simulation = simulation
         self.name = name
+        
         self.capacity = capacity
         self.available = self.capacity
         self.entries = 0
         self.max_content = 0
+        self.utilization = 0
         self.delaychain = DelayChain()
         self.demandmap = {}
+        
+        self.last_change = 0
     
     @property
     def content(self):
@@ -18,6 +23,11 @@ class Storage:
     
     def __repr__(self):
         return f"Storage({self.capacity}, {self.content}, {self.available})"
+    
+    def change(self):
+        self.utilization += (
+            (self.simulation.time - self.last_change) * self.content)
+        self.last_change = self.simulation.time
     
     def enter(self, transaction, demand):
         if demand > self.capacity:
@@ -37,6 +47,7 @@ class Storage:
         return True
     
     def _use(self, demand):
+        self.change()
         self.available -= demand
         if self.content > self.max_content:
             self.max_content = self.content
@@ -44,6 +55,7 @@ class Storage:
         debugmsg("storage entered:", self.name, demand)
     
     def leave(self, transaction, units):
+        self.change()
         self.available += units
         if self.available > self.capacity:
             simulation_error(self.simulation.parser.infile,

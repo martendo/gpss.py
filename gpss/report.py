@@ -28,7 +28,11 @@ def createReport(simulation):
 
   "{storage.name}":
     Capacity: {storage.capacity}
+    Average content: {(storage.utilization / simulation.time):.3f}
+    Avg. utilization: {(storage.utilization / (
+        simulation.time * storage.capacity) * 100):.2f}%
     Entries: {storage.entries}
+    Avg. time/Trans.: {(storage.utilization / storage.entries):.3f}
     Maximum content: {storage.max_content}
     Current content: {storage.content}
     Remaining: {storage.available}
