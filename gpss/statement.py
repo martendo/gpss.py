@@ -18,6 +18,7 @@ class StatementType(Enum):
     # Commands
     CLEAR = auto()
     END = auto()
+    RESET = auto()
     SIMULATE = auto()
     START = auto()
     STORAGE = auto()

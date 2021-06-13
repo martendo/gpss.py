@@ -6,13 +6,15 @@ class Queue:
         self.name = name
         
         self.content = 0
+        self.transactions = {}
+        self.reset()
+    
+    def reset(self):
         self.entries = 0
         self.max_content = 0
         self.utilization = 0
         self.zero_entries = 0
-        self.transactions = {}
-        
-        self.last_change = 0
+        self.last_change = self.simulation.time
     
     def __repr__(self):
         return f"Queue({self.content})"

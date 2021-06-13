@@ -9,9 +9,12 @@ class Facility:
         
         self.is_in_use = False
         self.owner = None
+        self.delaychain = DelayChain()
+        self.reset()
+    
+    def reset(self):
         self.entries = 0
         self.utilization = 0
-        self.delaychain = DelayChain()
     
     def __repr__(self):
         return f"Facility({self.is_in_use})"

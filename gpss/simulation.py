@@ -52,6 +52,8 @@ class Simulation:
             elif statement.type is StatementType.END:
                 return True
             
+            elif statement.type is StatementType.RESET:
+                self.reset()
             elif statement.type is StatementType.CLEAR:
                 self.initialize(first=False)
             
@@ -82,6 +84,17 @@ class Simulation:
         # Ran past end
         simulation_error(self.parser.infile, None,
             "Ran past the end of the program (missing END Command?)")
+    
+    def reset(self):
+        # Reset only Relative Clock
+        self.rel_time = 0
+        # Clear entity statistics
+        for queue in self.queues.values():
+            queue.reset()
+        for facility in self.facilities.values():
+            facility.reset()
+        for storage in self.storages.values():
+            storage.reset()
     
     def initialize(self, first):
         # Clear leftover entities

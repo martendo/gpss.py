@@ -9,13 +9,15 @@ class Storage:
         
         self.capacity = capacity
         self.available = self.capacity
+        self.delaychain = DelayChain()
+        self.demandmap = {}
+        self.reset()
+    
+    def reset(self):
         self.entries = 0
         self.max_content = 0
         self.utilization = 0
-        self.delaychain = DelayChain()
-        self.demandmap = {}
-        
-        self.last_change = 0
+        self.last_change = self.simulation.time
     
     @property
     def content(self):
