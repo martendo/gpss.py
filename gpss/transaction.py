@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, random
 from .statement import Statement, StatementType
 from .event import Event
 from .queue import Queue
@@ -150,4 +150,18 @@ class Transaction:
                         f"No Storage named \"{block.operands[0]}\"")
             
             elif block.type is StatementType.TRANSFER:
-                self.current_block = self.simulation.labels[block.operands[1]].number
+                if block.operands[0] is None:
+                    # Unconditional transfer mode
+                    self.current_block = (
+                        self.simulation.labels[block.operands[1]].number)
+                else:
+                    # Statistical transfer mode
+                    if random() < block.operands[0]:
+                        new_block = block.operands[2]
+                    else:
+                        new_block = block.operands[1]
+                        if new_block == "":
+                            # Continue to sequential Block
+                            continue
+                    self.current_block = (
+                        self.simulation.labels[new_block].number)
