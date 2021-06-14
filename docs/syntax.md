@@ -9,8 +9,8 @@ layout: default
 ## Basics
 
 ### Statements
-A gpss.py program contains a bunch of statements that create a model.
-There is one statement per line. For example:
+A gpss.py program contains a bunch of Statements that create a model.
+There is one Statement per line. For example:
 ~~~
 GENERATE
 QUEUE
@@ -18,11 +18,11 @@ ADVANCE
 DEPART
 TERMINATE
 ~~~
-But this is no good &mdash; the statements need Operands!
+But this is no good &mdash; the Statements need Operands!
 
 ### Operands
-Most statements will take Operands. These Operands appear directly after
-the statement on the same line, separated from the statement by
+Most Statements will take Operands. These Operands appear directly after
+the Statement on the same line, separated from the Statement by
 whitespace. Individual Operands are separated with commas, **with no
 whitespace in between.**
 
@@ -31,8 +31,8 @@ Here's an example of a really short Transaction program:
 GENERATE    18,6
 TERMINATE   1
 ~~~
-In the example above, there are two statements: `GENERATE` and
-`TERMINATE`. Both of these statements have Operands: the `GENERATE`
+In the example above, there are two Statements: `GENERATE` and
+`TERMINATE`. Both of these Statements have Operands: the `GENERATE`
 Block has an A Operand of 18 and a B Operand of 6. The `GENERATE`
 Block can take more Operands, but they're optional, so if left out,
 default values are assumed. The `TERMINATE` Block has just one Operand
@@ -56,13 +56,13 @@ follows a comment character will be ignored by gpss.py.
 ; I'm a comment!
 * I'm a comment too!
 
-GENERATE    1   ; That GENERATE is a statement, but I'm still a comment!
+GENERATE    1   ; That GENERATE is a Statement, but I'm still a comment!
 TERMINATE       * I'm also still a comment!
 ~~~
 
 ### Labels
 Labels can be declared in two ways:
-- Before the statement it is "tagging", on the same line:
+- Before the Statement it is "tagging", on the same line:
 
 ~~~
 Wait    ADVANCE     12      ; This ADVANCE Block has the label "Wait"
