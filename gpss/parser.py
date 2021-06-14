@@ -22,8 +22,7 @@ class Parser:
         self.infile = infile
         with open(self.infile, "r") as file:
             self.inputdata = file.read()
-        self.inputlines = map(lambda line: line.strip(),
-            self.inputdata.splitlines())
+        self.inputlines = map(str.strip, self.inputdata.splitlines())
         
         # Get Statements from program
         for linenum, line in enumerate(self.inputlines, 1):
