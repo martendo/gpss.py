@@ -44,27 +44,31 @@ A one-line, one-server queuing system. Adapted from Case Study 2A of
 ### Sample Output
 ~~~
 gpss.py Simulation Report - examples/barber.gps
-Generated on Friday, June 11, 2021 at 22:01:02
+Generated on Sunday, June 13, 2021 at 21:08:51
 
 ============================= SIMULATION 1 =============================
 
-End time: 480
+Relative Clock: 480
+Absolute Clock: 480
 
 Facilities: 1
 
   "Barber":
-    Entries: 26
+    Avg. utilization: 83.75%
+    Entries: 27
+    Avg. time/Trans.: 14.889
     Available: no
 
 Queues: 1
 
   "Line":
     Maximum content: 1
+    Average content: 0.085
     Total entries: 27
-    Zero entries: 12
-    Percent zeros: 44.44%
-    Average content: 0.11
-    Current content: 1
+    Zero entries: 16
+    Percent zeros: 59.26%
+    Avg. time/Trans.: 1.519
+    Current content: 0
 
 Storages: 0
 ~~~
@@ -109,27 +113,31 @@ distinctions. Adapted from Case Study 2C of
 ### Sample Output
 ~~~
 gpss.py Simulation Report - examples/tool-crib.gps
-Generated on Saturday, June 12, 2021 at 15:02:36
+Generated on Sunday, June 13, 2021 at 21:09:43
 
 ============================= SIMULATION 1 =============================
 
-End time: 28800
+Relative Clock: 28800
+Absolute Clock: 28800
 
 Facilities: 1
 
   "Clerk":
-    Entries: 138
+    Avg. utilization: 92.66%
+    Entries: 143
+    Avg. time/Trans.: 186.622
     Available: no
 
 Queues: 1
 
   "Line":
-    Maximum content: 4
-    Total entries: 140
-    Zero entries: 33
-    Percent zeros: 23.57%
-    Average content: 0.86
-    Current content: 2
+    Maximum content: 7
+    Average content: 1.831
+    Total entries: 148
+    Zero entries: 15
+    Percent zeros: 10.14%
+    Avg. time/Trans.: 356.345
+    Current content: 5
 
 Storages: 0
 ~~~
@@ -170,17 +178,20 @@ Key     GENERATE    ,,,6    ; Reconfigure for 3rd run
 ### Sample Output
 ~~~
 gpss.py Simulation Report - examples/widgets.gps
-Generated on Friday, June 11, 2021 at 22:04:17
+Generated on Sunday, June 13, 2021 at 21:10:03
 
 ============================= SIMULATION 1 =============================
 
-End time: 2400
+Relative Clock: 2400
+Absolute Clock: 2400
 
 Facilities: 1
 
   "Oven":
-    Entries: 236
-    Available: no
+    Avg. utilization: 80.79%
+    Entries: 240
+    Avg. time/Trans.: 8.079
+    Available: yes
 
 Queues: 0
 
@@ -188,12 +199,15 @@ Storages: 0
 
 ============================= SIMULATION 2 =============================
 
-End time: 2400
+Relative Clock: 2400
+Absolute Clock: 2400
 
 Facilities: 1
 
   "Oven":
-    Entries: 284
+    Avg. utilization: 94.83%
+    Entries: 281
+    Avg. time/Trans.: 8.100
     Available: no
 
 Queues: 0
@@ -202,12 +216,15 @@ Storages: 0
 
 ============================= SIMULATION 3 =============================
 
-End time: 2400
+Relative Clock: 2400
+Absolute Clock: 2400
 
 Facilities: 1
 
   "Oven":
-    Entries: 298
+    Avg. utilization: 98.71%
+    Entries: 301
+    Avg. time/Trans.: 7.870
     Available: no
 
 Queues: 0
