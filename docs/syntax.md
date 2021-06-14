@@ -76,21 +76,26 @@ ExtremelyCoolLabel:
 ~~~
 
 ### Notes
-- Blank lines are allowed and ignored
+- Blank lines are allowed and ignored.
+- gpss.py only cares about the case of entity names. For anything else,
+it couldn't care less.
+  - `GENERATE` and `gEnErAtE` are equivalent.
+  - `QUEUE Line` and `QUEUE line` would join 2 different Queues.
+  - Case of keyword Operands is also ignored.
 - Amount of whitespace between fields doesn't matter, as long as there's
-some
+some.
   - OK: `GENERATE 1`
   - Not OK: `GENERATE1`
 - There are no restrictions on entity names other than that they must be
-non-empty (or not all whitespace), since that would likely be a mistake
+non-empty (or not all whitespace), since that would likely be a mistake.
 
 ## Differences from original GPSS
-gpss.py programs look very similar what an original GPSS program would
-look like, but there are a few differences:
+gpss.py programs look very similar to what an original GPSS program
+would look like, but there are a few differences:
 - Fields don't have to be placed at specific columns, but need to be
-separated by whitespace
+separated by whitespace.
 - Comments must start with a semicolon (`;`) or an asterisk (`*`), but
-can appear anywhere
+can appear anywhere.
 - A `SIMULATE` Block does not have to be present in the program to run
 the simulation. To only check for syntax errors, run gpss.py with the
 `--no-sim` or `-S` flag.
