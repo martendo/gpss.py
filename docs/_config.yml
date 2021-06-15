@@ -7,7 +7,10 @@ url: "https://martendo.github.io"
 author: martendo
 github_repo: "https://github.com/martendo/gpss.py"
 
-# Exclude from processing.
+# Build settings
+theme: null
+
+# Exclude from processing
 exclude:
   - Gemfile
   - Gemfile.lock
