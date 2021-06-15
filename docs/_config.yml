@@ -7,8 +7,6 @@ url: "https://martendo.github.io"
 author: martendo
 github_repo: "https://github.com/martendo/gpss.py"
 
-timezone: America/Toronto
-
 # Exclude from processing.
 exclude:
   - Gemfile
