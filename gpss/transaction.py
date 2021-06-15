@@ -37,7 +37,7 @@ class TransactionGenerator:
                 self.block.linenum,
                 "Cannot GENERATE a Transaction in a negative amount "
                 f"of time ({time - self.simulation.time})")
-        elif time == self.simulation.time:
+        elif time == self.simulation.time and time is None:
             # Generate immediately, no need to add to event list
             self.generate()
         else:
