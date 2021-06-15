@@ -18,10 +18,16 @@ class Facility:
     
     @property
     def average_utilization(self):
-        return self.utilization / self.simulation.rel_time
+        try:
+            return self.utilization / self.simulation.rel_time
+        except ZeroDivisionError:
+            return 0
     @property
     def average_time(self):
-        return self.utilization / self.entries
+        try:
+            return self.utilization / self.entries
+        except ZeroDivisionError:
+            return -1
     
     def __repr__(self):
         return f"Facility({self.is_in_use})"

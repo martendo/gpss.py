@@ -1,3 +1,11 @@
+# Return formatted string if value is non-negative, otherwise return
+# "N/A"
+def na(value, fstring):
+    if value >= 0:
+        return fstring.format(value)
+    else:
+        return "N/A"
+
 def createReport(simulation):
     queues = ""
     for queue in simulation.queues.values():
@@ -8,8 +16,8 @@ def createReport(simulation):
     Average content: {queue.average_content:.3f}
     Total entries: {queue.entries}
     Zero entries: {queue.zero_entries}
-    Percent zeros: {(queue.fraction_zeros * 100):.2f}%
-    Avg. time/Trans.: {queue.average_time:.3f}
+    Percent zeros: {na(queue.fraction_zeros * 100, "{:.2f}%")}
+    Avg. time/Trans.: {na(queue.average_time, "{:.3f}")}
     Current content: {queue.content}"""
     
     facilities = ""
@@ -19,7 +27,7 @@ def createReport(simulation):
   "{facility.name}":
     Avg. utilization: {(facility.average_utilization * 100):.2f}%
     Entries: {facility.entries}
-    Avg. time/Trans.: {facility.average_time:.3f}
+    Avg. time/Trans.: {na(facility.average_time, "{:.3f}")}
     Available: {"no" if facility.is_in_use else "yes"}"""
     
     storages = ""
@@ -31,7 +39,7 @@ def createReport(simulation):
     Average content: {storage.average_content:.3f}
     Avg. utilization: {(storage.average_utilization * 100):.2f}%
     Entries: {storage.entries}
-    Avg. time/Trans.: {storage.average_time:.3f}
+    Avg. time/Trans.: {na(storage.average_time, "{:.3f}")}
     Maximum content: {storage.max_content}
     Current content: {storage.content}
     Remaining: {storage.available}
