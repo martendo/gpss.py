@@ -13,6 +13,18 @@ class Statement:
     def __repr__(self):
         return (f"Statement({self.type.name}, "
             f"({','.join(map(str, self.operands))}))")
+    
+    def refuse(self, simulation):
+        if self.type is StatementType.SEIZE:
+            # Refuse entry if Facility is currently in use
+            return simulation.facilities[self.operands[0]].is_in_use
+        elif self.type is StatementType.ENTER:
+            # Refuse entry if Storage cannot satisfy demand
+            return (self.operands[1]
+                > simulation.storages[self.operands[0]].available)
+        else:
+            # Only ENTER and SEIZE Blocks can refuse entry
+            return False
 
 class StatementType(Enum):
     # Commands
