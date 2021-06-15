@@ -1,3 +1,4 @@
+from collections import deque
 from .entitydict import entitydict
 from .statement import Statement, StatementType, REDEFINABLE_STATEMENTS
 from .transaction import Transaction, TransactionGenerator
@@ -110,6 +111,7 @@ class Simulation:
         self.facilities = entitydict(self, Facility)
         self.storages = {}
         self.events = []
+        self.current_events = deque()
         
         # Reset Relative and Absolute Clocks
         self.rel_time = 0
@@ -145,6 +147,13 @@ class Simulation:
         self.events.sort(key=lambda event: event.time, reverse=True)
     
     def advance(self):
+        # Handle current events
+        if len(self.current_events):
+            current_events = self.current_events.copy()
+            while len(current_events):
+                current_events.popleft()()
+            self.current_events = deque()
+        
         # Handle next event
         try:
             event = self.events.pop()

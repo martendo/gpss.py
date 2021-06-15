@@ -139,6 +139,28 @@ class Transaction:
                     # Unconditional transfer mode
                     self.current_block = (
                         self.simulation.labels[block.operands[1]].number)
+                
+                elif block.operands[0] == "BOTH":
+                    # BOTH mode
+                    if block.operands[1] != "":
+                        b_block = (
+                            self.simulation.labels[block.operands[1]])
+                    else:
+                        # Use sequential Block
+                        b_block = (
+                            self.simulation.program[self.current_block])
+                    c_block = self.simulation.labels[block.operands[2]]
+                    
+                    if not b_block.refuse(self.simulation):
+                        self.current_block = b_block.number
+                    elif not c_block.refuse(self.simulation):
+                        self.current_block = c_block.number
+                    else:
+                        # Refused entry to both Blocks, stay on this one
+                        self.current_block -= 1
+                        self.simulation.current_events.append(self.update)
+                        return
+                
                 else:
                     # Statistical transfer mode
                     if random() < block.operands[0]:

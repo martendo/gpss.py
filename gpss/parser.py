@@ -128,17 +128,26 @@ class Parser:
         elif type_ is StatementType.STORAGE:
             self.parse_operand(statement, 0, req=self.positive)
         elif type_ is StatementType.TRANSFER:
-            if statement.operands[0] != "":
+            if statement.operands[0] == "":
+                # Unconditional transfer mode
+                statement.operands[0] = None
+            
+            elif statement.operands[0] == "BOTH":
+                # BOTH mode
+                pass
+            
+            else:
                 # Statistical transfer mode
-                fraction = float(statement.operands[0])
-                if not(0 < fraction < 1):
+                try:
+                    fraction = float(statement.operands[0])
+                    if not(0 < fraction < 1):
+                        raise ValueError
+                    statement.operands[0] = fraction
+                except ValueError:
                     parser_error(self, "A Operand of TRANSFER Block in "
                         "statistical transfer mode must be between 0 "
                         "and 1, exclusive "
                         f"(got {statement.operands[0]})")
-                statement.operands[0] = fraction
-            else:
-                statement.operands[0] = None
         
         debugmsg("statement:", statement.type, statement.operands)
         
