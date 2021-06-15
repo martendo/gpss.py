@@ -132,8 +132,8 @@ class Parser:
                 # Statistical transfer mode
                 fraction = float(statement.operands[0])
                 if not(0 < fraction < 1):
-                    parser_error(self, f"A Operand of TRANSFER Block in"
-                        "statistical transfer mode must be between 0"
+                    parser_error(self, "A Operand of TRANSFER Block in "
+                        "statistical transfer mode must be between 0 "
                         "and 1, exclusive "
                         f"(got {statement.operands[0]})")
                 statement.operands[0] = fraction
