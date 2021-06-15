@@ -23,6 +23,16 @@ class Storage:
     def content(self):
         return self.capacity - self.available
     
+    @property
+    def average_content(self):
+        return self.utilization / self.simulation.rel_time
+    @property
+    def average_utilization(self):
+        return self.utilization / (self.simulation.rel_time * self.capacity)
+    @property
+    def average_time(self):
+        return self.utilization / self.entries
+    
     def __repr__(self):
         return f"Storage({self.capacity}, {self.content}, {self.available})"
     

@@ -5,11 +5,11 @@ def createReport(simulation):
 
   "{queue.name}":
     Maximum content: {queue.max_content}
-    Average content: {(queue.utilization / simulation.rel_time):.3f}
+    Average content: {queue.average_content:.3f}
     Total entries: {queue.entries}
     Zero entries: {queue.zero_entries}
-    Percent zeros: {(queue.zero_entries / queue.entries * 100):.2f}%
-    Avg. time/Trans.: {(queue.utilization / queue.entries):.3f}
+    Percent zeros: {(queue.fraction_zeros * 100):.2f}%
+    Avg. time/Trans.: {queue.average_time:.3f}
     Current content: {queue.content}"""
     
     facilities = ""
@@ -17,10 +17,9 @@ def createReport(simulation):
         facilities += f"""
 
   "{facility.name}":
-    Avg. utilization: {(
-        facility.utilization / simulation.rel_time * 100):.2f}%
+    Avg. utilization: {(facility.average_utilization * 100):.2f}%
     Entries: {facility.entries}
-    Avg. time/Trans.: {(facility.utilization / facility.entries):.3f}
+    Avg. time/Trans.: {facility.average_time:.3f}
     Available: {"no" if facility.is_in_use else "yes"}"""
     
     storages = ""
@@ -29,11 +28,10 @@ def createReport(simulation):
 
   "{storage.name}":
     Capacity: {storage.capacity}
-    Average content: {(storage.utilization / simulation.rel_time):.3f}
-    Avg. utilization: {(storage.utilization / (
-        simulation.rel_time * storage.capacity) * 100):.2f}%
+    Average content: {storage.average_content:.3f}
+    Avg. utilization: {(storage.average_utilization * 100):.2f}%
     Entries: {storage.entries}
-    Avg. time/Trans.: {(storage.utilization / storage.entries):.3f}
+    Avg. time/Trans.: {storage.average_time:.3f}
     Maximum content: {storage.max_content}
     Current content: {storage.content}
     Remaining: {storage.available}

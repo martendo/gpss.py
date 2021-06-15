@@ -16,6 +16,16 @@ class Queue:
         self.zero_entries = 0
         self.last_change = self.simulation.time
     
+    @property
+    def average_content(self):
+        return self.utilization / self.simulation.rel_time
+    @property
+    def fraction_zeros(self):
+        return self.zero_entries / self.entries
+    @property
+    def average_time(self):
+        return self.utilization / self.entries
+    
     def __repr__(self):
         return f"Queue({self.content})"
     
