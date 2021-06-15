@@ -1,5 +1,8 @@
+from .entitydict import entitydict
 from .statement import Statement, StatementType, REDEFINABLE_STATEMENTS
 from .transaction import Transaction, TransactionGenerator
+from .queue import Queue
+from .facility import Facility
 from .storage import Storage
 from .report import createReport
 from .debug import debugmsg
@@ -103,8 +106,8 @@ class Simulation:
         # Clear leftover entities
         self.transactions = set()
         self.txn_generators = []
-        self.queues = {}
-        self.facilities = {}
+        self.queues = entitydict(self, Queue)
+        self.facilities = entitydict(self, Facility)
         self.storages = {}
         self.events = []
         

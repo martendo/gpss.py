@@ -1,8 +1,6 @@
 from random import randint, random
 from .statement import Statement, StatementType
 from .event import Event
-from .queue import Queue
-from .facility import Facility
 from .debug import debugmsg
 from .error import simulation_error
 
@@ -78,18 +76,13 @@ class Transaction:
                 self.simulation.terminate(self, block.operands[0])
                 return
             
-            elif block.type in (StatementType.QUEUE, StatementType.DEPART):
-                try:
-                    queue = self.simulation.queues[block.operands[0]]
-                except KeyError:
-                    # Queue doesn't exist yet -> create it
-                    queue = Queue(self.simulation, block.operands[0])
-                    self.simulation.queues[queue.name] = queue
-                
-                if block.type is StatementType.QUEUE:
-                    queue.join(self, block.operands[1])
-                else:
-                    queue.depart(self, block.operands[1])
+            elif block.type is StatementType.QUEUE:
+                self.simulation.queues[block.operands[0]].join(self,
+                    block.operands[1])
+            
+            elif block.type is StatementType.DEPART:
+                self.simulation.queues[block.operands[0]].depart(self,
+                    block.operands[1])
             
             elif block.type is StatementType.ADVANCE:
                 interval, spread = block.operands[0:2]
@@ -110,35 +103,27 @@ class Transaction:
                 self.simulation.add_event(Event(time, self.update))
                 return
             
-            elif block.type in (StatementType.SEIZE, StatementType.RELEASE):
-                try:
-                    facility = self.simulation.facilities[block.operands[0]]
-                except KeyError:
-                    # Facility doesn't exist yet -> create it
-                    facility = Facility(self.simulation, block.operands[0])
-                    self.simulation.facilities[facility.name] = facility
-                
-                if block.type is StatementType.SEIZE:
-                    # Use Facility or enter Delay Chain if busy
-                    if not facility.seize(self):
-                        # Facility is busy -> wait
-                        return
-                else:
-                    facility.release(self)
+            elif block.type is StatementType.SEIZE:
+                # Use Facility or enter Delay Chain if busy
+                if not self.simulation.facilities[block.operands[0]].seize(self):
+                    # Facility is busy -> wait
+                    return
+            
+            elif block.type is StatementType.RELEASE:
+                self.simulation.facilities[block.operands[0]].release(self)
             
             elif block.type is StatementType.ENTER:
                 # Enter Storage or enter Delay Chain if cannot satisfy
                 # demand
                 try:
-                    entered = (self.simulation.storages[block.operands[0]]
-                        .enter(self, block.operands[1]))
+                    if not(self.simulation.storages[block.operands[0]]
+                            .enter(self, block.operands[1])):
+                        # Not enough Storage available
+                        return
                 except KeyError:
                     simulation_error(self.simulation.parser.infile,
                         block.linenum,
                         f"No Storage named \"{block.operands[0]}\"")
-                if not entered:
-                    # Not enough Storage available
-                    return
             
             elif block.type is StatementType.LEAVE:
                 try:
