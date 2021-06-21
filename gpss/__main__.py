@@ -1,9 +1,6 @@
 import argparse
-from datetime import datetime
+import gpss
 from .debug import debugmsg, debugflag
-from .parser import Parser
-from .simulation import Simulation
-from .report import createReport
 from .error import SimulationError
 
 def main():
@@ -38,34 +35,28 @@ def main():
     debugmsg("args:", args)
     
     # Parse input file
-    parser = Parser()
     try:
-        parser.parse(args.infile)
+        gpss.parse(args.infile)
     except FileNotFoundError as err:
         print(f"ERROR: File not found: {args.infile}:\n"
             f"    {err.strerror}: {err.filename}")
         return
-    if parser.error_count > 0:
-        print(f"Parsing failed with {parser.error_count} "
-            f"error{'s' if parser.error_count != 1 else ''}")
+    if gpss.parser.error_count > 0:
+        print(f"Parsing failed with {gpss.parser.error_count} "
+            f"error{'s' if gpss.parser.error_count != 1 else ''}")
         return
     
     if not args.simulate:
         return
     
     # Run simulation
-    simulation = Simulation()
     try:
-        simulation.run(parser)
+        gpss.run()
     except SimulationError:
         return
     
     # Output report
-    output = f"""gpss.py Simulation Report - {args.infile}
-Generated on {datetime.now().strftime("%A, %B %d, %Y at %H:%M:%S %Z")
-    .strip()}
-"""
-    output += "".join(simulation.reports)
+    output = gpss.createReport()
     print("-" * 72)
     print(output, end="")
     if args.output is not None:

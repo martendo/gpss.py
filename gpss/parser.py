@@ -8,6 +8,7 @@ OPERAND_LETTERS = ("A", "B", "C", "D", "E", "F", "G")
 
 class Parser:
     def __init__(self):
+        self.infile = None
         self.error_count = 0
         
         self.statements = []
