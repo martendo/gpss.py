@@ -3,6 +3,8 @@ import gpss
 from ._helpers import flags, debugmsg
 
 def main():
+    flags["cli"] = True
+    
     argparser = argparse.ArgumentParser(
         prog="gpss.py",
         usage="python -m gpss [-S] [-d] [-o outfile] infile",
@@ -30,8 +32,9 @@ def main():
         version="v0.0.0",
     )
     args = argparser.parse_args()
-    flags["debug"] = args.debug
     debugmsg("args:", args)
+    
+    flags["debug"] = args.debug
     
     # Parse input file
     try:
