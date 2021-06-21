@@ -1,6 +1,6 @@
 import argparse
 import gpss
-from ._helpers import flags, debugmsg, SimulationError
+from ._helpers import flags, debugmsg
 
 def main():
     argparser = argparse.ArgumentParser(
@@ -51,7 +51,7 @@ def main():
     # Run simulation
     try:
         gpss.run()
-    except SimulationError:
+    except gpss.SimulationError:
         return
     
     # Output report

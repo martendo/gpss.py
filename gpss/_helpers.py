@@ -1,3 +1,5 @@
+import gpss
+
 flags = {
     "debug": False,
 }
@@ -17,15 +19,8 @@ def parser_error(parser, message):
         f"    {message}")
     parser.error_count += 1
 
-# Errors that occur during simulation
-class SimulationError(Exception):
-    def __init__(self, filename, linenum, message):
-        self.filename = filename
-        self.linenum = linenum
-        self.message = message
-
 # Print and raise a simulation error
 def simulation_error(filename, linenum, message):
     print(f"ERROR: Simulation error: {filename}({linenum}):\n"
         f"    {message}")
-    raise SimulationError(filename, linenum, message)
+    raise gpss.SimulationError(filename, linenum, message)

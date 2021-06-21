@@ -2,6 +2,13 @@ from datetime import datetime
 from .parser import Parser
 from .simulation import Simulation
 
+# Errors that occur during simulation
+class SimulationError(Exception):
+    def __init__(self, filename, linenum, message):
+        self.filename = filename
+        self.linenum = linenum
+        self.message = message
+
 parser = Parser()
 simulation = Simulation()
 

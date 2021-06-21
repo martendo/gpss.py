@@ -57,8 +57,8 @@ count through `gpss.parser.error_count`.
 Run a simulation. If specified, `infile` will be parsed with
 [`gpss.parse()`](#functions-parse).
 
-A `gpss.error.SimulationError` will be raised if anything illegal occurs
-in the simulation.
+A `gpss.SimulationError` will be raised if anything illegal occurs in
+the simulation.
 
 #### `gpss.createReport()`{:.codeh} {#createReport}
 Return a master simulation report. Contained within are all the
