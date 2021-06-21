@@ -1,6 +1,5 @@
 from .statement import Statement, StatementType
-from .debug import debugmsg
-from .error import parser_error, warn
+from ._helpers import debugmsg, parser_error, warn
 
 undefined = object()
 

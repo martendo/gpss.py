@@ -1,6 +1,5 @@
 from .delay_chain import DelayChain
-from .debug import debugmsg
-from .error import simulation_error
+from ._helpers import debugmsg, simulation_error
 
 class Facility:
     def __init__(self, simulation, name):

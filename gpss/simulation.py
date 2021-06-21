@@ -6,8 +6,7 @@ from .queue import Queue
 from .facility import Facility
 from .storage import Storage
 from .report import createReport
-from .debug import debugmsg
-from .error import simulation_error
+from ._helpers import debugmsg, simulation_error
 
 class Simulation:
     def __init__(self):

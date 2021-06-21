@@ -1,8 +1,7 @@
 from random import randint, random
 from .statement import Statement, StatementType
 from .event import Event
-from .debug import debugmsg
-from .error import simulation_error
+from ._helpers import debugmsg, simulation_error
 
 class TransactionGenerator:
     def __init__(self, simulation, block_num, operands):

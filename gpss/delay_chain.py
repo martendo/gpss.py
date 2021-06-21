@@ -1,5 +1,5 @@
 from collections import defaultdict, deque
-from .debug import debugmsg
+from ._helpers import debugmsg
 
 class DelayChain:
     def __init__(self):

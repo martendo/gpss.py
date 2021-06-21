@@ -1,7 +1,6 @@
 import argparse
 import gpss
-from .debug import debugmsg, debugflag
-from .error import SimulationError
+from ._helpers import flags, debugmsg, SimulationError
 
 def main():
     argparser = argparse.ArgumentParser(
@@ -31,7 +30,7 @@ def main():
         version="v0.0.0",
     )
     args = argparser.parse_args()
-    debugflag["debug"] = args.debug
+    flags["debug"] = args.debug
     debugmsg("args:", args)
     
     # Parse input file
