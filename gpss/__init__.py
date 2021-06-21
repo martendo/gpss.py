@@ -8,6 +8,9 @@ class SimulationError(Exception):
         self.filename = filename
         self.linenum = linenum
         self.message = message
+    
+    def __str__(self):
+        return f"{self.filename}({self.linenum}): {self.message}"
 
 parser = Parser()
 simulation = Simulation()
