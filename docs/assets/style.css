@@ -31,6 +31,9 @@ h2 {
 h2, h3, h4, h5, h6 {
   font-weight: 500;
 }
+h1 .codeh, h2 .codeh, h3 .codeh, h4 .codeh, h5 .codeh, h6 .codeh {
+  font-size: 135%;
+}
 
 section {
   margin: 0;
