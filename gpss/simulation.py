@@ -15,7 +15,7 @@ class Simulation:
         self.reports = []
         self.current_number = 0
     
-    def __repr__(self):
+    def __str__(self):
         return f"Simulation({self.running})"
     
     def run(self, parser):

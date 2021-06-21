@@ -42,7 +42,7 @@ class Storage:
         except ZeroDivisionError:
             return -1
     
-    def __repr__(self):
+    def __str__(self):
         return f"Storage({self.capacity}, {self.content}, {self.available})"
     
     def change(self):

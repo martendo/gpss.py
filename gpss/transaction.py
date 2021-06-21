@@ -11,7 +11,7 @@ class TransactionGenerator:
         self.operands = operands
         self.generated = 0
     
-    def __repr__(self):
+    def __str__(self):
         return f"TransactionGenerator({','.join(map(str, self.operands))})"
     
     def prime(self):
@@ -60,7 +60,7 @@ class Transaction:
         self.current_block = start_block
         self.priority = priority
     
-    def __repr__(self):
+    def __str__(self):
         return f"Transaction({self.priority})"
     
     def update(self):

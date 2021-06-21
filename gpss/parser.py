@@ -14,7 +14,7 @@ class Parser:
         self.current_label = None
         self.labels = {}
     
-    def __repr__(self):
+    def __str__(self):
         return f"Parser({self.error_count})"
     
     def parse(self, infile):

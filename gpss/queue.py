@@ -35,7 +35,7 @@ class Queue:
         except ZeroDivisionError:
             return -1
     
-    def __repr__(self):
+    def __str__(self):
         return f"Queue({self.content})"
     
     def change(self):

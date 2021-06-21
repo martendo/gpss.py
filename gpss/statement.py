@@ -10,7 +10,7 @@ class Statement:
         self.linenum = linenum
         self.number = number
     
-    def __repr__(self):
+    def __str__(self):
         return (f"Statement({self.type.name}, "
             f"({','.join(map(str, self.operands))}))")
     

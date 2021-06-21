@@ -28,7 +28,7 @@ class Facility:
         except ZeroDivisionError:
             return -1
     
-    def __repr__(self):
+    def __str__(self):
         return f"Facility({self.is_in_use})"
     
     def seize(self, transaction):

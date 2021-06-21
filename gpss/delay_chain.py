@@ -9,7 +9,7 @@ class DelayChain:
     def line(self):
         return sorted(self.content.items(), reverse=True)
     
-    def __repr__(self):
+    def __str__(self):
         return (f"DelayChain({len(self)}, "
             f"{ {p: len(s) for p, s in self.line} })")
     
