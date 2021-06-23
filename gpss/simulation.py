@@ -1,4 +1,5 @@
-from collections import deque
+from collections import deque, defaultdict
+from random import Random
 from .entitydict import entitydict
 from .statement import Statement, StatementType, REDEFINABLE_STATEMENTS
 from .transaction import Transaction, TransactionGenerator
@@ -9,6 +10,8 @@ from .report import createReport
 from ._helpers import debugmsg, simulation_error
 
 class Simulation:
+    RNG_SEED = 134630
+    
     def __init__(self):
         self.running = False
         self.current_statement = None
@@ -111,6 +114,8 @@ class Simulation:
         self.storages = {}
         self.events = []
         self.current_events = deque()
+        if first:
+            self.rngs = defaultdict(lambda: Random(self.RNG_SEED))
         
         # Reset Relative and Absolute Clocks
         self.rel_time = 0

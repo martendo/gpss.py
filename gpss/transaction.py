@@ -1,4 +1,3 @@
-from random import randint, random
 from .statement import Statement, StatementType
 from .event import Event
 from ._helpers import debugmsg, simulation_error
@@ -29,7 +28,9 @@ class TransactionGenerator:
         if time is None:
             time = self.simulation.time + self.operands[0]
             if self.operands[1] != 0:
-                time += randint(-self.operands[1], +self.operands[1])
+                time += self.simulation.rngs[1].randint(
+                    -self.operands[1], +self.operands[1],
+                )
         
         if time < self.simulation.time:
             simulation_error(self.simulation.parser.infile,
@@ -88,7 +89,9 @@ class Transaction:
                 # Add event for end of delay
                 time = self.simulation.time + interval
                 if spread != 0:
-                    time += randint(-spread, +spread)
+                    time += self.simulation.rngs[1].randint(
+                        -spread, +spread,
+                    )
                 
                 if time < self.simulation.time:
                     simulation_error(self.simulation.parser.infile,
@@ -162,7 +165,7 @@ class Transaction:
                 
                 else:
                     # Statistical transfer mode
-                    if random() < block.operands[0]:
+                    if self.simulation.rngs[1].random() < block.operands[0]:
                         new_block = block.operands[2]
                     else:
                         new_block = block.operands[1]
