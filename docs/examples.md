@@ -41,10 +41,10 @@ A one-line, one-server queuing system. Adapted from Case Study 2A of
         END                     ; Exit the program
 ~~~
 
-### Sample Output
+### Output
 ~~~
 gpss.py Simulation Report - examples/barber.gps
-Generated on Sunday, June 13, 2021 at 21:08:51
+Generated on Thursday, June 24, 2021 at 09:10:41
 
 ============================= SIMULATION 1 =============================
 
@@ -54,21 +54,21 @@ Absolute Clock: 480
 Facilities: 1
 
   "Barber":
-    Avg. utilization: 83.75%
-    Entries: 27
-    Avg. time/Trans.: 14.889
+    Avg. utilization: 86.04%
+    Entries: 26
+    Avg. time/Trans.: 15.885
     Available: no
 
 Queues: 1
 
   "Line":
     Maximum content: 1
-    Average content: 0.085
+    Average content: 0.160
     Total entries: 27
-    Zero entries: 16
-    Percent zeros: 59.26%
-    Avg. time/Trans.: 1.519
-    Current content: 0
+    Zero entries: 12
+    Percent zeros: 44.44%
+    Avg. time/Trans.: 2.852
+    Current content: 1
 
 Storages: 0
 ~~~
@@ -110,10 +110,10 @@ distinctions. Adapted from Case Study 2C of
         END                         ; Exit the program
 ~~~
 
-### Sample Output
+### Output
 ~~~
 gpss.py Simulation Report - examples/tool-crib.gps
-Generated on Sunday, June 13, 2021 at 21:09:43
+Generated on Thursday, June 24, 2021 at 09:11:06
 
 ============================= SIMULATION 1 =============================
 
@@ -123,21 +123,21 @@ Absolute Clock: 28800
 Facilities: 1
 
   "Clerk":
-    Avg. utilization: 92.66%
-    Entries: 143
-    Avg. time/Trans.: 186.622
+    Avg. utilization: 92.58%
+    Entries: 147
+    Avg. time/Trans.: 181.374
     Available: no
 
 Queues: 1
 
   "Line":
-    Maximum content: 7
-    Average content: 1.831
-    Total entries: 148
-    Zero entries: 15
-    Percent zeros: 10.14%
-    Avg. time/Trans.: 356.345
-    Current content: 5
+    Maximum content: 5
+    Average content: 1.294
+    Total entries: 149
+    Zero entries: 17
+    Percent zeros: 11.41%
+    Avg. time/Trans.: 250.040
+    Current content: 2
 
 Storages: 0
 ~~~
@@ -175,10 +175,10 @@ Key     GENERATE    ,,,6    ; Reconfigure for 3rd run
         END                 ; Exit the program
 ~~~
 
-### Sample Output
+### Output
 ~~~
 gpss.py Simulation Report - examples/widgets.gps
-Generated on Sunday, June 13, 2021 at 21:10:03
+Generated on Thursday, June 24, 2021 at 09:11:24
 
 ============================= SIMULATION 1 =============================
 
@@ -188,10 +188,10 @@ Absolute Clock: 2400
 Facilities: 1
 
   "Oven":
-    Avg. utilization: 80.79%
-    Entries: 240
-    Avg. time/Trans.: 8.079
-    Available: yes
+    Avg. utilization: 78.88%
+    Entries: 237
+    Avg. time/Trans.: 7.987
+    Available: no
 
 Queues: 0
 
@@ -205,9 +205,9 @@ Absolute Clock: 2400
 Facilities: 1
 
   "Oven":
-    Avg. utilization: 94.83%
-    Entries: 281
-    Avg. time/Trans.: 8.100
+    Avg. utilization: 94.04%
+    Entries: 285
+    Avg. time/Trans.: 7.919
     Available: no
 
 Queues: 0
@@ -222,9 +222,9 @@ Absolute Clock: 2400
 Facilities: 1
 
   "Oven":
-    Avg. utilization: 98.71%
-    Entries: 301
-    Avg. time/Trans.: 7.870
+    Avg. utilization: 98.92%
+    Entries: 295
+    Avg. time/Trans.: 8.047
     Available: no
 
 Queues: 0
@@ -269,10 +269,10 @@ Adjust  QUEUE       AdjustWait      ; Enter adjustment waiting area
         END                         ; Exit the program
 ~~~
 
-### Sample Output
+### Output
 ~~~
 gpss.py Simulation Report - examples/inspection.gps
-Generated on Sunday, June 13, 2021 at 20:56:42
+Generated on Thursday, June 24, 2021 at 09:11:43
 
 ============================= SIMULATION 1 =============================
 
@@ -282,39 +282,39 @@ Absolute Clock: 4800
 Facilities: 1
 
   "Adjustor":
-    Avg. utilization: 78.46%
-    Entries: 13
-    Avg. time/Trans.: 289.692
-    Available: no
+    Avg. utilization: 55.54%
+    Entries: 9
+    Avg. time/Trans.: 296.222
+    Available: yes
 
 Queues: 2
 
   "InspectWait":
-    Maximum content: 3
-    Average content: 0.759
-    Total entries: 101
-    Zero entries: 14
-    Percent zeros: 13.86%
-    Avg. time/Trans.: 36.050
-    Current content: 1
+    Maximum content: 2
+    Average content: 0.281
+    Total entries: 93
+    Zero entries: 50
+    Percent zeros: 53.76%
+    Avg. time/Trans.: 14.505
+    Current content: 0
 
   "AdjustWait":
-    Maximum content: 3
-    Average content: 1.060
-    Total entries: 15
-    Zero entries: 2
-    Percent zeros: 13.33%
-    Avg. time/Trans.: 339.133
-    Current content: 2
+    Maximum content: 2
+    Average content: 0.281
+    Total entries: 9
+    Zero entries: 4
+    Percent zeros: 44.44%
+    Avg. time/Trans.: 150.000
+    Current content: 0
 
 Storages: 1
 
   "Inspection":
     Capacity: 2
-    Average content: 1.907
-    Avg. utilization: 95.36%
-    Entries: 100
-    Avg. time/Trans.: 91.550
+    Average content: 1.676
+    Avg. utilization: 83.82%
+    Entries: 93
+    Avg. time/Trans.: 86.527
     Maximum content: 2
     Current content: 2
     Remaining: 0
@@ -328,39 +328,39 @@ Absolute Clock: 9600
 Facilities: 1
 
   "Adjustor":
-    Avg. utilization: 86.31%
-    Entries: 27
-    Avg. time/Trans.: 306.889
+    Avg. utilization: 60.72%
+    Entries: 20
+    Avg. time/Trans.: 291.450
     Available: no
 
 Queues: 2
 
   "InspectWait":
     Maximum content: 3
-    Average content: 0.903
-    Total entries: 205
-    Zero entries: 29
-    Percent zeros: 14.15%
-    Avg. time/Trans.: 42.302
+    Average content: 0.358
+    Total entries: 191
+    Zero entries: 84
+    Percent zeros: 43.98%
+    Avg. time/Trans.: 17.984
     Current content: 2
 
   "AdjustWait":
-    Maximum content: 3
-    Average content: 1.088
-    Total entries: 28
-    Zero entries: 3
-    Percent zeros: 10.71%
-    Avg. time/Trans.: 372.893
-    Current content: 1
+    Maximum content: 2
+    Average content: 0.159
+    Total entries: 20
+    Zero entries: 12
+    Percent zeros: 60.00%
+    Avg. time/Trans.: 76.100
+    Current content: 0
 
 Storages: 1
 
   "Inspection":
     Capacity: 2
-    Average content: 1.922
-    Avg. utilization: 96.10%
-    Entries: 203
-    Avg. time/Trans.: 90.897
+    Average content: 1.769
+    Avg. utilization: 88.47%
+    Entries: 189
+    Avg. time/Trans.: 89.878
     Maximum content: 2
     Current content: 2
     Remaining: 0
@@ -374,39 +374,39 @@ Absolute Clock: 14400
 Facilities: 1
 
   "Adjustor":
-    Avg. utilization: 91.06%
-    Entries: 43
-    Avg. time/Trans.: 304.953
+    Avg. utilization: 74.72%
+    Entries: 37
+    Avg. time/Trans.: 290.784
     Available: no
 
 Queues: 2
 
   "InspectWait":
     Maximum content: 3
-    Average content: 0.883
-    Total entries: 308
-    Zero entries: 40
-    Percent zeros: 12.99%
-    Avg. time/Trans.: 41.289
-    Current content: 0
+    Average content: 0.487
+    Total entries: 293
+    Zero entries: 106
+    Percent zeros: 36.18%
+    Avg. time/Trans.: 23.915
+    Current content: 2
 
   "AdjustWait":
-    Maximum content: 6
-    Average content: 1.831
-    Total entries: 43
-    Zero entries: 3
-    Percent zeros: 6.98%
-    Avg. time/Trans.: 613.279
+    Maximum content: 3
+    Average content: 0.493
+    Total entries: 37
+    Zero entries: 14
+    Percent zeros: 37.84%
+    Avg. time/Trans.: 191.946
     Current content: 0
 
 Storages: 1
 
   "Inspection":
     Capacity: 2
-    Average content: 1.936
-    Avg. utilization: 96.79%
-    Entries: 308
-    Avg. time/Trans.: 90.503
+    Average content: 1.813
+    Avg. utilization: 90.67%
+    Entries: 291
+    Avg. time/Trans.: 89.739
     Maximum content: 2
     Current content: 2
     Remaining: 0
@@ -420,39 +420,39 @@ Absolute Clock: 19200
 Facilities: 1
 
   "Adjustor":
-    Avg. utilization: 89.22%
-    Entries: 57
-    Avg. time/Trans.: 300.526
+    Avg. utilization: 76.21%
+    Entries: 50
+    Avg. time/Trans.: 292.660
     Available: no
 
 Queues: 2
 
   "InspectWait":
-    Maximum content: 3
-    Average content: 0.775
-    Total entries: 409
-    Zero entries: 72
-    Percent zeros: 17.60%
-    Avg. time/Trans.: 36.372
-    Current content: 0
+    Maximum content: 4
+    Average content: 0.571
+    Total entries: 394
+    Zero entries: 125
+    Percent zeros: 31.73%
+    Avg. time/Trans.: 27.827
+    Current content: 1
 
   "AdjustWait":
-    Maximum content: 6
-    Average content: 1.468
-    Total entries: 57
-    Zero entries: 9
-    Percent zeros: 15.79%
-    Avg. time/Trans.: 494.614
-    Current content: 0
+    Maximum content: 3
+    Average content: 0.449
+    Total entries: 52
+    Zero entries: 18
+    Percent zeros: 34.62%
+    Avg. time/Trans.: 165.750
+    Current content: 2
 
 Storages: 1
 
   "Inspection":
     Capacity: 2
-    Average content: 1.924
-    Avg. utilization: 96.20%
-    Entries: 409
-    Avg. time/Trans.: 90.318
+    Average content: 1.839
+    Avg. utilization: 91.94%
+    Entries: 393
+    Avg. time/Trans.: 89.837
     Maximum content: 2
     Current content: 2
     Remaining: 0
@@ -466,43 +466,43 @@ Absolute Clock: 24000
 Facilities: 1
 
   "Adjustor":
-    Avg. utilization: 84.05%
-    Entries: 67
-    Avg. time/Trans.: 301.075
+    Avg. utilization: 78.84%
+    Entries: 65
+    Avg. time/Trans.: 291.108
     Available: no
 
 Queues: 2
 
   "InspectWait":
-    Maximum content: 3
-    Average content: 0.674
-    Total entries: 505
-    Zero entries: 119
-    Percent zeros: 23.56%
-    Avg. time/Trans.: 32.012
+    Maximum content: 4
+    Average content: 0.598
+    Total entries: 496
+    Zero entries: 149
+    Percent zeros: 30.04%
+    Avg. time/Trans.: 28.938
     Current content: 0
 
   "AdjustWait":
-    Maximum content: 6
-    Average content: 1.305
-    Total entries: 73
-    Zero entries: 14
-    Percent zeros: 19.18%
-    Avg. time/Trans.: 429.082
-    Current content: 6
+    Maximum content: 3
+    Average content: 0.535
+    Total entries: 67
+    Zero entries: 19
+    Percent zeros: 28.36%
+    Avg. time/Trans.: 191.746
+    Current content: 2
 
 Storages: 1
 
   "Inspection":
     Capacity: 2
-    Average content: 1.895
-    Avg. utilization: 94.73%
-    Entries: 505
-    Avg. time/Trans.: 90.036
+    Average content: 1.849
+    Avg. utilization: 92.44%
+    Entries: 496
+    Avg. time/Trans.: 89.458
     Maximum content: 2
-    Current content: 1
-    Remaining: 1
-    Available: yes
+    Current content: 2
+    Remaining: 0
+    Available: no
 ~~~
 
 [gpss primer]: https://hdl.handle.net/2027.42/7464
