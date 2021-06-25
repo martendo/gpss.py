@@ -34,6 +34,12 @@ class Queue:
             return self.utilization / self.entries
         except ZeroDivisionError:
             return -1
+    @property
+    def average_nz_time(self):
+        try:
+            return self.utilization / (self.entries - self.zero_entries)
+        except ZeroDivisionError:
+            return -1
     
     def __str__(self):
         return f"Queue({self.content})"

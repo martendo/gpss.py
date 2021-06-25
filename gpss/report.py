@@ -18,6 +18,7 @@ def createReport(simulation):
             f"    Zero entries: {queue.zero_entries}\n"
             f"    Percent zeros: {na(queue.fraction_zeros * 100, '{:.2f}%')}\n"
             f"    Avg. time/Trans.: {na(queue.average_time, '{:.3f}')}\n"
+            f"    $ Avg. time/Trans.: {na(queue.average_nz_time, '{:.3f}')}\n"
             f"    Current content: {queue.content}"
         )
     
