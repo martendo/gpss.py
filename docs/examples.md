@@ -44,7 +44,7 @@ A one-line, one-server queuing system. Adapted from Case Study 2A of
 ### Output
 ~~~
 gpss.py Simulation Report - examples/barber.gps
-Generated on Thursday, June 24, 2021 at 09:10:41
+Generated on Saturday, June 05, 2021 at 17:33:34
 
 ============================= SIMULATION 1 =============================
 
@@ -113,7 +113,7 @@ distinctions. Adapted from Case Study 2C of
 ### Output
 ~~~
 gpss.py Simulation Report - examples/tool-crib.gps
-Generated on Thursday, June 24, 2021 at 09:11:06
+Generated on Saturday, June 05, 2021 at 17:33:34
 
 ============================= SIMULATION 1 =============================
 
@@ -178,7 +178,7 @@ Key     GENERATE    ,,,6    ; Reconfigure for 3rd run
 ### Output
 ~~~
 gpss.py Simulation Report - examples/widgets.gps
-Generated on Thursday, June 24, 2021 at 09:11:24
+Generated on Saturday, June 05, 2021 at 17:33:34
 
 ============================= SIMULATION 1 =============================
 
@@ -272,7 +272,7 @@ Adjust  QUEUE       AdjustWait      ; Enter adjustment waiting area
 ### Output
 ~~~
 gpss.py Simulation Report - examples/inspection.gps
-Generated on Thursday, June 24, 2021 at 09:11:43
+Generated on Saturday, June 05, 2021 at 17:33:34
 
 ============================= SIMULATION 1 =============================
 
