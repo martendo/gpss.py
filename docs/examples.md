@@ -68,6 +68,7 @@ Queues: 1
     Zero entries: 12
     Percent zeros: 44.44%
     Avg. time/Trans.: 2.852
+    $ Avg. time/Trans.: 5.133
     Current content: 1
 
 Storages: 0
@@ -137,6 +138,7 @@ Queues: 1
     Zero entries: 17
     Percent zeros: 11.41%
     Avg. time/Trans.: 250.040
+    $ Avg. time/Trans.: 282.242
     Current content: 2
 
 Storages: 0
@@ -296,6 +298,7 @@ Queues: 2
     Zero entries: 50
     Percent zeros: 53.76%
     Avg. time/Trans.: 14.505
+    $ Avg. time/Trans.: 31.372
     Current content: 0
 
   "AdjustWait":
@@ -305,6 +308,7 @@ Queues: 2
     Zero entries: 4
     Percent zeros: 44.44%
     Avg. time/Trans.: 150.000
+    $ Avg. time/Trans.: 270.000
     Current content: 0
 
 Storages: 1
@@ -342,6 +346,7 @@ Queues: 2
     Zero entries: 84
     Percent zeros: 43.98%
     Avg. time/Trans.: 17.984
+    $ Avg. time/Trans.: 32.103
     Current content: 2
 
   "AdjustWait":
@@ -351,6 +356,7 @@ Queues: 2
     Zero entries: 12
     Percent zeros: 60.00%
     Avg. time/Trans.: 76.100
+    $ Avg. time/Trans.: 190.250
     Current content: 0
 
 Storages: 1
@@ -388,6 +394,7 @@ Queues: 2
     Zero entries: 106
     Percent zeros: 36.18%
     Avg. time/Trans.: 23.915
+    $ Avg. time/Trans.: 37.471
     Current content: 2
 
   "AdjustWait":
@@ -397,6 +404,7 @@ Queues: 2
     Zero entries: 14
     Percent zeros: 37.84%
     Avg. time/Trans.: 191.946
+    $ Avg. time/Trans.: 308.783
     Current content: 0
 
 Storages: 1
@@ -434,6 +442,7 @@ Queues: 2
     Zero entries: 125
     Percent zeros: 31.73%
     Avg. time/Trans.: 27.827
+    $ Avg. time/Trans.: 40.758
     Current content: 1
 
   "AdjustWait":
@@ -443,6 +452,7 @@ Queues: 2
     Zero entries: 18
     Percent zeros: 34.62%
     Avg. time/Trans.: 165.750
+    $ Avg. time/Trans.: 253.500
     Current content: 2
 
 Storages: 1
@@ -480,6 +490,7 @@ Queues: 2
     Zero entries: 149
     Percent zeros: 30.04%
     Avg. time/Trans.: 28.938
+    $ Avg. time/Trans.: 41.363
     Current content: 0
 
   "AdjustWait":
@@ -489,6 +500,7 @@ Queues: 2
     Zero entries: 19
     Percent zeros: 28.36%
     Avg. time/Trans.: 191.746
+    $ Avg. time/Trans.: 267.646
     Current content: 2
 
 Storages: 1
