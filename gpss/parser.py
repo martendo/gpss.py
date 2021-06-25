@@ -139,15 +139,23 @@ class Parser:
             else:
                 # Statistical transfer mode
                 try:
-                    fraction = float(statement.operands[0])
-                    if not(0 < fraction < 1):
+                    chance = int(statement.operands[0])
+                    if not(0 <= chance < 1000):
                         raise ValueError
-                    statement.operands[0] = fraction
+                    statement.operands[0] = chance / 1000
                 except ValueError:
-                    parser_error(self, "A Operand of TRANSFER Block in "
-                        "statistical transfer mode must be between 0 "
-                        "and 1, exclusive "
-                        f"(got {statement.operands[0]})")
+                    try:
+                        chance = float(statement.operands[0])
+                        if not(0 <= chance < 1):
+                            raise ValueError
+                        statement.operands[0] = chance
+                    except ValueError:
+                        parser_error(self, "A Operand of TRANSFER "
+                            "Block in statistical transfer mode must "
+                            "be either a fraction between 0 and .999+ "
+                            "or an integer representing parts-per-"
+                            "thousand between 0 and 999 "
+                            f"(got \"{statement.operands[0]}\")")
         
         debugmsg("statement:", statement.type, statement.operands)
         
