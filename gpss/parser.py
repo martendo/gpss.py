@@ -17,11 +17,15 @@ class Parser:
     def __str__(self):
         return f"Parser({self.error_count})"
     
-    def parse(self, infile):
+    def parse(self, infile=None, program=None):
         # Open and read GPSS program
-        self.infile = infile
-        with open(self.infile, "r") as file:
-            self.inputdata = file.read()
+        if infile is not None:
+            self.infile = infile
+            with open(self.infile, "r") as file:
+                self.inputdata = file.read()
+        else:
+            self.inputdata = program
+            self.infile = "instr"
         self.inputlines = map(str.strip, self.inputdata.splitlines())
         
         # Get Statements from program

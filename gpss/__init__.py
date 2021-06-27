@@ -15,12 +15,12 @@ class SimulationError(Exception):
 parser = Parser()
 simulation = Simulation()
 
-def parse(infile):
-    parser.parse(infile)
+def parse(*args, **kwargs):
+    parser.parse(*args, **kwargs)
 
-def run(infile=None):
-    if infile is not None:
-        parse(infile)
+def run(*args, **kwargs):
+    if len(args) + len(kwargs) > 0:
+        parse(*args, **kwargs)
     simulation.run(parser)
 
 def getReports():
