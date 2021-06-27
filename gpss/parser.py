@@ -8,16 +8,17 @@ OPERAND_LETTERS = ("A", "B", "C", "D", "E", "F", "G")
 class Parser:
     def __init__(self):
         self.infile = None
-        self.error_count = 0
-        
-        self.statements = []
-        self.current_label = None
-        self.labels = {}
     
     def __str__(self):
         return f"Parser({self.error_count})"
     
     def parse(self, infile=None, program=None):
+        # Reset variables
+        self.error_count = 0
+        self.statements = []
+        self.current_label = None
+        self.labels = {}
+        
         # Open and read GPSS program
         if infile is not None:
             self.infile = infile
