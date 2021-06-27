@@ -1,7 +1,6 @@
 ---
 title: gpss.py
 permalink: /
-layout: default
 ---
 
 # gpss.py

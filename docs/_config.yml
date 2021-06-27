@@ -10,6 +10,13 @@ github_repo: "https://github.com/martendo/gpss.py"
 # Build settings
 theme: null
 
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: "default"
+
 # Exclude from processing
 exclude:
   - Gemfile

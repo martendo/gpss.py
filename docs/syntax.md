@@ -1,7 +1,6 @@
 ---
 title: gpss.py Syntax
 permalink: /syntax
-layout: default
 ---
 
 # Syntax

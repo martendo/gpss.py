@@ -1,7 +1,6 @@
 ---
 title: gpss.py Examples
 permalink: /examples
-layout: default
 ---
 
 # Examples
