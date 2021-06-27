@@ -23,7 +23,11 @@ def warn(filename, linenum, message):
 def parser_error(parser, message):
     output(f"ERROR: Parser error: {parser.infile}({parser.linenum}):\n"
         f"    {message}")
-    parser.error_count += 1
+    parser.errors.append(gpss.ParserError(
+        parser.infile,
+        parser.linenum,
+        message,
+    ))
 
 # Print and raise a simulation error
 def simulation_error(filename, linenum, message):

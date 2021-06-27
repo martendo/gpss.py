@@ -10,11 +10,11 @@ class Parser:
         self.infile = None
     
     def __str__(self):
-        return f"Parser({self.error_count})"
+        return f"Parser({len(self.errors)})"
     
     def parse(self, infile=None, program=None):
         # Reset variables
-        self.error_count = 0
+        self.errors = []
         self.statements = []
         self.current_label = None
         self.labels = {}

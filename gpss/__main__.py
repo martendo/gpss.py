@@ -43,9 +43,9 @@ def main():
         print(f"ERROR: File not found: {args.infile}:\n"
             f"    {err.strerror}: {err.filename}")
         return
-    if gpss.parser.error_count > 0:
-        print(f"Parsing failed with {gpss.parser.error_count} "
-            f"error{'s' if gpss.parser.error_count != 1 else ''}")
+    if len(gpss.parser.errors):
+        print(f"Parsing failed with {len(gpss.parser.errors)} "
+            f"error{'s' if len(gpss.parser.errors) != 1 else ''}")
         return
     
     if not args.simulate:

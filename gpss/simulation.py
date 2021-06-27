@@ -23,7 +23,7 @@ class Simulation:
     
     def run(self, parser):
         self.parser = parser
-        if self.parser.error_count > 0:
+        if len(self.parser.errors):
             # Couldn't parse the entire program successfully
             simulation_error(self.parser.infile, None,
                 "Can't run a GPSS program with parser errors")
