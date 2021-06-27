@@ -1,4 +1,4 @@
-import gpss
+from .error import ParserError, SimulationError
 
 flags = {
     "cli": False,
@@ -23,7 +23,7 @@ def warn(filename, linenum, message):
 def parser_error(parser, message):
     output(f"ERROR: Parser error: {parser.infile}({parser.linenum}):\n"
         f"    {message}")
-    parser.errors.append(gpss.ParserError(
+    parser.errors.append(ParserError(
         parser.infile,
         parser.linenum,
         message,
@@ -33,4 +33,4 @@ def parser_error(parser, message):
 def simulation_error(filename, linenum, message):
     output(f"ERROR: Simulation error: {filename}({linenum}):\n"
         f"    {message}")
-    raise gpss.SimulationError(filename, linenum, message)
+    raise SimulationError(filename, linenum, message)

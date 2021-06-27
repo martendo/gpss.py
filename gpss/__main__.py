@@ -54,7 +54,7 @@ def main():
     # Run simulation
     try:
         gpss.run()
-    except gpss.SimulationError:
+    except gpss.error.SimulationError:
         return
     
     # Output report
