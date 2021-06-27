@@ -116,6 +116,7 @@ class Simulation:
         self.current_events = deque()
         if first:
             self.rngs = defaultdict(lambda: Random(self.RNG_SEED))
+            self.current_statement = None
         
         # Reset Relative and Absolute Clocks
         self.rel_time = 0
