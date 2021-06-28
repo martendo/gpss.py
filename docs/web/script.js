@@ -24,6 +24,8 @@ document.getElementById("simulateBtn").addEventListener("click", () => {
     } catch (error) {
       if (error instanceof SyntaxError) {
         responseError(request.responseText);
+      } else {
+        throw error;
       }
     }
     switch (data["status"]) {
