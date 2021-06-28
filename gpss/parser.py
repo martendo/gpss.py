@@ -69,8 +69,7 @@ class Parser:
                     label=fields[0])
             else:
                 parser_error(self, "Too many fields in line "
-                    f"(expected 1-3, got {len(fields)}): "
-                    f"\"{line.strip()}\"")
+                    f"(expected 1-3, got {len(fields)})")
                 continue
     
     def parse_statement(self, name, operands="", label=None):
