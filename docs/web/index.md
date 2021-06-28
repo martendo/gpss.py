@@ -1,10 +1,10 @@
 ---
-title: Test gpss.py
-permalink: /test
-style: /test/style.css
+title: Web gpss.py
+permalink: /web
+style: /web/style.css
 ---
 
-# Test gpss.py
+# Web gpss.py
 This page uses [gpss-server][gpss-server]{:target="_blank"} to run
 gpss.py and the [Ace code editor][ace]{:target="_blank"}.
 
@@ -46,8 +46,8 @@ Your simulation report will show up here.
 ~~~
 {:#response}
 
-<script src="{{ '/test/ace/ace.js' | relative_url }}" type="text/javascript" charset="utf-8"></script>
-<script src="{{ '/test/script.js' | relative_url }}" type="text/javascript" charset="utf-8"></script>
+<script src="{{ '/web/ace/ace.js' | relative_url }}" type="text/javascript" charset="utf-8"></script>
+<script src="{{ '/web/script.js' | relative_url }}" type="text/javascript" charset="utf-8"></script>
 
 [gpss-server]: https://github.com/martendo/gpss-server
 [ace]: https://ace.c9.io

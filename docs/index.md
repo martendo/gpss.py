@@ -9,7 +9,7 @@ A silly, dumb, no-good Python program to read and run GPSS programs
 ## Try it out!
 You can try gpss.py in your browser!
 
-[Test gpss.py]({{ "/test" | relative_url }})
+[Web gpss.py]({{ "/web" | relative_url }})
 
 ## Documentation
 - [Usage]({{ "/usage" | relative_url }})
