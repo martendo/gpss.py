@@ -6,7 +6,7 @@ style: /test/style.css
 
 # Test gpss.py
 This page uses [gpss-server][gpss-server]{:target="_blank"} to run
-gpss.py and the [Ace][ace]{:target="_blank"} code editor.
+gpss.py and the [Ace code editor][ace]{:target="_blank"}.
 
 ## Program
 
