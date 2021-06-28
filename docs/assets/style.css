@@ -47,36 +47,47 @@ nav {
   padding: 30px;
   background-color: #f8f8f8;
   border-bottom: 2px solid #e0e0e0;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
 }
 
-nav ul {
+nav > * {
   margin: 0;
   padding: 0;
+  vertical-align: middle;
+}
+#navtitle {
+  margin: 0;
+  padding: 0;
+  font-size: 1.5em;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
 }
 nav li {
   display: inline;
 }
 
-nav a {
+nav a, nav button {
   text-decoration: none;
   color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  vertical-align: middle;
+  border: none;
   margin: 0 3px;
   padding: 10px 15px;
-}
-nav a, button {
   background-color: #e8e8e8;
+  display: inline-block;
 }
-nav a:hover, button:hover {
+nav a:hover, nav button:hover {
   background-color: #d8d8d8;
 }
-nav a:active, button:active {
+nav a:active, nav button:active {
   background-color: #c0c0c0;
-}
-
-button {
-  border: 1px solid #000000;
-  padding: 3px 8px;
-  font-size: 1em;
 }
 
 .roman-numeral {
