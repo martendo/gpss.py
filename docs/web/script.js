@@ -11,6 +11,8 @@ const output = document.getElementById("output");
 
 const editor = ace.edit("editor");
 editor.setOptions({
+  mode: "ace/mode/gpss",
+  theme: "ace/theme/textmate",
   useSoftTabs: true,
   printMargin: false,
   displayIndentGuides: false,
