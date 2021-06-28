@@ -28,19 +28,19 @@ document.getElementById("simulateBtn").addEventListener("click", () => {
         throw error;
       }
     }
-    switch (data["status"]) {
+    switch (data.status) {
       case "parser-error":
         const errors = [];
-        for (const error of data["errors"]) {
+        for (const error of data.errors) {
           errors.push(`ERROR: Parser error: Line ${error["linenum"]}:\n    ${error["message"]}`);
         }
-        output.textContent = data["message"] + "\n\n" + errors.join("\n");
+        output.textContent = data.message + "\n\n" + errors.join("\n");
         break;
       case "simulation-error":
-        output.textContent = data["message"] + "\n\n" + `ERROR: Simulation error: Line ${data["error"]["linenum"]}:\n    ${data["error"]["message"]}`;
+        output.textContent = data.message + "\n\n" + `ERROR: Simulation error: Line ${data.error.linenum}:\n    ${data.error.message}`;
         break;
       case "success":
-        output.textContent = data["report"];
+        output.textContent = data.report;
         break;
       default:
         responseError(request.responseText);
