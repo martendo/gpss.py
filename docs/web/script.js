@@ -42,16 +42,31 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
         throw error;
       }
     }
+    editor.session.clearAnnotations();
     switch (data.status) {
       case "parser-error":
         const errors = [];
+        const annotations = [];
         for (const error of data.errors) {
           errors.push(`ERROR: Parser error: Line ${error.linenum}:\n    ${error.message}`);
+          annotations.push({
+            row: error.linenum - 1,
+            column: 0,
+            type: "error",
+            text: `Parser error: ${error.message}`,
+          });
         }
         output.textContent = data.message + "\n\n" + errors.join("\n");
+        editor.session.setAnnotations(annotations);
         break;
       case "simulation-error":
         output.textContent = data.message + "\n\n" + `ERROR: Simulation error: Line ${data.error.linenum}:\n    ${data.error.message}`;
+        editor.session.setAnnotations([{
+          row: data.error.linenum - 1,
+          column: 0,
+          type: "error",
+          text: `Simulation error: ${data.error.message}`,
+        }]);
         break;
       case "success":
         output.textContent = data.report;
