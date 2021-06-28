@@ -1,4 +1,13 @@
-const output = document.getElementById("response").getElementsByTagName("code")[0];
+const info = document.getElementById("info");
+document.getElementById("info-btn").addEventListener("click", () => {
+  if (info.style.display === "") {
+    info.style.display = "unset";
+  } else {
+    info.style.display = "";
+  }
+});
+
+const output = document.getElementById("output");
 
 const editor = ace.edit("editor");
 editor.setOptions({
@@ -14,7 +23,7 @@ function responseError(response) {
 }
 
 var timeout;
-document.getElementById("simulateBtn").addEventListener("click", () => {
+document.getElementById("simulate-btn").addEventListener("click", () => {
   const request = new XMLHttpRequest();
   request.addEventListener("error", () => {
     clearTimeout(timeout);

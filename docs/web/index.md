@@ -2,15 +2,13 @@
 title: Web gpss.py
 permalink: /web
 style: /web/style.css
+nav:
+  - <button id="info-btn">Info</button>
+  - <button id="simulate-btn">Simulate</button>
+navtitle: Web gpss.py
 ---
 
-# Web gpss.py
-This page uses [gpss-server][gpss-server]{:target="_blank"} to run
-gpss.py and the [Ace code editor][ace]{:target="_blank"}.
-
-## Program
-
-<div class="editor-container">
+<div class="container">
   <div id="editor" class="editor">; Barber shop
 ; A one-line, one-server queuing system
 ; Adapted from Case Study 2A of Thomas J. Schriber's "A GPSS Primer"
@@ -37,17 +35,26 @@ gpss.py and the [Ace code editor][ace]{:target="_blank"}.
 </div>
 </div>
 
-## Output
+<div id="separator"></div>
 
-<button id="simulateBtn">Simulate</button>
+<div class="highlight" id="output-container">
+  <pre class="highlight"><code id="output">Your simulation report will show up here.</code></pre>
+</div>
 
-~~~
-Your simulation report will show up here.
-~~~
-{:#response}
+<section id="info" markdown="1">
+## Web gpss.py Info
+This page uses the [gpss-server][gpss-server]{:target="_blank"} web
+service to run gpss.py. The "Simulate" button at the top causes the
+gpss.py program to be sent to the server and what it responds with is
+put into the output box.
 
-<script src="{{ '/web/ace/ace.js' | relative_url }}" type="text/javascript" charset="utf-8"></script>
-<script src="{{ '/web/script.js' | relative_url }}" type="text/javascript" charset="utf-8"></script>
+The [Ace code editor][ace]{:target="_blank"} is also embedded in this
+page for &mdash; you guessed it &mdash; decoration, it has no real
+purpose at all; completely useless. (It's for editing code, silly.)
 
 [gpss-server]: https://github.com/martendo/gpss-server
 [ace]: https://ace.c9.io
+</section>
+
+<script src="{{ '/web/ace/ace.js' | relative_url }}" type="text/javascript" charset="utf-8"></script>
+<script src="{{ '/web/script.js' | relative_url }}" type="text/javascript" charset="utf-8"></script>

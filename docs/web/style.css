@@ -1,3 +1,13 @@
+body > section {
+  position: relative;
+  font-size: 0.9em;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+
 .editor {
   position: absolute;
   top: 0;
@@ -8,9 +18,29 @@
   font-family: "Fira Mono", monospace;
 }
 
-.editor-container {
+.container {
   position: relative;
   width: 100%;
-  height: 20em;
-  border: 2px solid #000000;
+  height: 100%;
+}
+
+#separator {
+  background-color: #e0e0e0;
+  width: 2px;
+}
+
+#output-container {
+  border-radius: 0;
+}
+
+#info {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  background-color: #ffffff;
+  z-index: 100;
+  font-size: 1.25rem;
 }
