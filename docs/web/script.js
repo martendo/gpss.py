@@ -13,12 +13,15 @@ function responseError(response) {
   output.textContent = "An unknown response was received from the server." + "\n\n" + response;
 }
 
+var timeout;
 document.getElementById("simulateBtn").addEventListener("click", () => {
   const request = new XMLHttpRequest();
   request.addEventListener("error", () => {
+    clearTimeout(timeout);
     output.textContent = "An error occurred while transferring data with the server.";
   });
   request.addEventListener("load", () => {
+    clearTimeout(timeout);
     try {
       data = JSON.parse(request.responseText);
     } catch (error) {
@@ -49,4 +52,9 @@ document.getElementById("simulateBtn").addEventListener("click", () => {
   });
   request.open("POST", "https://gpss-server.herokuapp.com");
   request.send(editor.getValue());
+  
+  output.textContent = "Program sent to server";
+  timeout = setTimeout(() => {
+    output.textContent += "\n\nYou might be waking up the server.\nJust a few more seconds!";
+  }, 5000);
 });
