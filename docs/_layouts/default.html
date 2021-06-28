@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&text=I&display=swap">
     <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/highlight.css' | relative_url }}">
+    {% if page.style %}
+      <link rel="stylesheet" href="{{ page.style | relative_url }}">
+    {% endif %}
   </head>
   <body>
     <nav>

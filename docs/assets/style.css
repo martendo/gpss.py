@@ -62,13 +62,21 @@ nav a {
   color: inherit;
   margin: 0 3px;
   padding: 10px 15px;
+}
+nav a, button {
   background-color: #e8e8e8;
 }
-nav a:hover {
+nav a:hover, button:hover {
   background-color: #d8d8d8;
 }
-nav a:active {
+nav a:active, button:active {
   background-color: #c0c0c0;
+}
+
+button {
+  border: 1px solid #000000;
+  padding: 3px 8px;
+  font-size: 1em;
 }
 
 .roman-numeral {
