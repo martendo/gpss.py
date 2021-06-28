@@ -97,7 +97,7 @@ class Transaction:
                     simulation_error(self.simulation.parser.infile,
                         block.linenum,
                         "Cannot ADVANCE a negative amount of time "
-                        f"({self.time - self.simulation.time})")
+                        f"({time - self.simulation.time})")
                 elif time == self.simulation.time:
                     # ADVANCE 0 -> no-op
                     continue
