@@ -6,7 +6,7 @@ style: /test/style.css
 
 # Test gpss.py
 This page uses [gpss-server][gpss-server]{:target="_blank"} to run
-gpss.py.
+gpss.py and the [Ace][ace]{:target="_blank"} code editor.
 
 ## Program
 
@@ -27,3 +27,4 @@ Your simulation report will show up here.
 <script src="{{ '/test/script.js' | relative_url }}" type="text/javascript" charset="utf-8"></script>
 
 [gpss-server]: https://github.com/martendo/gpss-server
+[ace]: https://ace.c9.io
