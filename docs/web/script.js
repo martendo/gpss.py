@@ -46,7 +46,7 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
       case "parser-error":
         const errors = [];
         for (const error of data.errors) {
-          errors.push(`ERROR: Parser error: Line ${error["linenum"]}:\n    ${error["message"]}`);
+          errors.push(`ERROR: Parser error: Line ${error.linenum}:\n    ${error.message}`);
         }
         output.textContent = data.message + "\n\n" + errors.join("\n");
         break;
