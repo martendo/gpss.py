@@ -35,6 +35,10 @@ h1 .codeh, h2 .codeh, h3 .codeh, h4 .codeh, h5 .codeh, h6 .codeh {
   font-size: 135%;
 }
 
+a {
+  color: #0000ee;
+}
+
 section {
   margin: 0;
   padding: 2em 15%;
