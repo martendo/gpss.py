@@ -27,18 +27,20 @@
         <li><b><a href="{{ '/' | relative_url }}">{{ site.title }}</a></b></li>
         <li><a href="{{ site.github_repo }}" target="_blank">GitHub</a></li>
       </ul>
-      <span>
-        {% if page.navtitle %}
+      {% if page.navtitle %}
+        <span>
           <h1 id="navtitle">{{ page.navtitle }}</h1>
-        {% endif %}
-      </span>
-      <ul>
-        {% if page.nav %}
+        </span>
+      {% elsif page.nav %}
+        <span></span>
+      {% endif %}
+      {% if page.nav %}
+        <ul>
           {% for item in page.nav %}
             <li>{{ item }}</li>
           {% endfor %}
-        {% endif %}
-      </ul>
+        </ul>
+      {% endif %}
     </nav>
     <section>
       {{ content }}
