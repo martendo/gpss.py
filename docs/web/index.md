@@ -42,7 +42,19 @@ navtitle: Web gpss.py
 </div>
 
 <section id="info" markdown="1">
-## Web gpss.py Info
+## What am I looking at?
+You're looking at Web gpss.py, a web interface for gpss.py.
+
+## What do I do?
+1. Write out your gpss.py program (or use the example provided!) in the
+code editor on the left side of your screen.
+2. Run your simulation with the "Simulate" button in the top right
+corner.
+3. Analyze the simulation report that is generated or the error(s) that
+have occurred, which are put into the output box on the right side of
+your screen.
+
+## How does it work?
 This page uses the [gpss-server][gpss-server]{:target="_blank"} web
 service to run gpss.py. The "Simulate" button at the top causes the
 gpss.py program to be sent to the server and what it responds with is
@@ -50,7 +62,7 @@ put into the output box.
 
 The [Ace code editor][ace]{:target="_blank"} is also embedded in this
 page for &mdash; you guessed it &mdash; decoration, it has no real
-purpose at all; completely useless. (It's for editing code, silly.)
+purpose at all; it's completely useless. (It's for editing code, silly.)
 
 [gpss-server]: https://github.com/martendo/gpss-server
 [ace]: https://ace.c9.io
