@@ -79,7 +79,7 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
   request.open("POST", "https://gpss-server.herokuapp.com");
   request.send(editor.getValue());
   
-  output.textContent = "Program sent to server";
+  output.textContent = "Program sent to server.";
   timeout = setTimeout(() => {
     output.textContent += "\n\nYou might be waking up the server.\nJust a few more seconds!";
   }, 5000);
