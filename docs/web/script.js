@@ -66,6 +66,7 @@ document.addEventListener("touchmove", (event) => {
 
 // gpss-server communication
 const output = document.getElementById("output");
+const console = document.getElementById("console");
 
 function responseError(response) {
   output.textContent = "An unknown response was received from the server." + "\n\n" + response;
@@ -115,18 +116,10 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
         text: message.message,
       });
     }
+    console.textContent = messages.join("\n");
     editor.session.setAnnotations(annotations);
     
-    if (data.message) {
-      messages.push(data.message);
-    }
-    if (data.report) {
-      if (messages.length) {
-        messages.push("------------------------------------------------------------------------");
-      }
-      messages.push(data.report);
-    }
-    output.textContent = messages.join("\n");
+    output.textContent = data.report || data.message;
   });
   request.open("POST", "https://gpss-server.herokuapp.com");
   request.send(editor.getValue().replace(/[;*].*$/mg, "").replace(/[^\S\n]{2,}/g, " "));
