@@ -23,16 +23,16 @@ define("ace/mode/gpss_highlight_rules", function(require, exports, module) {
       start: [
         {
           token: "keyword",
-          regex: "(?<!\\S)(?:CLEAR|END|RESET|SIMULATE|START|STORAGE|ADVANCE|DEPART|ENTER|GENERATE|LEAVE|QUEUE|RELEASE|SEIZE|TERMINATE|TRANSFER)(?!\\S)",
+          regex: /(?<!\S)(?:CLEAR|END|RESET|SIMULATE|START|STORAGE|ADVANCE|DEPART|ENTER|GENERATE|LEAVE|QUEUE|RELEASE|SEIZE|TERMINATE|TRANSFER)(?!\S)/,
           caseInsensitive: true,
         },
         {
           token: "constant",
-          regex: "(?<![^\\s,])(?:0?\\.)?[0-9]+(?![^\\s,])",
+          regex: /(?<![^\s,])(?:0?\.)?[0-9]+(?![^\s,])/,
         },
         {
           token: "comment",
-          regex: "[;*].*$",
+          regex: /[;*].*$/,
         },
       ],
     };
