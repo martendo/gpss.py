@@ -1,3 +1,4 @@
+// Info section: Toggle display when "Info" button pressed
 const info = document.getElementById("info");
 document.getElementById("info-btn").addEventListener("click", () => {
   if (info.style.display === "") {
@@ -7,8 +8,7 @@ document.getElementById("info-btn").addEventListener("click", () => {
   }
 });
 
-const output = document.getElementById("output");
-
+// Ace code editor
 const editor = ace.edit("editor");
 editor.setOptions({
   mode: "ace/mode/gpss",
@@ -19,6 +19,28 @@ editor.setOptions({
   tabSize: 8,
 });
 editor.focus();
+
+// Column resizing: Drag separator to resize
+const editorContainer = document.getElementById("editor-container");
+const section = document.getElementById("main");
+var isDragging = false;
+document.getElementById("separator").addEventListener("pointerdown", () => {
+  isDragging = true;
+});
+document.addEventListener("pointerup", () => {
+  isDragging = false;
+});
+document.addEventListener("pointermove", (event) => {
+  if (!isDragging) {
+    return false;
+  }
+  editorContainer.style.width = `${event.clientX - section.offsetLeft - (15 / 2)}px`;
+  editor.resize();
+});
+editorContainer.style.width = `${editorContainer.offsetWidth}px`;
+
+// gpss-server communication
+const output = document.getElementById("output");
 
 function responseError(response) {
   output.textContent = "An unknown response was received from the server." + "\n\n" + response;

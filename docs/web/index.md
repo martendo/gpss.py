@@ -8,8 +8,8 @@ nav:
 navtitle: Web gpss.py
 ---
 
-<div class="container">
-  <div id="editor" class="editor">; Barber shop
+<div id="editor-container">
+  <div id="editor">; Barber shop
 ; A one-line, one-server queuing system
 ; Adapted from Case Study 2A of Thomas J. Schriber's "A GPSS Primer"
 ; (page II-36)
@@ -35,7 +35,9 @@ navtitle: Web gpss.py
 </div>
 </div>
 
-<div id="separator"></div>
+<div id="separator">
+  <div></div>
+</div>
 
 <div class="highlight" id="output-container">
   <pre class="highlight"><code id="output">Your simulation report will show up here.</code></pre>
