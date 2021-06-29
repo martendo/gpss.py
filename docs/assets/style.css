@@ -16,7 +16,6 @@ body {
   background-color: #ffffff;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  grid-template-columns: auto;
 }
 
 h1 {
@@ -52,7 +51,6 @@ nav {
   background-color: #f8f8f8;
   border-bottom: 2px solid #e0e0e0;
   display: grid;
-  grid-template-rows: auto;
   grid-template-columns: auto minmax(0, 1fr) auto;
 }
 
