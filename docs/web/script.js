@@ -42,11 +42,10 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
         throw error;
       }
     }
-    editor.session.clearAnnotations();
+    const annotations = [];
     switch (data.status) {
       case "parser-error":
         const errors = [];
-        const annotations = [];
         for (const error of data.errors) {
           errors.push(`ERROR: Parser error: Line ${error.linenum}:\n    ${error.message}`);
           annotations.push({
@@ -57,7 +56,6 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
           });
         }
         output.textContent = data.message + "\n\n" + errors.join("\n");
-        editor.session.setAnnotations(annotations);
         break;
       case "simulation-error":
         output.textContent = data.message + "\n\n" + `ERROR: Simulation error: Line ${data.error.linenum}:\n    ${data.error.message}`;
@@ -75,6 +73,15 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
         responseError(request.responseText);
         break;
     }
+    for (const warning of data.warnings) {
+      annotations.push({
+        row: warning.linenum - 1,
+        column: 0,
+        type: "warning",
+        text: warning.message,
+      });
+    }
+    editor.session.setAnnotations(annotations);
   });
   request.open("POST", "https://gpss-server.herokuapp.com");
   request.send(editor.getValue());
