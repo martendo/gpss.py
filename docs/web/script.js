@@ -42,53 +42,44 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
         throw error;
       }
     }
+    
+    const messages = [];
     const annotations = [];
-    output.textContent = "";
-    const warnings = [];
-    for (const warning of data.warnings) {
-      warnings.push(`WARNING: Line ${warning.linenum}:\n    ${warning.message}`);
+    for (const message of data.messages) {
+      var type, subtype;
+      switch (message.type) {
+        case "parser-error":
+          type = "error";
+          subtype = "Parser error";
+          break;
+        case "simulation-error":
+          type = "error";
+          subtype = "Simulation error";
+          break;
+        case "warning":
+          type = "warning";
+          break;
+      }
+      messages.push(`${type.toUpperCase()}: ${subtype ? subtype + ": " : ""}Line ${message.linenum}:\n    ${message.message}`);
       annotations.push({
-        row: warning.linenum - 1,
+        row: message.linenum - 1,
         column: 0,
-        type: "warning",
-        text: warning.message,
+        type: type,
+        text: message.message,
       });
     }
-    output.textContent += warnings.join("\n");
-    if (output.textContent.length) {
-      output.textContent += "\n\n";
-    }
-    switch (data.status) {
-      case "parser-error":
-        const errors = [];
-        for (const error of data.errors) {
-          errors.push(`ERROR: Parser error: Line ${error.linenum}:\n    ${error.message}`);
-          annotations.push({
-            row: error.linenum - 1,
-            column: 0,
-            type: "error",
-            text: error.message,
-          });
-        }
-        output.textContent += data.message + "\n\n" + errors.join("\n");
-        break;
-      case "simulation-error":
-        output.textContent += data.message + "\n\n" + `ERROR: Simulation error: Line ${data.error.linenum}:\n    ${data.error.message}`;
-        editor.session.setAnnotations([{
-          row: data.error.linenum - 1,
-          column: 0,
-          type: "error",
-          text: data.error.message,
-        }]);
-        break;
-      case "success":
-        output.textContent += data.report;
-        break;
-      default:
-        responseError(request.responseText);
-        break;
-    }
     editor.session.setAnnotations(annotations);
+    
+    if (data.message) {
+      messages.push(data.message);
+    }
+    if (data.report) {
+      if (messages.length) {
+        messages.push("------------------------------------------------------------------------");
+      }
+      messages.push(data.report);
+    }
+    output.textContent = messages.join("\n");
   });
   request.open("POST", "https://gpss-server.herokuapp.com");
   request.send(editor.getValue());
