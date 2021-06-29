@@ -35,13 +35,23 @@ navtitle: Web gpss.py
 </div>
 </div>
 
-<div id="separator">
+<div class="separator column" id="main-separator">
   <div></div>
 </div>
 
-<div class="highlight" id="output-container">
-  <pre class="highlight"><code id="output">Your simulation report will show up here.</code></pre>
-</div>
+<section class="flex-container" id="response-container">
+  <div class="highlight" id="console-container">
+    <pre class="highlight"><code id="console">Messages from gpss.py will show up here.</code></pre>
+  </div>
+  
+  <div class="separator row" id="response-separator">
+    <div></div>
+  </div>
+  
+  <div class="highlight" id="output-container">
+    <pre class="highlight"><code id="output">Your simulation report will show up here.</code></pre>
+  </div>
+</section>
 
 <section id="info" markdown="1">
 ## What am I looking at?

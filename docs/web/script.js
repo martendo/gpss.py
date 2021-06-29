@@ -21,30 +21,48 @@ editor.setOptions({
 editor.focus();
 
 // Column resizing: Drag separator to resize
-const editorContainer = document.getElementById("editor-container");
-const section = document.getElementById("main");
-var isDragging = false;
-document.getElementById("separator").addEventListener("pointerdown", () => {
-  isDragging = true;
-  section.classList.add("no-select");
-});
-document.addEventListener("pointerup", () => {
-  isDragging = false;
-  section.classList.remove("no-select");
-});
-document.addEventListener("pointermove", (event) => {
-  if (!isDragging) {
-    return false;
-  }
-  editorContainer.style.width = `${event.clientX - section.offsetLeft - (15 / 2)}px`;
-  editor.resize();
+const main = document.getElementById("main");
+var dragging = null;
+[
+  {
+    container: main,
+    box: document.getElementById("editor-container"),
+    separator: document.getElementById("main-separator"),
+    column: true,
+  },
+  {
+    container: document.getElementById("response-container"),
+    box: document.getElementById("console-container"),
+    separator: document.getElementById("response-separator"),
+    column: false,
+  },
+].forEach((resize) => {
+  resize.separator.addEventListener("pointerdown", () => {
+    dragging = resize.separator;
+    main.classList.add("no-select");
+  });
+  document.addEventListener("pointerup", () => {
+    dragging = null;
+    main.classList.remove("no-select");
+  });
+  document.addEventListener("pointermove", (event) => {
+    if (dragging !== resize.separator) {
+      return false;
+    }
+    const rect = resize.container.getBoundingClientRect();
+    if (resize.column) {
+      resize.box.style.width = `${event.clientX - rect.left - (15 / 2)}px`;
+    } else {
+      resize.box.style.height = `${event.clientY - rect.top - (15 / 2)}px`;
+    }
+    editor.resize();
+  });
 });
 document.addEventListener("touchmove", (event) => {
-  if (isDragging) {
+  if (dragging) {
     event.preventDefault();
   }
 }, { passive: false });
-editorContainer.style.width = `${editorContainer.offsetWidth}px`;
 
 // gpss-server communication
 const output = document.getElementById("output");

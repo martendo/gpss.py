@@ -1,34 +1,44 @@
 #main {
   position: relative;
   font-size: 0.9em;
+}
+section:not(#info) {
   margin: 0;
   padding: 0;
   display: flex;
 }
 
-#separator {
+.separator {
   background-color: #e8e8e8;
-  padding: 0 5px;
   flex: 0 0 auto;
-  cursor: col-resize;
   display: flex;
+}
+.separator.column {
+  padding: 0 5px;
+  cursor: col-resize;
   align-items: center;
 }
-#separator > div {
-  background-color: #c0c0c0;
-  width: 5px;
-  height: 2em;
-  border-radius: 3px;
+.separator.row {
+  padding: 5px 0;
+  cursor: row-resize;
+  justify-content: center;
 }
 
-#editor {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  font-size: 0.9em;
-  font-family: "Fira Mono", monospace;
+.separator > div {
+  background-color: #c0c0c0;
+  border-radius: 3px;
+}
+.separator.column > div {
+  width: 5px;
+  height: 2em;
+}
+.separator.row > div {
+  height: 5px;
+  width: 2em;
+}
+
+#main-container {
+  flex-direction: row;
 }
 #editor-container {
   position: relative;
@@ -38,7 +48,23 @@
   max-width: calc(100% - 5em);
   width: 50%;
 }
+#editor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 0.9em;
+  font-family: "Fira Mono", monospace;
+}
 
+#response-container {
+  flex-direction: column;
+}
+#console-container {
+  border-radius: 0;
+  flex: 0 0 auto;
+}
 #output-container {
   border-radius: 0;
   flex: 1 1 auto;
