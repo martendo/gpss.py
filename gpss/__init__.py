@@ -6,6 +6,7 @@ from ._helpers import properties
 parser = Parser()
 simulation = Simulation()
 warnings = properties["warnings"]
+messages = properties["messages"]
 
 def parse(*args, **kwargs):
     parser.parse(*args, **kwargs)
