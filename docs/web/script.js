@@ -111,7 +111,7 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
     output.textContent = messages.join("\n");
   });
   request.open("POST", "https://gpss-server.herokuapp.com");
-  request.send(editor.getValue());
+  request.send(editor.getValue().replace(/[;*].*$/mg, "").replace(/[^\S\n]{2,}/g, " "));
   
   output.textContent = "Program sent to server.";
   timeout = setTimeout(() => {
