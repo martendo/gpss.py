@@ -43,6 +43,21 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
       }
     }
     const annotations = [];
+    output.textContent = "";
+    const warnings = [];
+    for (const warning of data.warnings) {
+      warnings.push(`WARNING: Line ${warning.linenum}:\n    ${warning.message}`);
+      annotations.push({
+        row: warning.linenum - 1,
+        column: 0,
+        type: "warning",
+        text: warning.message,
+      });
+    }
+    output.textContent += warnings.join("\n");
+    if (output.textContent.length) {
+      output.textContent += "\n\n";
+    }
     switch (data.status) {
       case "parser-error":
         const errors = [];
@@ -55,10 +70,10 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
             text: error.message,
           });
         }
-        output.textContent = data.message + "\n\n" + errors.join("\n");
+        output.textContent += data.message + "\n\n" + errors.join("\n");
         break;
       case "simulation-error":
-        output.textContent = data.message + "\n\n" + `ERROR: Simulation error: Line ${data.error.linenum}:\n    ${data.error.message}`;
+        output.textContent += data.message + "\n\n" + `ERROR: Simulation error: Line ${data.error.linenum}:\n    ${data.error.message}`;
         editor.session.setAnnotations([{
           row: data.error.linenum - 1,
           column: 0,
@@ -67,19 +82,11 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
         }]);
         break;
       case "success":
-        output.textContent = data.report;
+        output.textContent += data.report;
         break;
       default:
         responseError(request.responseText);
         break;
-    }
-    for (const warning of data.warnings) {
-      annotations.push({
-        row: warning.linenum - 1,
-        column: 0,
-        type: "warning",
-        text: warning.message,
-      });
     }
     editor.session.setAnnotations(annotations);
   });
