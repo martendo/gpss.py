@@ -40,11 +40,11 @@ navtitle: Web gpss.py
 </div>
 
 <section class="flex-container" id="response-container">
-  <div class="highlight" id="console-container">
-    <pre class="highlight"><code id="console">Messages from gpss.py will show up here.</code></pre>
+  <div class="highlight" id="console-container" style="display: none;">
+    <pre class="highlight"><code id="console"></code></pre>
   </div>
   
-  <div class="separator row" id="response-separator">
+  <div class="separator row" id="response-separator" style="display: none;">
     <div></div>
   </div>
   

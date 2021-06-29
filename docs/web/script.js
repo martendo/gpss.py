@@ -22,6 +22,8 @@ editor.focus();
 
 // Column resizing: Drag separator to resize
 const main = document.getElementById("main");
+const consoleContainer = document.getElementById("console-container");
+const responseSeparator = document.getElementById("response-separator");
 var dragging = null;
 [
   {
@@ -32,8 +34,8 @@ var dragging = null;
   },
   {
     container: document.getElementById("response-container"),
-    box: document.getElementById("console-container"),
-    separator: document.getElementById("response-separator"),
+    box: consoleContainer,
+    separator: responseSeparator,
     column: false,
   },
 ].forEach((resize) => {
@@ -116,7 +118,14 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
         text: message.message,
       });
     }
-    console.textContent = messages.join("\n");
+    if (messages.length) {
+      console.textContent = messages.join("\n");
+      consoleContainer.style.display = "";
+      responseSeparator.style.display = "";
+    } else {
+      consoleContainer.style.display = "none";
+      responseSeparator.style.display = "none";
+    }
     editor.session.setAnnotations(annotations);
     
     output.textContent = data.report || data.message;
