@@ -64,6 +64,7 @@ section:not(#info) {
 #console-container {
   border-radius: 0;
   flex: 0 0 auto;
+  height: 25%;
 }
 #output-container {
   border-radius: 0;
