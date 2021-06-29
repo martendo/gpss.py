@@ -1,9 +1,11 @@
 from datetime import datetime
 from .parser import Parser
 from .simulation import Simulation
+from ._helpers import properties
 
 parser = Parser()
 simulation = Simulation()
+warnings = properties["warnings"]
 
 def parse(*args, **kwargs):
     parser.parse(*args, **kwargs)
