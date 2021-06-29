@@ -39,6 +39,11 @@ document.addEventListener("pointermove", (event) => {
   editorContainer.style.width = `${event.clientX - section.offsetLeft - (15 / 2)}px`;
   editor.resize();
 });
+document.addEventListener("touchmove", (event) => {
+  if (isDragging) {
+    event.preventDefault();
+  }
+}, { passive: false });
 editorContainer.style.width = `${editorContainer.offsetWidth}px`;
 
 // gpss-server communication
