@@ -1,23 +1,29 @@
-from .error import ParserError, SimulationError
+from .error import ParserError, SimulationError, ExecutionWarning
 
-flags = {
+properties = {
     "cli": False,
     "debug": False,
+    "warnings": [],
 }
 
 # Print a message if using the CLI
 def output(*args):
-    if flags["cli"]:
+    if properties["cli"]:
         print(*args)
 
 # Print a debug message if they are enabled
 def debugmsg(*args):
-    if flags["debug"]:
+    if properties["debug"]:
         output("DEBUG:", *args)
 
 # Print a warning
 def warn(filename, linenum, message):
     output(f"WARNING: {filename}({linenum}):\n    {message}")
+    properties["warnings"].append(ExecutionWarning(
+        filename,
+        linenum,
+        message,
+    ))
 
 # Print a parser error
 def parser_error(parser, message):
