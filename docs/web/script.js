@@ -87,5 +87,5 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
   output.textContent = "Program sent to server.";
   timeout = setTimeout(() => {
     output.textContent += "\n\nYou might be waking up the server.\nJust a few more seconds!";
-  }, 5000);
+  }, 4000);
 });
