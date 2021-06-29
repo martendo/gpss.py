@@ -26,9 +26,11 @@ const section = document.getElementById("main");
 var isDragging = false;
 document.getElementById("separator").addEventListener("pointerdown", () => {
   isDragging = true;
+  section.classList.add("no-select");
 });
 document.addEventListener("pointerup", () => {
   isDragging = false;
+  section.classList.remove("no-select");
 });
 document.addEventListener("pointermove", (event) => {
   if (!isDragging) {
