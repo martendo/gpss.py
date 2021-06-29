@@ -36,7 +36,13 @@ h1 .codeh, h2 .codeh, h3 .codeh, h4 .codeh, h5 .codeh, h6 .codeh {
 }
 
 a {
-  color: #0000ee;
+  color: #0000f0;
+}
+a:hover {
+  color: #6060ff;
+}
+a:active {
+  color: #0000a8;
 }
 
 section {
@@ -87,9 +93,11 @@ nav a, nav button {
   display: inline-block;
 }
 nav a:hover, nav button:hover {
+  color: inherit;
   background-color: #d8d8d8;
 }
 nav a:active, nav button:active {
+  color: inherit;
   background-color: #c0c0c0;
 }
 
