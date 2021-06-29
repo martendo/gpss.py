@@ -52,7 +52,7 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
             row: error.linenum - 1,
             column: 0,
             type: "error",
-            text: `Parser error: ${error.message}`,
+            text: error.message,
           });
         }
         output.textContent = data.message + "\n\n" + errors.join("\n");
@@ -63,7 +63,7 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
           row: data.error.linenum - 1,
           column: 0,
           type: "error",
-          text: `Simulation error: ${data.error.message}`,
+          text: data.error.message,
         }]);
         break;
       case "success":
