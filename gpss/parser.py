@@ -1,9 +1,11 @@
 from .statement import Statement, StatementType
+from .function import Function
 from ._helpers import debugmsg, parser_error, warn
 
 undefined = object()
 
 OPERAND_LETTERS = ("A", "B", "C", "D", "E", "F", "G")
+FUNCTION_TYPES = ("D",)
 
 class Parser:
     def __init__(self):
@@ -16,6 +18,7 @@ class Parser:
         # Reset variables
         self.errors = []
         self.statements = []
+        self.functions = []
         self.current_label = None
         self.labels = {}
         
@@ -145,6 +148,8 @@ class Parser:
             self.parse_operand(statement, 0, req=self.positive)
         elif type_ is StatementType.TRANSFER:
             self.parse_transfer(statement)
+        elif type_ is StatementType.FUNCTION:
+            self.parse_function(statement)
         
         debugmsg("statement:", statement.type, statement.operands)
         
@@ -178,6 +183,69 @@ class Parser:
                         "fraction between 0 and .999+ or an integer "
                         "representing parts-per-thousand between 0 and "
                         f"999 (got \"{statement.operands[0]}\")")
+    
+    def parse_function(self, statement):
+        function_type = statement.operands[1][0].upper()
+        if function_type not in FUNCTION_TYPES:
+            parser_error(self, "Unsupported Function type "
+                f"\"{function_type}\" (must be one of " +
+                str(FUNCTION_TYPES).replace("'", "") + ")")
+        
+        try:
+            point_count = int(statement.operands[1][1:])
+        except ValueError:
+            parser_error(self, "Invalid number of points in Function "
+                f"\"{statement.label}\" (got "
+                f"\"{statement.operands[1][1:]}\")")
+            return
+        
+        points = []
+        while True:
+            self.linenum += 1
+            try:
+                line = self.inputlines[self.linenum - 1]
+            except IndexError:
+                parser_error(self, "Unexpected end of file while "
+                    "reading Function definition (expected "
+                    f"{point_count} points, found {len(points)})")
+                break
+            
+            for point in line.split("/"):
+                values = point.split(",")
+                point = []
+                if len(values) != 2:
+                    parser_error(self, f"Point {len(points) + 1} of "
+                        f"Function \"{statement.label}\" " +
+                        ("is missing" if len(values) < 2 else "has too many") + " "
+                        f"values (expected 2, got {len(values)})")
+                else:
+                    for v, value in enumerate(values):
+                        value = value.strip()
+                        try:
+                            point.append(float(value))
+                        except ValueError:
+                            parser_error(self,
+                                ("X" if v == 0 else "Y") +
+                                f"{len(points) + 1} value of Function "
+                                f"\"{statement.label}\" is not a "
+                                f"number (got \"{value}\")")
+                points.append(point)
+            
+            if len(points) == point_count:
+                break
+            elif len(points) > point_count:
+                parser_error(self, "Too many points given in Function "
+                    f"\"{statement.label}\" (expected {point_count}, "
+                    f"got {len(points)})")
+        
+        debugmsg("points:", points)
+        
+        self.functions.append(Function(
+            function_type,
+            statement.operands[0],
+            points,
+            statement.label,
+        ))
     
     def parse_operand(self, statement, index, default=undefined,
             req=None):

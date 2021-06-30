@@ -30,6 +30,7 @@ class StatementType(Enum):
     # Commands
     CLEAR = auto()
     END = auto()
+    FUNCTION = auto()
     RESET = auto()
     SIMULATE = auto()
     START = auto()
