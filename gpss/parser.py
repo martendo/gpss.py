@@ -27,23 +27,15 @@ class Parser:
         else:
             self.inputdata = program
             self.infile = "instr"
-        self.inputlines = map(str.strip, self.inputdata.splitlines())
+        self.inputlines = tuple(map(
+            self.remove_comment,
+            self.inputdata.splitlines(),
+        ))
         
         # Get Statements from program
         self.linenum = 1
         while self.linenum <= len(self.inputlines):
             line = self.inputlines[self.linenum - 1]
-        for linenum, line in enumerate(self.inputlines, 1):
-            self.linenum = linenum
-            
-            # Remove any inline comments
-            commentpos = line.find(";")
-            if commentpos != -1:
-                line = line[:commentpos]
-            else:
-                commentpos = line.find("*")
-                if commentpos != -1:
-                    line = line[:commentpos]
             
             # Empty, ignore
             if not line.strip():
@@ -78,6 +70,19 @@ class Parser:
                 continue
             
             self.linenum += 1
+    
+    def remove_comment(self, line):
+        # Semicolon comment
+        commentpos = line.find(";")
+        if commentpos != -1:
+            return line[:commentpos]
+        else:
+            # Asterisk comment
+            commentpos = line.find("*")
+            if commentpos != -1:
+                return line[:commentpos]
+        # No comment
+        return line
     
     def parse_statement(self, name, operands="", label=None):
         # Find Statement type
