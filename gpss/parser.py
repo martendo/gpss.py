@@ -30,6 +30,9 @@ class Parser:
         self.inputlines = map(str.strip, self.inputdata.splitlines())
         
         # Get Statements from program
+        self.linenum = 1
+        while self.linenum <= len(self.inputlines):
+            line = self.inputlines[self.linenum - 1]
         for linenum, line in enumerate(self.inputlines, 1):
             self.linenum = linenum
             
@@ -44,6 +47,7 @@ class Parser:
             
             # Empty, ignore
             if not line.strip():
+                self.linenum += 1
                 continue
             
             fields = line.split()
@@ -70,7 +74,10 @@ class Parser:
             else:
                 parser_error(self, "Too many fields in line "
                     f"(expected 1-3, got {len(fields)})")
+                self.linenum += 1
                 continue
+            
+            self.linenum += 1
     
     def parse_statement(self, name, operands="", label=None):
         # Find Statement type
