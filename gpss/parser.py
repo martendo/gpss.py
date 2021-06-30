@@ -144,38 +144,40 @@ class Parser:
         elif type_ is StatementType.STORAGE:
             self.parse_operand(statement, 0, req=self.positive)
         elif type_ is StatementType.TRANSFER:
-            if statement.operands[0] == "":
-                # Unconditional transfer mode
-                statement.operands[0] = None
-            
-            elif statement.operands[0] == "BOTH":
-                # BOTH mode
-                pass
-            
-            else:
-                # Statistical transfer mode
-                try:
-                    chance = int(statement.operands[0])
-                    if not(0 <= chance < 1000):
-                        raise ValueError
-                    statement.operands[0] = chance / 1000
-                except ValueError:
-                    try:
-                        chance = float(statement.operands[0])
-                        if not(0 <= chance < 1):
-                            raise ValueError
-                        statement.operands[0] = chance
-                    except ValueError:
-                        parser_error(self, "A Operand of TRANSFER "
-                            "Block in statistical transfer mode must "
-                            "be either a fraction between 0 and .999+ "
-                            "or an integer representing parts-per-"
-                            "thousand between 0 and 999 "
-                            f"(got \"{statement.operands[0]}\")")
+            self.parse_transfer(statement)
         
         debugmsg("statement:", statement.type, statement.operands)
         
         self.statements.append(statement)
+    
+    def parse_transfer(self, statement):
+        if statement.operands[0] == "":
+            # Unconditional transfer mode
+            statement.operands[0] = None
+        
+        elif statement.operands[0] == "BOTH":
+            # BOTH mode
+            pass
+        
+        else:
+            # Statistical transfer mode
+            try:
+                chance = int(statement.operands[0])
+                if not(0 <= chance < 1000):
+                    raise ValueError
+                statement.operands[0] = chance / 1000
+            except ValueError:
+                try:
+                    chance = float(statement.operands[0])
+                    if not(0 <= chance < 1):
+                        raise ValueError
+                    statement.operands[0] = chance
+                except ValueError:
+                    parser_error(self, "A Operand of TRANSFER Block in "
+                        "statistical transfer mode must be either a "
+                        "fraction between 0 and .999+ or an integer "
+                        "representing parts-per-thousand between 0 and "
+                        f"999 (got \"{statement.operands[0]}\")")
     
     def parse_operand(self, statement, index, default=undefined,
             req=None):
