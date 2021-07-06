@@ -18,7 +18,9 @@ class Parser:
         # Reset variables
         self.errors = []
         self.statements = []
-        self.functions = []
+        self.snamap = {
+            "FN": {},
+        }
         self.current_label = None
         self.labels = {}
         
@@ -127,16 +129,28 @@ class Parser:
             self.operand_in(statement, 1, ("", "NP"))
             self.parse_operand(statement, 2, None, req=self.positive)
         elif type_ is StatementType.GENERATE:
-            self.parse_operand(statement, 0, 0, req=self.nonnegative)
-            self.parse_operand(statement, 1, 0, req=self.nonnegative)
+            self.parse_operand(statement, 0, 0,
+                req=self.nonnegative,
+                sna_classes=("FN",),
+            )
+            self.parse_operand(statement, 1, 0,
+                req=self.nonnegative,
+                sna_classes=("FN",),
+            )
             self.parse_operand(statement, 2, None, req=self.nonnegative)
             self.parse_operand(statement, 3, None, req=self.positive)
             self.parse_operand(statement, 4, 0, req=self.nonnegative)
         elif type_ is StatementType.TERMINATE:
             self.parse_operand(statement, 0, 0, req=self.nonnegative)
         elif type_ is StatementType.ADVANCE:
-            self.parse_operand(statement, 0, 0, req=self.nonnegative)
-            self.parse_operand(statement, 1, 0, req=self.nonnegative)
+            self.parse_operand(statement, 0, 0,
+                req=self.nonnegative,
+                sna_classes=("FN",),
+            )
+            self.parse_operand(statement, 1, 0,
+                req=self.nonnegative,
+                sna_classes=("FN",),
+            )
         elif type_ in (StatementType.QUEUE, StatementType.DEPART):
             self.nonempty(statement, 0)
             self.parse_operand(statement, 1, 1, req=self.positive)
@@ -240,15 +254,15 @@ class Parser:
         
         debugmsg("points:", points)
         
-        self.functions.append(Function(
+        self.snamap["FN"][statement.label] = Function(
             function_type,
             statement.operands[0],
             points,
             statement.label,
-        ))
+        )
     
     def parse_operand(self, statement, index, default=undefined,
-            req=None):
+            req=None, sna_classes=()):
         try:
             if default is not undefined:
                 statement.operands[index] = (
@@ -257,10 +271,25 @@ class Parser:
             else:
                 statement.operands[index] = int(statement.operands[index])
         except ValueError:
-            parser_error(self, OPERAND_LETTERS[index] + " Operand of "
-                f"{statement.name} must be an integer "
-                f"(got \"{statement.operands[index]}\")")
-            return
+            # Not an integer, check for allowed SNAs
+            for sna_class in sna_classes:
+                prefix = statement.operands[index][:len(sna_class) + 1].upper()
+                if prefix != f"{sna_class}$":
+                    continue
+                # Operand is a valid SNA, get entity
+                sna = statement.operands[index][len(sna_class) + 1:]
+                statement.operands[index] = self.snamap[sna_class][sna]
+                # Return; don't check if SNA meets requirements
+                return
+            else:
+                # Not an integer and not an allowed SNA
+                parser_error(self, OPERAND_LETTERS[index] + " Operand "
+                    f"of {statement.name} must be an integer " +
+                    (f"or SNA of type " +
+                        str(sna_classes).replace("'", "\"") + " "
+                        if len(sna_classes) else "") +
+                    f"(got \"{statement.operands[index]}\")")
+                return
         
         if req is not None:
             req(statement, index)

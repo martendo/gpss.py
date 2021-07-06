@@ -29,7 +29,7 @@ class Simulation:
                 "Can't run a GPSS program with parser errors")
         
         self.program = self.parser.statements
-        self.functions = self.parser.functions
+        self.snamap = self.parser.snamap
         self.labels = self.parser.labels
         
         self.initialize(first=True)
