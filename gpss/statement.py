@@ -1,11 +1,12 @@
 from collections import namedtuple
 from enum import Enum, auto
+from .function import Function
 
 class Statement:
     def __init__(self, type_, name, operands, label, linenum, number):
         self.type = type_
         self.name = name
-        self.operands = operands
+        self.operands = OperandList(operands)
         self.label = label
         self.linenum = linenum
         self.number = number
@@ -25,6 +26,32 @@ class Statement:
         else:
             # Only ENTER and SEIZE Blocks can refuse entry
             return False
+
+class OperandList:
+    def __init__(self, operands):
+        self.operands = operands
+    
+    def __repr__(self):
+        return f"OperandList({self.operands})"
+    
+    def __getitem__(self, key):
+        if isinstance(key, slice):
+            operands = self.operands[key]
+            for i, operand in enumerate(operands):
+                operands[i] = self.get(i)
+            return operands
+        else:
+            return self.get(key)
+    
+    def get(self, index):
+        operand = self.operands[index]
+        if isinstance(operand, Function):
+            return operand()
+        else:
+            return operand
+    
+    def __setitem__(self, key, value):
+        self.operands[key] = value
 
 class StatementType(Enum):
     # Commands
