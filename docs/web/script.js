@@ -110,12 +110,12 @@ document.getElementById("simulate-btn").addEventListener("click", () => {
           type = "warning";
           break;
       }
-      messages.push(`${type.toUpperCase()}: ${subtype ? subtype + ": " : ""}Line ${message.linenum}:\n    ${message.message}`);
+      messages.push(`${type.toUpperCase()}: ${subtype ? subtype + ": " : ""}Line ${message.linenum}:\n    ${message.text}`);
       annotations.push({
         row: message.linenum - 1,
         column: 0,
         type: type,
-        text: message.message,
+        text: message.text,
       });
     }
     if (messages.length) {
