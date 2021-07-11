@@ -1,7 +1,7 @@
 # Site settings
 title: gpss.py
 description: >-
-  A silly, dumb, no-good Python program to read and run GPSS programs
+  A Python implementation of IBM's General Purpose Simulation System
 baseurl: "/gpss.py"
 url: "https://martendo.github.io"
 author: martendo
