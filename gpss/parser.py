@@ -64,7 +64,7 @@ class Parser:
 					self.parse_statement(fields[1], label=fields[0])
 			elif len(fields) == 3:
 				# Label, Statement, and Operands
-				self.parse_statement(fields[1], fields[2], label = fields[0])
+				self.parse_statement(fields[1], fields[2], label=fields[0])
 			else:
 				parser_error(self, f"Too many fields in line (expected 1-3, got {len(fields)})")
 				self.linenum += 1
@@ -100,6 +100,8 @@ class Parser:
 			operands.extend([""] * (MAX_OPERAND_COUNT - len(operands)))
 
 		# Get label
+		if label is not None and label[-1] == ":":
+			label = label[:-1]
 		if label is None and self.current_label is not None:
 			# Label defined previously
 			label = self.current_label
@@ -107,8 +109,7 @@ class Parser:
 			self.current_label = None
 
 		# Create Statement object
-		statement = Statement(type_, name, operands, label,
-			self.linenum, len(self.statements))
+		statement = Statement(type_, name, operands, label, self.linenum, len(self.statements))
 
 		# Store a reference to this Statement
 		if label is not None:
