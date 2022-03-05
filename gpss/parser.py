@@ -73,17 +73,18 @@ class Parser:
 			self.linenum += 1
 
 	def remove_comment(self, line):
-		# Semicolon comment
-		commentpos = line.find(";")
-		if commentpos != -1:
-			return line[:commentpos]
-		else:
-			# Asterisk comment
-			commentpos = line.find("*")
-			if commentpos != -1:
-				return line[:commentpos]
+		semipos = line.find(";")
+		astpos = line.find("*")
 		# No comment
-		return line
+		if semipos == -1 and astpos == -1:
+			return line
+		# Remove comment: first '*' or ';' to end of line
+		if semipos != -1 and astpos == -1:
+			return line[:semipos]
+		elif astpos != -1 and semipos == -1:
+			return line[:astpos]
+		else:
+			return line[:min(semipos, astpos)]
 
 	def parse_statement(self, name, operands="", label=None):
 		# Find Statement type
