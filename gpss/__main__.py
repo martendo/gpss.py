@@ -9,7 +9,7 @@ def main():
 		usage="python -m gpss [-S] [-d] [-o outfile] infile")
 	argparser.add_argument("infile")
 	argparser.add_argument("-o", "--output", metavar="outfile",
-		help="print simulation report to output file")
+		help="print simulation report to output file instead of stdout")
 	argparser.add_argument("-S", "--no-sim", dest="simulate", action="store_false",
 		help="don't run the simulation but check for syntax errors")
 	argparser.add_argument("-d", "--debug", action="store_true",
@@ -41,13 +41,14 @@ def main():
 
 	# Output report
 	output = gpss.createReport()
-	print("-" * 72)
-	print(output, end="")
+	if args.debug:
+		print("-" * 72)
 	if args.output is not None:
 		with open(args.output, "w") as file:
 			file.write(output)
-		print("\n" + ("-" * 72))
 		print(f"Simulation report written to {args.output}")
+	else:
+		print(output, end="")
 
 if __name__ == "__main__":
 	main()

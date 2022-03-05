@@ -23,7 +23,7 @@ python -m gpss [-S] [-d] [-o outfile] infile
 - `infile`\
 Your GPSS program. Required.
 - `-o outfile`/`--output outfile`\
-File to write the simulation report to. Optional.
+File to write the simulation report to, instead of stdout. Optional.
 - `-S`/`--no-sim` (switch)\
 Don't run the simulation, but still pass it through the parser and check
 for syntax errors.
