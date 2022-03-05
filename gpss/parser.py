@@ -3,14 +3,20 @@ from ._helpers import debugmsg, parser_error, warn
 
 undefined = object()
 
-OPERAND_LETTERS = ("A", "B", "C", "D", "E", "F", "G")
+OPORD = 0x41 # ord("A")
+MAX_OPERAND_COUNT = 7
 
 class Parser:
 	def __init__(self):
 		self.infile = None
+		self.errors = []
 
 	def __str__(self):
-		return f"Parser({len(self.errors)})"
+		s = f"Parser: file \"{self.infile}\" ({len(self.errors)} error"
+		if len(self.errors) != 1:
+			s += "s"
+		s += ")"
+		return s
 
 	def parse(self, infile=None, program=None):
 		# Reset variables
@@ -89,8 +95,8 @@ class Parser:
 
 		# Get Operands
 		operands = operands.split(",")
-		if len(operands) < len(OPERAND_LETTERS):
-			operands.extend([""] * (len(OPERAND_LETTERS) - len(operands)))
+		if len(operands) < MAX_OPERAND_COUNT:
+			operands.extend([""] * (MAX_OPERAND_COUNT - len(operands)))
 
 		# Get label
 		if label is None and self.current_label is not None:
@@ -177,7 +183,7 @@ class Parser:
 			else:
 				statement.operands[index] = int(statement.operands[index])
 		except ValueError:
-			parser_error(self, OPERAND_LETTERS[index] + f" Operand of {statement.name} must be an integer "
+			parser_error(self, f"{chr(index + OPORD)} Operand of {statement.name} must be an integer "
 				f"(got \"{statement.operands[index]}\")")
 			return
 
@@ -187,23 +193,23 @@ class Parser:
 	# Error if Operand is not strictly positive
 	def positive(self, statement, index):
 		if statement.operands[index] is not None and statement.operands[index] <= 0:
-			parser_error(self, OPERAND_LETTERS[index] + f" Operand of {statement.name} must be a strictly positive integer "
+			parser_error(self, f"{chr(index + OPORD)} Operand of {statement.name} must be a strictly positive integer "
 				f"(got \"{statement.operands[index]}\")")
 
 	# Error if Operand is negative
 	def nonnegative(self, statement, index):
 		if statement.operands[index] is not None and statement.operands[index] < 0:
-			parser_error(self, OPERAND_LETTERS[index] + f" Operand of {statement.name} must be a non-negative integer "
+			parser_error(self, f"{chr(index + OPORD)} Operand of {statement.name} must be a non-negative integer "
 				f"(got \"{statement.operands[index]}\")")
 
 	# Error if Operand is empty string
 	def nonempty(self, statement, index):
 		if statement.operands[index] == "":
-			parser_error(self, OPERAND_LETTERS[index] + f" Operand of {statement.name} must not be empty")
+			parser_error(self, f"{chr(index + OPORD)} Operand of {statement.name} must not be empty")
 
 	# Error if Operand is not in a set of allowed values
 	def operand_in(self, statement, index, allowed):
 		statement.operands[index] = statement.operands[index].upper()
 		if statement.operands[index] not in allowed:
-			parser_error(self, OPERAND_LETTERS[index] + f" Operand of {statement.name} must be one of "
+			parser_error(self, f"{chr(index + OPORD)} Operand of {statement.name} must be one of "
 				+ str(allowed).replace("''", "empty").replace("'", "\""))

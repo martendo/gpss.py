@@ -45,7 +45,7 @@ class Queue:
 			return -1
 
 	def __str__(self):
-		return f"Queue({self.content})"
+		return f"Queue \"{self.name}\": content {self.content}"
 
 	def change(self):
 		self.utilization += (self.simulation.time - self.last_change) * self.content
@@ -64,7 +64,8 @@ class Queue:
 		self.content -= content
 		if self.content < 0:
 			simulation_error(self.simulation.parser.infile, transaction.current_linenum,
-				f"DEPART resulted in negative content in Queue \"{self.name}\" ({self.content})")
+				f"DEPART resulted in negative content in Queue \"{self.name}\" "
+				f"({self.content + content} - {content} = {self.content})")
 		try:
 			if self.transactions[transaction] == self.simulation.time:
 				self.zero_entries += content

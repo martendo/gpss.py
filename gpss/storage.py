@@ -44,7 +44,7 @@ class Storage:
 			return -1
 
 	def __str__(self):
-		return f"Storage({self.capacity}, {self.content}, {self.available})"
+		return f"Storage \"{self.name}\": {self.content}/{self.capacity} used ({self.available} available)"
 
 	def change(self):
 		self.utilization += (self.simulation.time - self.last_change) * self.content
@@ -61,10 +61,10 @@ class Storage:
 			self.demandmap[transaction] = demand
 			return False
 		# Storage has sufficient availability
-		self._use(demand)
+		self.engage(demand)
 		return True
 
-	def _use(self, demand):
+	def engage(self, demand):
 		self.change()
 		self.available -= demand
 		if self.content > self.max_content:
@@ -77,8 +77,8 @@ class Storage:
 		self.available += units
 		if self.available > self.capacity:
 			simulation_error(self.simulation.parser.infile, transaction.current_linenum,
-				f"LEAVE resulted in more available units than capacity in Storage \"{self.name}\" "
-				f"(capacity {self.capacity}, available {self.available})")
+				f"LEAVE resulted in negative content in Storage \"{self.name}\" "
+				f"({self.content + units} - {units} = {self.content})")
 		debugmsg("storage left:", self.name, units)
 
 		if not len(self.delaychain):
@@ -94,5 +94,5 @@ class Storage:
 			return
 		del self.delaychain[i]
 		del self.demandmap[transaction]
-		self._use(demand)
+		self.engage(demand)
 		transaction.update()

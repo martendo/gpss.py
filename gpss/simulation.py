@@ -19,7 +19,11 @@ class Simulation:
 		self.current_number = 0
 
 	def __str__(self):
-		return f"Simulation({self.running})"
+		s = "Simulation ("
+		if not self.running:
+			s += "not "
+		s += "running)"
+		return s
 
 	def run(self, parser):
 		self.parser = parser
@@ -74,7 +78,8 @@ class Simulation:
 				# GENERATE Blocks must be replaced with GENERATE Blocks
 				if old_block.type is StatementType.GENERATE and statement.type is not StatementType.GENERATE:
 					simulation_error(self.parser.infile, statement.linenum,
-						"A GENERATE Block must be replaced with a GENERATE Block")
+						"A GENERATE Block must be replaced with a GENERATE Block "
+						f"(attempted replacement with {statement.type.name})")
 
 				debugmsg("replace:", old_block.linenum, statement.linenum)
 

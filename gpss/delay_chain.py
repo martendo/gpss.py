@@ -10,7 +10,7 @@ class DelayChain:
 		return sorted(self.content.items(), reverse=True)
 
 	def __str__(self):
-		return f"DelayChain ({len(self)}, { {p: len(s) for p, s in self.line} })"
+		return f"DelayChain: content {len(self)} ({ {p: len(s) for p, s in self.line} })"
 
 	def __len__(self):
 		return sum(map(len, self.content.values()))
@@ -20,17 +20,17 @@ class DelayChain:
 			for transaction in section:
 				yield transaction
 
-	def __delitem__(self, number):
+	def __delitem__(self, index):
 		# Find priority section the Transaction is part of
 		for priority, section in self.line:
-			if number - len(section) < 0:
+			if index < len(section):
 				break
-			number -= len(section)
+			index -= len(section)
 		else:
 			# number is out of range of total length of Delay Chain
 			raise IndexError("Transaction index out of range")
 
-		del section[number]
+		del section[index]
 		# If that section of the Delay Chain is now empty, remove it
 		if not len(section):
 			del self.content[priority]

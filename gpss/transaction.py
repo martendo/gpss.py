@@ -11,7 +11,7 @@ class TransactionGenerator:
 		self.generated = 0
 
 	def __str__(self):
-		return f"TransactionGenerator({','.join(map(str, self.operands))})"
+		return f"TransactionGenerator ({','.join(map(str, self.operands))})"
 
 	def prime(self):
 		# Add initial Transaction generation event using the Offset Interval
@@ -55,7 +55,7 @@ class Transaction:
 		self.priority = priority
 
 	def __str__(self):
-		return f"Transaction({self.priority})"
+		return f"Transaction: priority {self.priority}"
 
 	def update(self):
 		while True:

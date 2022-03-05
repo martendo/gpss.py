@@ -30,7 +30,11 @@ class Facility:
 			return -1
 
 	def __str__(self):
-		return f"Facility({self.is_in_use})"
+		s = f"Facility \"{self.name}\" ("
+		if not self.is_in_use:
+			s += "not "
+		s += "in use)"
+		return s
 
 	def seize(self, transaction):
 		if self.is_in_use:
@@ -38,10 +42,10 @@ class Facility:
 			self.delaychain.append(transaction)
 			return False
 		# Facility is available
-		self._own(transaction)
+		self.engage(transaction)
 		return True
 
-	def _own(self, transaction):
+	def engage(self, transaction):
 		self.is_in_use = True
 		self.owner = transaction
 		self.entries += 1
@@ -51,7 +55,7 @@ class Facility:
 	def release(self, transaction):
 		if transaction is not self.owner:
 			simulation_error(self.simulation.parser.infile, transaction.current_linenum,
-				f"Transaction tried to RELEASE Facility \"{self.name}\" which it does not own")
+				f"Transaction tried to RELEASE Facility \"{self.name}\" without first SEIZEing it")
 		self.is_in_use = False
 		self.owner = None
 		self.utilization += self.simulation.time - self.last_seize
@@ -62,5 +66,5 @@ class Facility:
 			return
 		# Allow first Transaction in Delay Chain to seize the Facility
 		transaction = self.delaychain.popleft()
-		self._own(transaction)
+		self.engage(transaction)
 		transaction.update()
