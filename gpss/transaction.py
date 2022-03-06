@@ -1,6 +1,8 @@
+from collections import namedtuple
 from .statement import Statement, StatementType
-from .event import Event
 from ._helpers import debugmsg, simulation_error
+
+Event = namedtuple("Event", ["time", "func"])
 
 class TransactionGenerator:
 	def __init__(self, simulation, block_num, operands):
