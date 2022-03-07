@@ -5,8 +5,11 @@ class Function:
 		self.points = points
 		self.name = name
 
+	def __repr__(self):
+		return f"Function({repr(self.type)}, {repr(self.arg)}, {repr(self.points)}, {repr(self.name)})"
+
 	def __str__(self):
-		return f"Function({self.arg}, {self.type}{len(self.points)})"
+		return f"Function \"{self.name}\": {self.arg}, {self.type}{len(self.points)}"
 
 	def __call__(self):
 		raise NotImplementedError
