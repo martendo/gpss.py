@@ -13,17 +13,18 @@ layout: default
 - Contents
 {:toc}
 
-
 ## From the Command-Line {#cli}
 ~~~
-python -m gpss [-S] [-d] [-o outfile] infile
+python3 -m gpss [-S] [-d] [-o outfile] infile
 ~~~
+
+On Windows, use `py -3` instead of `python3`.
 
 ### Arguments
 - `infile`\
 Your GPSS program. Required.
 - `-o outfile`/`--output outfile`\
-File to write the simulation report to. Optional.
+File to write the simulation report to, instead of stdout. Optional.
 - `-S`/`--no-sim` (switch)\
 Don't run the simulation, but still pass it through the parser and check
 for syntax errors.
@@ -47,15 +48,16 @@ print(gpss.createReport())
 
 ### Functions
 
-#### `gpss.parse(infile)`{:.codeh} {#parse}
-Parse a gpss.py program from file `infile`.
+#### `gpss.parse(infile=None, program=None)`{:.codeh} {#parse}
+Parse a gpss.py program from file `infile` or string `program`.
 
 The parser used can be accessed through `gpss.parser`, and its error
 count through `gpss.parser.error_count`.
 
-#### `gpss.run([infile])`{:.codeh} {#run}
-Run a simulation. If specified, `infile` will be parsed with
-[`gpss.parse()`](#functions-parse).
+#### `gpss.run(infile=None, program=None)`{:.codeh} {#run}
+Run a simulation. If specified, file `infile` or string `program` will
+be parsed with [`gpss.parse()`](#functions-parse) before running the
+simulation. Otherwise, the program last parsed will be used.
 
 A `gpss.SimulationError` will be raised if anything illegal occurs in
 the simulation.

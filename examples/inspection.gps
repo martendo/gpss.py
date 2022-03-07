@@ -5,18 +5,20 @@
 ; Time unit: 0.1 minutes
 
 ; Storage capacity definition
-Inspection STORAGE 2
+Inspection: STORAGE 2
 
 ; Television set
         GENERATE    55,20           ; Sets arrive from preceding station
-Inspect QUEUE       InspectWait     ; Enter inspection waiting area
+Inspect:
+        QUEUE       InspectWait     ; Enter inspection waiting area
         ENTER       Inspection      ; Capture an inspector
         DEPART      InspectWait     ; Leave the waiting area
         ADVANCE     90,30           ; Set is being inspected
         LEAVE       Inspection      ; Free the inspector
         TRANSFER    .15,,Adjust     ; Proceed to packing or adjustment station
         TERMINATE                   ; Set moves on to packing
-Adjust  QUEUE       AdjustWait      ; Enter adjustment waiting area
+Adjust:
+        QUEUE       AdjustWait      ; Enter adjustment waiting area
         SEIZE       Adjustor        ; Capture the adjustor
         DEPART      AdjustWait      ; Leave the waiting area
         ADVANCE     300,100         ; Set is being adjusted

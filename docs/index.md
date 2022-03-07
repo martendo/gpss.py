@@ -4,7 +4,7 @@ permalink: /
 ---
 
 # gpss.py
-A silly, dumb, no-good Python program to read and run GPSS programs
+{{ site.description }}
 
 ## Web gpss.py
 You can use gpss.py right in your browser with

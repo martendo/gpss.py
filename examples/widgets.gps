@@ -6,8 +6,9 @@
 ; Time unit: 1 minute
 
 ; Widget
-Key     GENERATE    ,,,4    ; Provide 4 assemblers
-Back    ADVANCE     30,5    ; Assemble next widget
+Key:    GENERATE    ,,,4    ; Provide 4 assemblers
+Back:
+        ADVANCE     30,5    ; Assemble next widget
         SEIZE       Oven    ; Capture the oven
         ADVANCE     8,2     ; Use the oven
         RELEASE     Oven    ; Free the oven
@@ -19,10 +20,10 @@ Back    ADVANCE     30,5    ; Assemble next widget
 
 ; Control and Block redefinitions
         START       1       ; Start the 1st run
-Key     GENERATE    ,,,5    ; Reconfigure for 2nd run
+Key:    GENERATE    ,,,5    ; Reconfigure for 2nd run
         CLEAR               ; Clear for 2nd run
         START       1       ; Start the 2nd run
-Key     GENERATE    ,,,6    ; Reconfigure for 3rd run
+Key:    GENERATE    ,,,6    ; Reconfigure for 3rd run
         CLEAR               ; Clear for 3rd run
         START       1       ; Start the 3rd run
         END                 ; Exit the program

@@ -61,18 +61,23 @@ TERMINATE       * I'm also still a comment!
 
 ### Labels
 Labels can be declared in two ways:
-- Before the Statement it is "tagging", on the same line:
+- Before the Statement it is "tagging", on the same line, optionally
+  followed by a colon:
 
-~~~
-Wait    ADVANCE     12      ; This ADVANCE Block has the label "Wait"
-~~~
+  ~~~
+  Wait    ADVANCE     12      ; This ADVANCE Block has the label "Wait"
+  Cook:   SEIZE       Oven    ; This SEIZE Block has the label "Cook"
+  ~~~
 
-- On its own line, with the label name followed by a colon (`:`):
+  (The option not to use a colon is provided for compatibility with the
+  original GPSS.)
 
-~~~
-ExtremelyCoolLabel:
-        QUEUE       Line    ; This QUEUE Block has the label "ExtremelyCoolLabel"
-~~~
+- On its own line, with the label name followed by a colon:
+
+  ~~~
+  ExtremelyCoolLabel:
+          QUEUE       Line    ; This QUEUE Block has the label "ExtremelyCoolLabel"
+  ~~~
 
 ### Notes
 - Blank lines are allowed and ignored.

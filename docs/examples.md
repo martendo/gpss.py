@@ -154,8 +154,9 @@ Study 2D of
 ; Time unit: 1 minute
 
 ; Widget
-Key     GENERATE    ,,,4    ; Provide 4 assemblers
-Back    ADVANCE     30,5    ; Assemble next widget
+Key:    GENERATE    ,,,4    ; Provide 4 assemblers
+Back:
+        ADVANCE     30,5    ; Assemble next widget
         SEIZE       Oven    ; Capture the oven
         ADVANCE     8,2     ; Use the oven
         RELEASE     Oven    ; Free the oven
@@ -167,10 +168,10 @@ Back    ADVANCE     30,5    ; Assemble next widget
 
 ; Control and Block redefinitions
         START       1       ; Start the 1st run
-Key     GENERATE    ,,,5    ; Reconfigure for 2nd run
+Key:    GENERATE    ,,,5    ; Reconfigure for 2nd run
         CLEAR               ; Clear for 2nd run
         START       1       ; Start the 2nd run
-Key     GENERATE    ,,,6    ; Reconfigure for 3rd run
+Key:    GENERATE    ,,,6    ; Reconfigure for 3rd run
         CLEAR               ; Clear for 3rd run
         START       1       ; Start the 3rd run
         END                 ; Exit the program
@@ -243,18 +244,20 @@ Adapted from Case Study 2F of
 ; Time unit: 0.1 minutes
 
 ; Storage capacity definition
-Inspection STORAGE 2
+Inspection: STORAGE 2
 
 ; Television set
         GENERATE    55,20           ; Sets arrive from preceding station
-Inspect QUEUE       InspectWait     ; Enter inspection waiting area
+Inspect:
+        QUEUE       InspectWait     ; Enter inspection waiting area
         ENTER       Inspection      ; Capture an inspector
         DEPART      InspectWait     ; Leave the waiting area
         ADVANCE     90,30           ; Set is being inspected
         LEAVE       Inspection      ; Free the inspector
         TRANSFER    .15,,Adjust     ; Proceed to packing or adjustment station
         TERMINATE                   ; Set moves on to packing
-Adjust  QUEUE       AdjustWait      ; Enter adjustment waiting area
+Adjust:
+        QUEUE       AdjustWait      ; Enter adjustment waiting area
         SEIZE       Adjustor        ; Capture the adjustor
         DEPART      AdjustWait      ; Leave the waiting area
         ADVANCE     300,100         ; Set is being adjusted
