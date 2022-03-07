@@ -209,19 +209,23 @@ class Parser:
 				break
 
 			for point in line.split("/"):
+				if not point:
+					parser_error(self, f"Point {len(points) + 1} of Function \"{statement.label}\" is empty")
 				values = point.split(",")
-				point = []
+				point = [None, None]
 				if len(values) != 2:
 					parser_error(self, f"Point {len(points) + 1} of Function \"{statement.label}\" "
 						+ ("is missing" if len(values) < 2 else "has too many") + f" values (expected 2, got {len(values)})")
-				else:
-					for i, value in enumerate(values):
-						value = value.strip()
-						try:
-							point.append(float(value))
-						except ValueError:
-							parser_error(self, ("X" if i == 0 else "Y") + f"{len(points) + 1} value "
-								f"of Function \"{statement.label}\" is not a number (got \"{value}\")")
+				for i in range(min(2, len(values))):
+					value = values[i].strip()
+					valuestr = ("X" if i == 0 else "Y") + f"{len(points) + 1} value of Function \"{statement.label}\""
+					if not value:
+						parser_error(self, f"{valuestr} is empty")
+						continue
+					try:
+						point[i] = float(value)
+					except ValueError:
+						parser_error(self, f"{valuestr} is not a number (got \"{value}\")")
 				points.append(point)
 
 			if len(points) == point_count:
@@ -229,6 +233,7 @@ class Parser:
 			elif len(points) > point_count:
 				parser_error(self, f"Too many points given in Function \"{statement.label}\" "
 					f"(expected {point_count}, got {len(points)})")
+				break
 
 		debugmsg("points:", points)
 
