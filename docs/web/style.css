@@ -1,85 +1,85 @@
 #main {
-  position: relative;
-  font-size: 0.9em;
+	position: relative;
+	font-size: 0.9em;
 }
 section:not(#info) {
-  margin: 0;
-  padding: 0;
-  display: flex;
+	margin: 0;
+	padding: 0;
+	display: flex;
 }
 
 .separator {
-  background-color: #e8e8e8;
-  flex: 0 0 auto;
-  display: flex;
+	background-color: #e8e8e8;
+	flex: 0 0 auto;
+	display: flex;
 }
 .separator.column {
-  padding: 0 5px;
-  cursor: col-resize;
-  align-items: center;
+	padding: 0 5px;
+	cursor: col-resize;
+	align-items: center;
 }
 .separator.row {
-  padding: 5px 0;
-  cursor: row-resize;
-  justify-content: center;
+	padding: 5px 0;
+	cursor: row-resize;
+	justify-content: center;
 }
 
 .separator > div {
-  background-color: #c0c0c0;
-  border-radius: 3px;
+	background-color: #c0c0c0;
+	border-radius: 3px;
 }
 .separator.column > div {
-  width: 5px;
-  height: 2em;
+	width: 5px;
+	height: 2em;
 }
 .separator.row > div {
-  height: 5px;
-  width: 2em;
+	height: 5px;
+	width: 2em;
 }
 
 #main-container {
-  flex-direction: row;
+	flex-direction: row;
 }
 #editor-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  flex: 0 0 auto;
-  max-width: calc(100% - 5em);
-  width: 50%;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	flex: 0 0 auto;
+	max-width: calc(100% - 5em);
+	width: 50%;
 }
 #editor {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  font-size: 0.9em;
-  font-family: "Fira Mono", monospace;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	font-size: 0.9em;
+	font-family: "Fira Mono", monospace;
 }
 
 #response-container {
-  flex-direction: column;
+	flex-direction: column;
 }
 #console-container {
-  border-radius: 0;
-  flex: 0 0 auto;
-  max-height: calc(100% - 5em);
-  height: 25%;
+	border-radius: 0;
+	flex: 0 0 auto;
+	max-height: calc(100% - 5em);
+	height: 25%;
 }
 #output-container {
-  border-radius: 0;
-  flex: 1 1 auto;
+	border-radius: 0;
+	flex: 1 1 auto;
 }
 
 #info {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: none;
-  background-color: #ffffff;
-  z-index: 100;
-  font-size: 1.25rem;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: none;
+	background-color: #ffffff;
+	z-index: 100;
+	font-size: 1.25rem;
 }

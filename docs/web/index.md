@@ -42,11 +42,11 @@ navtitle: Web gpss.py
   <div class="highlight" id="console-container" style="display: none;">
     <pre class="highlight"><code id="console"></code></pre>
   </div>
-  
+
   <div class="separator row" id="response-separator" style="display: none;">
     <div></div>
   </div>
-  
+
   <div class="highlight" id="output-container">
     <pre class="highlight"><code id="output">Your simulation report will show up here.</code></pre>
   </div>
