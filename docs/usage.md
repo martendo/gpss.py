@@ -13,7 +13,7 @@ layout: default
 - Contents
 {:toc}
 
-## From the Command-Line {#cli}
+## From the Command Line {#cli}
 ~~~
 python3 -m gpss [-S] [-d] [-o outfile] infile
 ~~~
