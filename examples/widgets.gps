@@ -1,7 +1,6 @@
 ; Widget assembly line
 ; A one-line, one-server queuing system with feedback
-; Adapted from Case Study 2D of Thomas J. Schriber's "A GPSS Primer"
-; (page II-99)
+; Adapted from Case Study 2D of Thomas J. Schriber's "A GPSS Primer" (page II-99)
 
 ; Time unit: 1 minute
 
