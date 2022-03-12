@@ -6,10 +6,14 @@ class Error(Exception):
 		self.message = message
 
 	def __str__(self):
-		if self.linenum is None:
-			return f"{self.filename}: {self.message}"
+		if self.filename is not None:
+			filename = self.filename
 		else:
-			return f"{self.filename}({self.linenum}): {self.message}"
+			filename = "<instr>"
+		if self.linenum is None:
+			return f"{filename}: {self.message}"
+		else:
+			return f"{filename}({self.linenum}): {self.message}"
 
 # Errors that occur during simulation
 class SimulationError(Error):
@@ -27,7 +31,11 @@ class ExecutionWarning:
 		self.message = message
 
 	def __str__(self):
-		if self.linenum is None:
-			return f"{self.filename}: {self.message}"
+		if self.filename is not None:
+			filename = self.filename
 		else:
-			return f"{self.filename}({self.linenum}): {self.message}"
+			filename = "<instr>"
+		if self.linenum is None:
+			return f"{filename}: {self.message}"
+		else:
+			return f"{filename}({self.linenum}): {self.message}"
