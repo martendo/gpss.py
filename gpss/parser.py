@@ -14,7 +14,11 @@ class Parser:
 		self.errors = []
 
 	def __str__(self):
-		s = f"Parser: file \"{self.infile}\" ({len(self.errors)} error"
+		if self.infile is not None:
+			filename = f"\"{self.infile}\""
+		else:
+			filename = "<instr>"
+		s = f"Parser: file {filename} ({len(self.errors)} error"
 		if len(self.errors) != 1:
 			s += "s"
 		s += ")"
@@ -31,13 +35,12 @@ class Parser:
 		self.labels = {}
 
 		# Open and read GPSS program
-		if infile is not None:
-			self.infile = infile
+		self.infile = infile
+		if self.infile is not None:
 			with open(self.infile, "r") as file:
 				self.inputdata = file.read()
 		else:
 			self.inputdata = program
-			self.infile = "instr"
 		self.inputlines = tuple(map(self.remove_comment, self.inputdata.splitlines()))
 
 		# Get Statements from program

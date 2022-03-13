@@ -20,6 +20,11 @@ def getReports():
 	return simulation.reports
 
 def createReport():
-	return f"""gpss.py Simulation Report - {parser.infile}
-Generated on {datetime.now().strftime("%A, %B %d, %Y at %H:%M:%S %Z").strip()}
-""" + "".join(getReports())
+	s = "gpss.py Simulation Report"
+	if parser.infile is not None:
+		s += f" - {parser.infile}"
+	s += "\nGenerated on "
+	s += datetime.now().strftime("%A, %B %d, %Y at %H:%M:%S %Z").strip()
+	s += "\n"
+	s += "".join(getReports())
+	return s

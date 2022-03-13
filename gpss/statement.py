@@ -1,4 +1,3 @@
-from collections import namedtuple
 from enum import Enum, auto
 from .function import Function
 
@@ -12,7 +11,7 @@ class Statement:
 		self.number = number
 
 	def __str__(self):
-		return (f"Statement({self.type.name}, ({','.join(map(str, self.operands))}))")
+		return f"Statement: {self.type.name} ({','.join(map(str, self.operands))}))"
 
 	def refuse(self, simulation):
 		if self.type is StatementType.SEIZE:

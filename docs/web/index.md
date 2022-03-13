@@ -11,8 +11,7 @@ navtitle: Web gpss.py
 <div id="editor-container">
   <div id="editor">; Barber shop
 ; A one-line, one-server queuing system
-; Adapted from Case Study 2A of Thomas J. Schriber's "A GPSS Primer"
-; (page II-36)
+; Adapted from Case Study 2A of Thomas J. Schriber's "A GPSS Primer" (page II-36)
 
 ; Time unit: 1 minute
 
@@ -43,11 +42,11 @@ navtitle: Web gpss.py
   <div class="highlight" id="console-container" style="display: none;">
     <pre class="highlight"><code id="console"></code></pre>
   </div>
-  
+
   <div class="separator row" id="response-separator" style="display: none;">
     <div></div>
   </div>
-  
+
   <div class="highlight" id="output-container">
     <pre class="highlight"><code id="output">Your simulation report will show up here.</code></pre>
   </div>
