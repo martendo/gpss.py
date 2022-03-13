@@ -266,7 +266,10 @@ class Parser:
 					continue
 				# Operand is a valid SNA, get entity
 				sna = statement.operands[index][len(sna_class) + 1:]
-				statement.operands[index] = self.snamap[sna_class][sna]
+				try:
+					statement.operands[index] = self.snamap[sna_class][sna]
+				except KeyError:
+					parser_error(self, f"Entity \"{statement.operands[index]}\" is not defined")
 				# Return; don't check if SNA meets requirements
 				return
 			else:
