@@ -42,6 +42,9 @@ class Simulation:
 
 		self.program = self.parser.statements
 		self.snamap = self.parser.snamap
+		for entities in self.snamap.values():
+			for entity in entities.values():
+				entity.simulation = self
 		self.labels = self.parser.labels
 
 		self.initialize(first=True)

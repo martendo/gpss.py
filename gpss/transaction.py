@@ -26,9 +26,10 @@ class TransactionGenerator:
 
 		# Add event to event list to generate next Transaction
 		if time is None:
-			time = self.simulation.time + self.operands[0]
-			if self.operands[1] != 0:
-				time += self.simulation.rngs[1].randint(-self.operands[1], self.operands[1])
+			interval, spread = map(int, self.operands[0:2])
+			time = self.simulation.time + interval
+			if spread != 0:
+				time += self.simulation.rngs[1].randint(-spread, spread)
 
 		if time < self.simulation.time:
 			simulation_error(self.simulation.parser.infile, self.block.linenum,
@@ -78,7 +79,7 @@ class Transaction:
 				self.simulation.queues[block.operands[0]].depart(self, block.operands[1])
 
 			elif block.type is StatementType.ADVANCE:
-				interval, spread = block.operands[0:2]
+				interval, spread = map(int, block.operands[0:2])
 				# Add event for end of delay
 				time = self.simulation.time + interval
 				if spread != 0:
