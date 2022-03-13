@@ -1,10 +1,12 @@
 from .statement import Statement, StatementType
+from .function import Function
 from ._helpers import debugmsg, parser_error, warn
 
 undefined = object()
 
 OPORD = 0x41 # ord("A")
 MAX_OPERAND_COUNT = 7
+FUNCTION_TYPES = ("D",)
 
 class Parser:
 	def __init__(self):
@@ -26,6 +28,9 @@ class Parser:
 		# Reset variables
 		self.errors = []
 		self.statements = []
+		self.snamap = {
+			"FN": {},
+		}
 		self.current_label = None
 		self.labels = {}
 
@@ -128,16 +133,16 @@ class Parser:
 			self.operand_in(statement, 1, ("", "NP"))
 			self.parse_operand(statement, 2, None, req=self.positive)
 		elif type_ is StatementType.GENERATE:
-			self.parse_operand(statement, 0, 0, req=self.nonnegative)
-			self.parse_operand(statement, 1, 0, req=self.nonnegative)
+			self.parse_operand(statement, 0, 0, req=self.nonnegative, sna_classes=("FN",))
+			self.parse_operand(statement, 1, 0, req=self.nonnegative, sna_classes=("FN",))
 			self.parse_operand(statement, 2, None, req=self.nonnegative)
 			self.parse_operand(statement, 3, None, req=self.positive)
 			self.parse_operand(statement, 4, 0, req=self.nonnegative)
 		elif type_ is StatementType.TERMINATE:
 			self.parse_operand(statement, 0, 0, req=self.nonnegative)
 		elif type_ is StatementType.ADVANCE:
-			self.parse_operand(statement, 0, 0, req=self.nonnegative)
-			self.parse_operand(statement, 1, 0, req=self.nonnegative)
+			self.parse_operand(statement, 0, 0, req=self.nonnegative, sna_classes=("FN",))
+			self.parse_operand(statement, 1, 0, req=self.nonnegative, sna_classes=("FN",))
 		elif type_ in (StatementType.QUEUE, StatementType.DEPART):
 			self.nonempty(statement, 0)
 			self.parse_operand(statement, 1, 1, req=self.positive)
@@ -149,6 +154,8 @@ class Parser:
 			self.parse_operand(statement, 0, req=self.positive)
 		elif type_ is StatementType.TRANSFER:
 			self.parse_transfer(statement)
+		elif type_ is StatementType.FUNCTION:
+			self.parse_function(statement)
 
 		debugmsg("statement:", statement.type, statement.operands)
 
@@ -181,16 +188,99 @@ class Parser:
 						"a fraction between 0 and .999+ or an integer representing parts-per-thousand between 0 and 999 "
 						f"(got \"{statement.operands[0]}\")")
 
-	def parse_operand(self, statement, index, default=undefined, req=None):
+	def parse_function(self, statement):
+		rn = None
+		try:
+			if statement.operands[0][:2] != "RN":
+				raise ValueError
+			rn = int(statement.operands[0][2:])
+		except ValueError:
+			parser_error(self, f"Argument of Function must be a random number generator (got \"{statement.operands[0]}\")")
+
+		function_type = statement.operands[1][0].upper()
+		if function_type not in FUNCTION_TYPES:
+			parser_error(self, f"Unsupported Function type \"{function_type}\" (must be one of "
+				+ str(FUNCTION_TYPES).replace("'", "") + ")")
+
+		try:
+			point_count = int(statement.operands[1][1:])
+		except ValueError:
+			parser_error(self, f"Invalid number of points in Function \"{statement.label}\" "
+				f"(got \"{statement.operands[1][1:]}\")")
+			return
+
+		points = []
+		while True:
+			self.linenum += 1
+			try:
+				line = self.inputlines[self.linenum - 1]
+			except IndexError:
+				parser_error(self, "Unexpected end of file while reading Function definition "
+					f"(expected {point_count} points, found {len(points)})")
+				break
+
+			for point in line.split("/"):
+				if not point:
+					parser_error(self, f"Point {len(points) + 1} of Function \"{statement.label}\" is empty")
+				values = point.split(",")
+				point = [None, None]
+				if len(values) != 2:
+					parser_error(self, f"Point {len(points) + 1} of Function \"{statement.label}\" "
+						+ ("is missing" if len(values) < 2 else "has too many") + f" values (expected 2, got {len(values)})")
+				for i in range(min(2, len(values))):
+					value = values[i].strip()
+					valuestr = ("X" if i == 0 else "Y") + f"{len(points) + 1} value of Function \"{statement.label}\""
+					if not value:
+						parser_error(self, f"{valuestr} is empty")
+						continue
+					try:
+						point[i] = float(value)
+					except ValueError:
+						parser_error(self, f"{valuestr} is not a number (got \"{value}\")")
+				points.append(point)
+
+			if len(points) == point_count:
+				break
+			elif len(points) > point_count:
+				parser_error(self, f"Too many points given in Function \"{statement.label}\" "
+					f"(expected {point_count}, got {len(points)})")
+				break
+
+		debugmsg("points:", points)
+
+		self.snamap["FN"][statement.label] = Function(
+			function_type,
+			rn,
+			points,
+			statement.label,
+		)
+
+	def parse_operand(self, statement, index, default=undefined, req=None, sna_classes=()):
 		try:
 			if default is not undefined:
 				statement.operands[index] = default if not statement.operands[index] else int(statement.operands[index])
 			else:
 				statement.operands[index] = int(statement.operands[index])
 		except ValueError:
-			parser_error(self, f"{chr(index + OPORD)} Operand of {statement.name} must be an integer "
-				f"(got \"{statement.operands[index]}\")")
-			return
+			# Not an integer, check for allowed SNAs
+			for sna_class in sna_classes:
+				prefix = statement.operands[index][:len(sna_class) + 1].upper()
+				if prefix != f"{sna_class}$":
+					continue
+				# Operand is a valid SNA, get entity
+				sna = statement.operands[index][len(sna_class) + 1:]
+				try:
+					statement.operands[index] = self.snamap[sna_class][sna]
+				except KeyError:
+					parser_error(self, f"Entity \"{statement.operands[index]}\" is not defined")
+				# Return; don't check if SNA meets requirements
+				return
+			else:
+				# Not an integer and not an allowed SNA
+				parser_error(self, f"{chr(index + OPORD)} Operand of {statement.name} must be an integer "
+					+ (f"or SNA of type " + str(sna_classes).replace("'", "\"") + " " if len(sna_classes) else "")
+					+ f"(got \"{statement.operands[index]}\")")
+				return
 
 		if req is not None:
 			req(statement, index)

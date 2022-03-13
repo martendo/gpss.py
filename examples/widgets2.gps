@@ -1,0 +1,35 @@
+; Widget assembly line, version 2
+; A one-line, one-server queuing system with feedback and discrete Functions
+; Adapted from Case Study 3A of Thomas J. Schriber's "A GPSS Primer" (page III-15)
+
+; Time unit: 1 minute
+
+Assem: FUNCTION RN1,D11
+.01,25/.04,26/.09,27/.19,28/.37,29/.63,30
+.81,31/.91,32/.96,33/.99,34/1,35
+
+Fire: FUNCTION RN1,D5
+.05,6/.3,7/.7,8/.95,9/1,10
+
+; Assembler
+Key:    GENERATE    ,,,4        ; Provide 4 assemblers
+Back:
+        ADVANCE     FN$Assem    ; Assemble next widget
+        SEIZE       Oven        ; Capture the oven
+        ADVANCE     FN$Fire     ; Use the oven
+        RELEASE     Oven        ; Free the oven
+        TRANSFER    ,Back       ; Go do the next assembly
+
+; Timer
+        GENERATE    2400        ; Timer arrives after 5 days
+        TERMINATE   1           ; Shut off the run
+
+; Control and Block redefinitions
+        START       1           ; Start the 1st run
+Key:    GENERATE    ,,,5        ; Reconfigure for 2nd run
+        CLEAR                   ; Clear for 2nd run
+        START       1           ; Start the 2nd run
+Key:    GENERATE    ,,,6        ; Reconfigure for 3rd run
+        CLEAR                   ; Clear for 3rd run
+        START       1           ; Start the 3rd run
+        END                     ; Exit the program
