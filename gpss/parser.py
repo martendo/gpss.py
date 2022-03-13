@@ -186,6 +186,14 @@ class Parser:
 						f"(got \"{statement.operands[0]}\")")
 
 	def parse_function(self, statement):
+		rn = None
+		try:
+			if statement.operands[0][:2] != "RN":
+				raise ValueError
+			rn = int(statement.operands[0][2:])
+		except ValueError:
+			parser_error(self, f"Argument of Function must be a random number generator (got \"{statement.operands[0]}\")")
+
 		function_type = statement.operands[1][0].upper()
 		if function_type not in FUNCTION_TYPES:
 			parser_error(self, f"Unsupported Function type \"{function_type}\" (must be one of "
@@ -239,7 +247,7 @@ class Parser:
 
 		self.snamap["FN"][statement.label] = Function(
 			function_type,
-			statement.operands[0],
+			rn,
 			points,
 			statement.label,
 		)
