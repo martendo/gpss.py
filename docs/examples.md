@@ -153,7 +153,7 @@ Study 2D of
 ~~~
 ; Time unit: 1 minute
 
-; Widget
+; Assembler
 Key:    GENERATE    ,,,4    ; Provide 4 assemblers
 Back:
         ADVANCE     30,5    ; Assemble next widget
