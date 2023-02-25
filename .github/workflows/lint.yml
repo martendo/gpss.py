@@ -1,0 +1,16 @@
+name: lint
+
+on: [push, pull_request]
+
+jobs:
+  flake8-lint:
+    runs-on: ubuntu-latest
+    name: lint
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - uses: py-actions/flake8@v2
+        with:
+          ignore: "E128,W503,F541"
+          max-line-length: "125"
+          path: "gpss"
